@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/index.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">✦</div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+        </div>
+
+
+        <!-- MAIN NAVIGATION -->
+
+        <div class="nav-section">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="/" class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/profile" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Student Profile</span>
+            </a>
+
+            <a href="/roadmap" class="nav-item">
+                <span class="nav-icon">◈</span>
+                <span>Learning Roadmap</span>
+            </a>
+
+            <a href="/mentor" class="nav-item">
+                <span class="nav-icon">✦</span>
+                <span>AI Project Mentor</span>
+            </a>
+
+            <a href="/documentation" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Documentation</span>
+            </a>
+
+            <a href="/viva" class="nav-item">
+                <span class="nav-icon">◉</span>
+                <span>Viva Assistant</span>
+            </a>
+
+            <a href="/study_assist" class="nav-item">
+                <span class="nav-icon">✎</span>
+                <span>Study Assistant</span>
+            </a>
+
+            <a href="/progress" class="nav-item">
+                <span class="nav-icon">◒</span>
+                <span>Progress Tracker</span>
+            </a>
+
+            <a href="/evaluator" class="nav-item">
+                <span class="nav-icon">◇</span>
+                <span>Idea Evaluator</span>
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+                <div class="help-icon">?</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <p>Ask your AI Mentor</p>
+                </div>
+            </div>
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+                    <strong>Student</strong>
+                    <span>View Profile</span>
+                </div>
+
+                <span class="user-arrow">›</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+                <span>✦</span>
+                AI Student Mentor
+            </div>
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn" id="notificationBtn">
+                    <span>♧</span>
+                    <i></i>
+                </button>
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+                        <strong>Student</strong>
+                        <span>BCA Student</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+
+        <section class="dashboard">
+
+            <!-- HERO -->
+
+            <div class="welcome-section">
+
+                <div class="welcome-text">
+
+                    <span class="eyebrow">
+                        YOUR AI ACADEMIC COMPANION
+                    </span>
+
+                    <h1>
+                        Welcome back, <span>Student!</span>
+                    </h1>
+
+                    <p>
+                        Stay focused, track your progress, and let your
+                        AI mentor guide you toward your academic goals.
+                    </p>
+
+                </div>
+
+                <div class="welcome-decoration">
+                    <div class="glow-circle"></div>
+                    <div class="decoration-star">✦</div>
+                </div>
+
+            </div>
+
+
+            <!-- OVERVIEW CARDS -->
+
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">OVERVIEW</span>
+                    <h2>Your Learning Snapshot</h2>
+                </div>
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon purple">◈</div>
+                        <span class="stat-badge">Active</span>
+                    </div>
+
+                    <p>Learning Progress</p>
+
+                    <div class="stat-value">
+                        <strong id="overallProgress">68%</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: 68%;"></div>
+                    </div>
+
+                    <small>Keep going — you're doing great!</small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon blue">✓</div>
+                        <span class="stat-badge green">This Week</span>
+                    </div>
+
+                    <p>Tasks Completed</p>
+
+                    <div class="stat-value">
+                        <strong id="tasksCompleted">18</strong>
+                        <span>/ 25</span>
+                    </div>
+
+                    <small>7 tasks remaining</small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon orange">◷</div>
+                        <span class="stat-badge">Current</span>
+                    </div>
+
+                    <p>Current Streak</p>
+
+                    <div class="stat-value">
+                        <strong>7</strong>
+                        <span>days</span>
+                    </div>
+
+                    <small>Keep your learning streak alive!</small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon pink">✦</div>
+                        <span class="stat-badge">AI</span>
+                    </div>
+
+                    <p>Mentor Sessions</p>
+
+                    <div class="stat-value">
+                        <strong>12</strong>
+                    </div>
+
+                    <small>AI interactions this month</small>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN GRID -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- LEARNING ROADMAP -->
+
+                <div class="dashboard-card roadmap-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <span class="card-label">LEARNING ROADMAP</span>
+                            <h2>Your Current Path</h2>
+                        </div>
+
+                        <a href="/roadmap" class="view-link">
+                            View Roadmap →
+                        </a>
+
+                    </div>
+
+
+                    <div class="roadmap-content">
+
+                        <div class="roadmap-progress">
+
+                            <div class="circle-progress">
+
+                                <svg viewBox="0 0 100 100">
+
+                                    <circle
+                                        class="circle-bg"
+                                        cx="50"
+                                        cy="50"
+                                        r="42">
+                                    </circle>
+
+                                    <circle
+                                        class="circle-value"
+                                        cx="50"
+                                        cy="50"
+                                        r="42">
+                                    </circle>
+
+                                </svg>
+
+                                <div class="circle-text">
+                                    <strong>68%</strong>
+                                    <span>Complete</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="roadmap-details">
+
+                            <span class="current-tag">
+                                CURRENT FOCUS
+                            </span>
+
+                            <h3>AI & Machine Learning</h3>
+
+                            <p>
+                                Continue building your understanding of
+                                Python, machine learning and AI concepts.
+                            </p>
+
+                            <div class="roadmap-meta">
+
+                                <span>
+                                    ✓ 8 completed
+                                </span>
+
+                                <span>
+                                    ◷ 4 remaining
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TODAY'S TASKS -->
+
+                <div class="dashboard-card tasks-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <span class="card-label">TODAY</span>
+                            <h2>Today's Tasks</h2>
+                        </div>
+
+                        <a href="/progress" class="view-link">
+                            View All
+                        </a>
+
+                    </div>
+
+
+                    <div class="task-list">
+
+                        <div class="task-item">
+
+                            <button class="task-check"
+                                    data-task="1">
+                                ✓
+                            </button>
+
+                            <div class="task-info">
+                                <strong>Practice Python Functions</strong>
+                                <span>30 minutes</span>
+                            </div>
+
+                            <span class="task-status">Learning</span>
+
+                        </div>
+
+
+                        <div class="task-item">
+
+                            <button class="task-check"
+                                    data-task="2">
+                                ✓
+                            </button>
+
+                            <div class="task-info">
+                                <strong>Study ML Fundamentals</strong>
+                                <span>45 minutes</span>
+                            </div>
+
+                            <span class="task-status">Learning</span>
+
+                        </div>
+
+
+                        <div class="task-item">
+
+                            <button class="task-check"
+                                    data-task="3">
+                                ✓
+                            </button>
+
+                            <div class="task-info">
+                                <strong>Work on Project Module</strong>
+                                <span>60 minutes</span>
+                            </div>
+
+                            <span class="task-status">Project</span>
+
+                        </div>
+
+
+                        <div class="task-item">
+
+                            <button class="task-check"
+                                    data-task="4">
+                                ✓
+                            </button>
+
+                            <div class="task-info">
+                                <strong>Review Today's Learning</strong>
+                                <span>20 minutes</span>
+                            </div>
+
+                            <span class="task-status">Review</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI TOOLS -->
+
+                <div class="dashboard-card tools-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <span class="card-label">AI TOOLS</span>
+                            <h2>Your AI Mentor</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tools-grid">
+
+                        <a href="/study_assist" class="tool-item">
+
+                            <div class="tool-icon purple">
+                                ✎
+                            </div>
+
+                            <div>
+                                <strong>Study Assistant</strong>
+                                <p>Ask academic questions</p>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+
+                        <a href="/mentor" class="tool-item">
+
+                            <div class="tool-icon blue">
+                                ✦
+                            </div>
+
+                            <div>
+                                <strong>Project Mentor</strong>
+                                <p>Get project guidance</p>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+
+                        <a href="/viva" class="tool-item">
+
+                            <div class="tool-icon orange">
+                                ◉
+                            </div>
+
+                            <div>
+                                <strong>Viva Assistant</strong>
+                                <p>Prepare for your viva</p>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+
+                        <a href="/idea-evaluator" class="tool-item">
+
+                            <div class="tool-icon pink">
+                                ◇
+                            </div>
+
+                            <div>
+                                <strong>Idea Evaluator</strong>
+                                <p>Evaluate project ideas</p>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- WEEKLY PROGRESS -->
+
+                <div class="dashboard-card weekly-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <span class="card-label">PROGRESS</span>
+                            <h2>Weekly Activity</h2>
+                        </div>
+
+                        <span class="week-label">
+                            This Week
+                        </span>
+
+                    </div>
+
+
+                    <div class="chart">
+
+                        <div class="chart-y">
+                            <span>100%</span>
+                            <span>75%</span>
+                            <span>50%</span>
+                            <span>25%</span>
+                            <span>0%</span>
+                        </div>
+
+                        <div class="chart-area">
+
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+
+                            <div class="bars">
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 45%;"></div>
+                                    <span>Mon</span>
+                                </div>
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 65%;"></div>
+                                    <span>Tue</span>
+                                </div>
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 52%;"></div>
+                                    <span>Wed</span>
+                                </div>
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 78%;"></div>
+                                    <span>Thu</span>
+                                </div>
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 88%;"></div>
+                                    <span>Fri</span>
+                                </div>
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 60%;"></div>
+                                    <span>Sat</span>
+                                </div>
+
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="height: 35%;"></div>
+                                    <span>Sun</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOTIVATION -->
+
+            <div class="motivation-card">
+
+                <div class="motivation-icon">
+                    ✦
+                </div>
+
+                <div class="motivation-text">
+                    <span>DAILY MOTIVATION</span>
+                    <h3>
+                        Small progress every day leads to big results.
+                    </h3>
+                </div>
+
+                <div class="motivation-decoration">
+                    ✦
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- NOTIFICATION -->
+
+<div class="notification-popup" id="notificationPopup">
+
+    <strong>Notifications</strong>
+
+    <p>
+        You have 4 learning tasks scheduled for today.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+</html>

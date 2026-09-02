@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Progress Tracker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/progress.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/profile" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+
+                <span>Student Profile</span>
+
+            </a>
+
+
+            <a href="/roadmap" class="nav-item">
+
+                <span class="nav-icon">◈</span>
+
+                <span>Learning Roadmap</span>
+
+            </a>
+
+
+            <a href="/mentor" class="nav-item">
+
+                <span class="nav-icon">✦</span>
+
+                <span>AI Project Mentor</span>
+
+            </a>
+
+
+            <a href="/documentation" class="nav-item">
+
+                <span class="nav-icon">▤</span>
+
+                <span>Documentation</span>
+
+            </a>
+
+
+            <a href="/viva" class="nav-item">
+
+                <span class="nav-icon">◉</span>
+
+                <span>Viva Assistant</span>
+
+            </a>
+
+
+            <a href="/study_assist" class="nav-item">
+
+                <span class="nav-icon">✎</span>
+
+                <span>Study Assistant</span>
+
+            </a>
+
+
+            <a href="/progress" class="nav-item active">
+
+                <span class="nav-icon">◒</span>
+
+                <span>Progress Tracker</span>
+
+            </a>
+
+
+            <a href="/evaluator" class="nav-item">
+
+                <span class="nav-icon">◇</span>
+
+                <span>Idea Evaluator</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Ask your AI Mentor
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+
+                    <strong>
+                        Student
+                    </strong>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </div>
+
+                <span class="user-arrow">
+                    ›
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+
+                <span>✦</span>
+
+                AI Student Mentor
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Student
+                        </strong>
+
+                        <span>
+                            BCA Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             PROGRESS PAGE
+        ====================================================== -->
+
+        <section class="progress-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        PROJECT MANAGEMENT & TRACKING
+                    </span>
+
+                    <h1>
+                        Project Progress Tracker
+                    </h1>
+
+                    <p>
+                        Track your project milestones, manage tasks,
+                        monitor completion percentage and stay updated
+                        with your weekly development progress.
+                    </p>
+
+                </div>
+
+
+                <div class="tracker-status">
+
+                    <span class="status-dot"></span>
+
+                    Project Tracking Active
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROJECT BANNER
+            ================================================== -->
+
+            <div class="project-banner">
+
+                <div class="project-icon">
+                    ◒
+                </div>
+
+
+                <div class="project-details">
+
+                    <span>
+                        PROJECT PROGRESS
+                    </span>
+
+                    <h2>
+                        AI Student Mentor
+                    </h2>
+
+                    <p>
+                        Monitor milestones, tasks, pending work and
+                        overall project completion from one place.
+                    </p>
+
+                </div>
+
+
+                <div class="project-stat">
+
+                    <strong id="bannerCompletion">
+                        0%
+                    </strong>
+
+                    <span>
+                        Completed
+                    </span>
+
+                </div>
+
+
+                <div class="project-stat">
+
+                    <strong id="bannerTasks">
+                        0
+                    </strong>
+
+                    <span>
+                        Tasks
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 OVERVIEW CARDS
+            ================================================== -->
+
+            <div class="overview-grid">
+
+
+                <div class="overview-card">
+
+                    <div class="overview-icon blue">
+                        ◒
+                    </div>
+
+                    <div class="overview-content">
+
+                        <span>
+                            OVERALL PROGRESS
+                        </span>
+
+                        <strong id="overallPercentage">
+                            0%
+                        </strong>
+
+                        <p>
+                            Project completion
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-card">
+
+                    <div class="overview-icon green">
+                        ✓
+                    </div>
+
+                    <div class="overview-content">
+
+                        <span>
+                            COMPLETED TASKS
+                        </span>
+
+                        <strong id="completedTasks">
+                            0
+                        </strong>
+
+                        <p>
+                            Finished successfully
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-card">
+
+                    <div class="overview-icon orange">
+                        !
+                    </div>
+
+                    <div class="overview-content">
+
+                        <span>
+                            PENDING TASKS
+                        </span>
+
+                        <strong id="pendingTasks">
+                            0
+                        </strong>
+
+                        <p>
+                            Tasks remaining
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-card">
+
+                    <div class="overview-icon purple">
+                        ◈
+                    </div>
+
+                    <div class="overview-content">
+
+                        <span>
+                            MILESTONES
+                        </span>
+
+                        <strong id="milestoneCount">
+                            0
+                        </strong>
+
+                        <p>
+                            Project stages
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROGRESS + ADD TASK
+            ================================================== -->
+
+            <div class="main-grid">
+
+
+                <!-- OVERALL PROGRESS -->
+
+                <section class="progress-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                PROJECT COMPLETION
+                            </span>
+
+                            <h3>
+                                Overall Progress
+                            </h3>
+
+                        </div>
+
+                        <span class="step-badge">
+                            LIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-circle-wrapper">
+
+                        <div class="progress-circle"
+                             id="progressCircle">
+
+                            <div class="circle-inner">
+
+                                <strong id="circlePercentage">
+                                    0%
+                                </strong>
+
+                                <span>
+                                    Complete
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-bar-section">
+
+                        <div class="progress-bar-label">
+
+                            <span>
+                                Project completion
+                            </span>
+
+                            <strong id="progressBarPercentage">
+                                0%
+                            </strong>
+
+                        </div>
+
+                        <div class="progress-bar">
+
+                            <div class="progress-fill"
+                                 id="progressFill">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-summary">
+
+                        <div>
+
+                            <strong id="summaryCompleted">
+                                0
+                            </strong>
+
+                            <span>
+                                Completed
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong id="summaryPending">
+                                0
+                            </strong>
+
+                            <span>
+                                Pending
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong id="summaryTotal">
+                                0
+                            </strong>
+
+                            <span>
+                                Total Tasks
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ADD TASK -->
+
+                <section class="task-form-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                TASK MANAGEMENT
+                            </span>
+
+                            <h3>
+                                Add New Task
+                            </h3>
+
+                        </div>
+
+                        <span class="step-badge">
+                            STEP 1
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Task Name
+                        </label>
+
+                        <input type="text"
+                               id="taskName"
+                               placeholder="Enter project task...">
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>
+                                Milestone
+                            </label>
+
+                            <select id="taskMilestone">
+
+                                <option value="Planning">
+                                    Planning
+                                </option>
+
+                                <option value="Design">
+                                    Design
+                                </option>
+
+                                <option value="Development">
+                                    Development
+                                </option>
+
+                                <option value="AI Integration">
+                                    AI Integration
+                                </option>
+
+                                <option value="Database">
+                                    Database
+                                </option>
+
+                                <option value="Testing">
+                                    Testing
+                                </option>
+
+                                <option value="Documentation">
+                                    Documentation
+                                </option>
+
+                                <option value="Final Presentation">
+                                    Final Presentation
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Priority
+                            </label>
+
+                            <select id="taskPriority">
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                                <option value="Medium"
+                                        selected>
+                                    Medium
+                                </option>
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Due Date
+                        </label>
+
+                        <input type="date"
+                               id="taskDate">
+
+                    </div>
+
+
+                    <button class="add-task-btn"
+                            id="addTaskBtn">
+
+                        <span>
+                            +
+                        </span>
+
+                        Add Task
+
+                        <strong>
+                            →
+                        </strong>
+
+                    </button>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 TASK LIST + WEEKLY PROGRESS
+            ================================================== -->
+
+            <div class="content-grid">
+
+
+                <!-- TASK LIST -->
+
+                <section class="tasks-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                PROJECT TASKS
+                            </span>
+
+                            <h3>
+                                Task & Milestone List
+                            </h3>
+
+                        </div>
+
+                        <button class="clear-btn"
+                                id="clearCompletedBtn">
+
+                            Clear Completed
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="task-filters">
+
+                        <button class="filter-btn active"
+                                data-filter="all">
+                            All
+                        </button>
+
+                        <button class="filter-btn"
+                                data-filter="pending">
+                            Pending
+                        </button>
+
+                        <button class="filter-btn"
+                                data-filter="completed">
+                            Completed
+                        </button>
+
+                    </div>
+
+
+                    <div class="task-list"
+                         id="taskList">
+                    </div>
+
+
+                    <div class="empty-task-state"
+                         id="emptyTaskState">
+
+                        <div class="empty-task-icon">
+                            ✓
+                        </div>
+
+                        <h3>
+                            No tasks found
+                        </h3>
+
+                        <p>
+                            Add a project task to start tracking
+                            your progress.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- WEEKLY PROGRESS -->
+
+                <section class="weekly-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                WEEKLY PROGRESS
+                            </span>
+
+                            <h3>
+                                Development Activity
+                            </h3>
+
+                        </div>
+
+                        <span class="week-badge">
+                            THIS WEEK
+                        </span>
+
+                    </div>
+
+
+                    <div class="weekly-chart">
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="mondayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="mondayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Mon
+                            </span>
+
+                        </div>
+
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="tuesdayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="tuesdayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Tue
+                            </span>
+
+                        </div>
+
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="wednesdayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="wednesdayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Wed
+                            </span>
+
+                        </div>
+
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="thursdayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="thursdayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Thu
+                            </span>
+
+                        </div>
+
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="fridayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="fridayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Fri
+                            </span>
+
+                        </div>
+
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="saturdayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="saturdayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Sat
+                            </span>
+
+                        </div>
+
+
+                        <div class="day-column">
+
+                            <div class="day-value"
+                                 id="sundayValue">
+                                0
+                            </div>
+
+                            <div class="day-bar">
+
+                                <div id="sundayBar"></div>
+
+                            </div>
+
+                            <span>
+                                Sun
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="weekly-summary">
+
+                        <div>
+
+                            <span>
+                                Tasks completed this week
+                            </span>
+
+                            <strong id="weeklyCompleted">
+                                0
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Weekly completion
+                            </span>
+
+                            <strong id="weeklyPercentage">
+                                0%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 MILESTONES
+            ================================================== -->
+
+            <section class="milestones-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            PROJECT MILESTONES
+                        </span>
+
+                        <h2>
+                            Development Stages
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        Track the major stages of your project.
+                    </p>
+
+                </div>
+
+
+                <div class="milestone-grid"
+                     id="milestoneGrid">
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PENDING TASKS
+            ================================================== -->
+
+            <section class="pending-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            PENDING WORK
+                        </span>
+
+                        <h2>
+                            Tasks Requiring Attention
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        Complete pending tasks to improve project progress.
+                    </p>
+
+                </div>
+
+
+                <div class="pending-grid"
+                     id="pendingGrid">
+
+                </div>
+
+            </section>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================== -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>
+        Notifications
+    </strong>
+
+    <p>
+        Progress tracker is ready.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/progress.js') }}"></script>
+
+</body>
+
+</html>

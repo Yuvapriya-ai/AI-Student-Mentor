@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | AI Project Mentor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/mentor.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/profile" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+
+                <span>Student Profile</span>
+
+            </a>
+
+
+            <a href="/roadmap" class="nav-item">
+
+                <span class="nav-icon">◈</span>
+
+                <span>Learning Roadmap</span>
+
+            </a>
+
+
+            <a href="/mentor" class="nav-item active">
+
+                <span class="nav-icon">✦</span>
+
+                <span>AI Project Mentor</span>
+
+            </a>
+
+
+            <a href="/documentation" class="nav-item">
+
+                <span class="nav-icon">▤</span>
+
+                <span>Documentation</span>
+
+            </a>
+
+
+            <a href="/viva" class="nav-item">
+
+                <span class="nav-icon">◉</span>
+
+                <span>Viva Assistant</span>
+
+            </a>
+
+
+            <a href="/study_assist" class="nav-item">
+
+                <span class="nav-icon">✎</span>
+
+                <span>Study Assistant</span>
+
+            </a>
+
+
+            <a href="/progress" class="nav-item">
+
+                <span class="nav-icon">◒</span>
+
+                <span>Progress Tracker</span>
+
+            </a>
+
+
+            <a href="/evaluator" class="nav-item">
+
+                <span class="nav-icon">◇</span>
+
+                <span>Idea Evaluator</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Ask your AI Mentor
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="/profile"
+               class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+
+                    <strong>
+                        Student
+                    </strong>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </div>
+
+                <span class="user-arrow">
+                    ›
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+
+                <span>✦</span>
+
+                AI Student Mentor
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Student
+                        </strong>
+
+                        <span>
+                            BCA Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             PAGE
+        ====================================================== -->
+
+        <section class="mentor-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        YOUR AI PROJECT COMPANION
+                    </span>
+
+                    <h1>
+                        AI Project Mentor
+                    </h1>
+
+                    <p>
+                        Get guidance, ideas and technical support
+                        while building your project.
+                    </p>
+
+                </div>
+
+
+                <div class="mentor-status">
+
+                    <span class="status-dot"></span>
+
+                    AI Mentor Online
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROJECT OVERVIEW
+            ================================================== -->
+
+            <div class="project-overview">
+
+
+                <div class="project-icon">
+                    ✦
+                </div>
+
+
+                <div class="project-info">
+
+                    <span>
+                        CURRENT PROJECT
+                    </span>
+
+                    <h2>
+                        AI Student Mentor
+                    </h2>
+
+                    <p>
+                        An intelligent academic companion designed
+                        to guide students throughout their project
+                        development journey.
+                    </p>
+
+                </div>
+
+
+                <div class="project-progress">
+
+                    <div class="progress-top">
+
+                        <span>
+                            Project Progress
+                        </span>
+
+                        <strong>
+                            62%
+                        </strong>
+
+                    </div>
+
+                    <div class="progress-track">
+
+                        <div class="progress-bar">
+                        </div>
+
+                    </div>
+
+                    <small>
+                        5 of 8 major modules planned
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MAIN GRID
+            ================================================== -->
+
+            <div class="mentor-grid">
+
+
+                <!-- =================================================
+                     CHAT PANEL
+                ================================================== -->
+
+                <div class="chat-card">
+
+
+                    <div class="chat-header">
+
+                        <div class="chat-title">
+
+                            <div class="chat-ai-icon">
+                                ✦
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Project Mentor
+                                </h3>
+
+                                <span>
+                                    Ask anything about your project
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="clear-chat"
+                                id="clearChatBtn">
+
+                            Clear
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- CHAT BODY -->
+
+                    <div class="chat-body"
+                         id="chatBody">
+
+
+                        <!-- AI MESSAGE -->
+
+                        <div class="message ai-message">
+
+                            <div class="message-avatar">
+                                ✦
+                            </div>
+
+                            <div class="message-content">
+
+                                <span class="message-name">
+                                    AI Mentor
+                                </span>
+
+                                <div class="message-bubble">
+
+                                    Hello! I'm your AI Project Mentor.
+                                    I can help you with project ideas,
+                                    architecture, technologies,
+                                    implementation and debugging.
+
+                                    <br><br>
+
+                                    What would you like to work on today?
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUICK QUESTIONS -->
+
+                        <div class="quick-questions">
+
+                            <span>
+                                Try asking
+                            </span>
+
+
+                            <button data-question="How should I structure my project?">
+                                Project structure
+                            </button>
+
+
+                            <button data-question="Which technologies should I use?">
+                                Technologies
+                            </button>
+
+
+                            <button data-question="How can I improve my project?">
+                                Improve project
+                            </button>
+
+
+                            <button data-question="Give me project implementation steps">
+                                Implementation steps
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CHAT INPUT -->
+
+                    <div class="chat-input-area">
+
+                        <div class="chat-input-wrapper">
+
+                            <textarea
+                                id="chatInput"
+                                rows="1"
+                                placeholder="Ask your AI Mentor anything..."></textarea>
+
+
+                            <button id="sendBtn"
+                                    class="send-btn">
+
+                                ➤
+
+                            </button>
+
+                        </div>
+
+
+                        <p class="input-note">
+
+                            AI Mentor can make mistakes.
+                            Verify important technical information.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     RIGHT PANEL
+                ================================================== -->
+
+                <div class="mentor-side">
+
+
+                    <!-- PROJECT TOOLS -->
+
+                    <div class="tools-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <span>
+                                    PROJECT TOOLS
+                                </span>
+
+                                <h3>
+                                    What do you need?
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="tool-item"
+                                data-tool="idea">
+
+                            <div class="tool-icon purple">
+                                ✦
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Project Ideas
+                                </strong>
+
+                                <p>
+                                    Generate ideas based on your interests
+                                </p>
+
+                            </div>
+
+                            <span>
+                                ›
+                            </span>
+
+                        </button>
+
+
+                        <button class="tool-item"
+                                data-tool="architecture">
+
+                            <div class="tool-icon blue">
+                                ◈
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    System Architecture
+                                </strong>
+
+                                <p>
+                                    Plan your project structure
+                                </p>
+
+                            </div>
+
+                            <span>
+                                ›
+                            </span>
+
+                        </button>
+
+
+                        <button class="tool-item"
+                                data-tool="technology">
+
+                            <div class="tool-icon orange">
+                                ⚙
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Technology Selection
+                                </strong>
+
+                                <p>
+                                    Choose suitable technologies
+                                </p>
+
+                            </div>
+
+                            <span>
+                                ›
+                            </span>
+
+                        </button>
+
+
+                        <button class="tool-item"
+                                data-tool="debug">
+
+                            <div class="tool-icon green">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Debug My Project
+                                </strong>
+
+                                <p>
+                                    Find and solve project problems
+                                </p>
+
+                            </div>
+
+                            <span>
+                                ›
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PROJECT MODULES
+                    ================================================== -->
+
+                    <div class="modules-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <span>
+                                    PROJECT MODULES
+                                </span>
+
+                                <h3>
+                                    Your Modules
+                                </h3>
+
+                            </div>
+
+                            <span class="module-count">
+                                5 / 8
+                            </span>
+
+                        </div>
+
+
+                        <div class="module-mini completed">
+
+                            <div class="mini-number">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Student Profile
+                                </strong>
+
+                                <span>
+                                    Completed
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-mini completed">
+
+                            <div class="mini-number">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Learning Roadmap
+                                </strong>
+
+                                <span>
+                                    Completed
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-mini current">
+
+                            <div class="mini-number">
+                                3
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    AI Project Mentor
+                                </strong>
+
+                                <span>
+                                    In Progress
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-mini">
+
+                            <div class="mini-number">
+                                4
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Documentation Assistant
+                                </strong>
+
+                                <span>
+                                    Upcoming
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-mini">
+
+                            <div class="mini-number">
+                                5
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Project Viva Assistant
+                                </strong>
+
+                                <span>
+                                    Upcoming
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="view-roadmap"
+                                id="viewRoadmapBtn">
+
+                            View Learning Roadmap
+
+                            <span>→</span>
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUGGESTION BAR
+            ================================================== -->
+
+            <div class="suggestion-bar">
+
+                <div class="suggestion-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <span>
+                        AI SUGGESTION
+                    </span>
+
+                    <p>
+                        Start by asking your mentor to review your
+                        current project architecture.
+                    </p>
+
+                </div>
+
+                <button id="suggestionBtn">
+                    Ask Mentor
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     TOOL MODAL
+========================================================== -->
+
+<div class="modal-overlay"
+     id="toolModal">
+
+    <div class="tool-modal">
+
+        <button class="close-modal"
+                id="closeToolModal">
+            ×
+        </button>
+
+
+        <div class="modal-icon">
+            ✦
+        </div>
+
+        <span class="modal-label">
+            AI PROJECT MENTOR
+        </span>
+
+        <h2 id="modalTitle">
+            Project Ideas
+        </h2>
+
+        <p id="modalDescription">
+            Tell me about your interests and I will help
+            you explore suitable project ideas.
+        </p>
+
+
+        <textarea
+            id="modalInput"
+            placeholder="Describe what you need help with..."></textarea>
+
+
+        <button class="modal-action"
+                id="modalActionBtn">
+
+            Ask AI Mentor
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================== -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>
+        Notifications
+    </strong>
+
+    <p>
+        Your AI Mentor has a new project suggestion for you.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/mentor.js') }}"></script>
+
+</body>
+</html>

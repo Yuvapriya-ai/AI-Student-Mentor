@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Learning Roadmap</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/roadmap.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">✦</div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="/" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/profile" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Student Profile</span>
+            </a>
+
+            <a href="/roadmap" class="nav-item active">
+                <span class="nav-icon">◈</span>
+                <span>Learning Roadmap</span>
+            </a>
+
+            <a href="/mentor" class="nav-item">
+                <span class="nav-icon">✦</span>
+                <span>AI Project Mentor</span>
+            </a>
+
+            <a href="/documentation" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Documentation</span>
+            </a>
+
+            <a href="/viva" class="nav-item">
+                <span class="nav-icon">◉</span>
+                <span>Viva Assistant</span>
+            </a>
+
+            <a href="/study_assist" class="nav-item">
+                <span class="nav-icon">✎</span>
+                <span>Study Assistant</span>
+            </a>
+
+            <a href="/progress" class="nav-item">
+                <span class="nav-icon">◒</span>
+                <span>Progress Tracker</span>
+            </a>
+
+            <a href="/evaluator" class="nav-item">
+                <span class="nav-icon">◇</span>
+                <span>Idea Evaluator</span>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">?</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <p>Ask your AI Mentor</p>
+                </div>
+
+            </div>
+
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+                    <strong>Student</strong>
+                    <span>View Profile</span>
+                </div>
+
+                <span class="user-arrow">›</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+                <span>✦</span>
+                AI Student Mentor
+            </div>
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+                        <strong>Student</strong>
+                        <span>BCA Student</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             ROADMAP PAGE
+        ================================================== -->
+
+        <section class="roadmap-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        YOUR AI-GUIDED LEARNING JOURNEY
+                    </span>
+
+                    <h1>Learning Roadmap</h1>
+
+                    <p>
+                        Follow your personalized path and build the
+                        skills you need for your goals.
+                    </p>
+
+                </div>
+
+
+                <button class="ai-roadmap-btn"
+                        id="aiRoadmapBtn">
+
+                    <span>✦</span>
+                    Ask AI Mentor
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 ROADMAP SUMMARY
+            ================================================== -->
+
+            <div class="roadmap-summary">
+
+
+                <!-- OVERALL PROGRESS -->
+
+                <div class="summary-main">
+
+                    <div class="summary-icon">
+                        ◈
+                    </div>
+
+                    <div>
+
+                        <span class="summary-label">
+                            OVERALL ROADMAP PROGRESS
+                        </span>
+
+                        <div class="summary-number">
+
+                            <strong id="overallPercent">
+                                68%
+                            </strong>
+
+                            <span>completed</span>
+
+                        </div>
+
+                        <div class="summary-progress">
+
+                            <div id="overallProgressBar">
+                            </div>
+
+                        </div>
+
+                        <p>
+                            You're making steady progress toward
+                            your learning goal.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUMMARY STATS -->
+
+                <div class="summary-stats">
+
+                    <div>
+                        <strong id="completedModules">
+                            2
+                        </strong>
+
+                        <span>Modules Done</span>
+                    </div>
+
+                    <div>
+                        <strong>1</strong>
+                        <span>Current Module</span>
+                    </div>
+
+                    <div>
+                        <strong>2</strong>
+                        <span>Upcoming</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ROADMAP FILTER
+            ================================================== -->
+
+            <div class="roadmap-controls">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR LEARNING PATH
+                    </span>
+
+                    <h2>
+                        AI & Machine Learning Roadmap
+                    </h2>
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button class="filter-btn active"
+                            data-filter="all">
+                        All
+                    </button>
+
+                    <button class="filter-btn"
+                            data-filter="completed">
+                        Completed
+                    </button>
+
+                    <button class="filter-btn"
+                            data-filter="current">
+                        Current
+                    </button>
+
+                    <button class="filter-btn"
+                            data-filter="upcoming">
+                        Upcoming
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ROADMAP TIMELINE
+            ================================================== -->
+
+            <div class="roadmap-container">
+
+
+                <!-- CONNECTING LINE -->
+
+                <div class="timeline-line"></div>
+
+
+                <!-- =================================================
+                     MODULE 1
+                ================================================== -->
+
+                <div class="roadmap-module completed-module"
+                     data-status="completed">
+
+                    <div class="timeline-marker completed">
+                        ✓
+                    </div>
+
+
+                    <div class="module-card">
+
+                        <div class="module-top">
+
+                            <div class="module-heading">
+
+                                <span class="module-number">
+                                    MODULE 01
+                                </span>
+
+                                <h3>
+                                    Python Fundamentals
+                                </h3>
+
+                                <p>
+                                    Build a strong programming foundation
+                                    for your AI journey.
+                                </p>
+
+                            </div>
+
+                            <span class="status completed-status">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+
+                        <div class="module-progress">
+
+                            <div class="progress-info">
+
+                                <span>
+                                    Progress
+                                </span>
+
+                                <strong>
+                                    100%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-track">
+
+                                <div class="progress-bar"
+                                     style="width: 100%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-footer">
+
+                            <div class="topic-list">
+
+                                <span>Variables</span>
+                                <span>Functions</span>
+                                <span>OOP</span>
+                                <span>File Handling</span>
+
+                            </div>
+
+                            <button class="module-btn"
+                                    data-module="1">
+                                Review
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MODULE 2
+                ================================================== -->
+
+                <div class="roadmap-module completed-module"
+                     data-status="completed">
+
+                    <div class="timeline-marker completed">
+                        ✓
+                    </div>
+
+
+                    <div class="module-card">
+
+                        <div class="module-top">
+
+                            <div class="module-heading">
+
+                                <span class="module-number">
+                                    MODULE 02
+                                </span>
+
+                                <h3>
+                                    Data & SQL Foundations
+                                </h3>
+
+                                <p>
+                                    Learn how data is stored, processed,
+                                    queried and prepared for AI systems.
+                                </p>
+
+                            </div>
+
+                            <span class="status completed-status">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+
+                        <div class="module-progress">
+
+                            <div class="progress-info">
+
+                                <span>
+                                    Progress
+                                </span>
+
+                                <strong>
+                                    100%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-track">
+
+                                <div class="progress-bar"
+                                     style="width: 100%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-footer">
+
+                            <div class="topic-list">
+
+                                <span>SQL</span>
+                                <span>Databases</span>
+                                <span>Data Cleaning</span>
+                                <span>Data Handling</span>
+
+                            </div>
+
+                            <button class="module-btn"
+                                    data-module="2">
+                                Review
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MODULE 3 - CURRENT
+                ================================================== -->
+
+                <div class="roadmap-module current-module"
+                     data-status="current">
+
+                    <div class="timeline-marker current">
+                        3
+                    </div>
+
+
+                    <div class="module-card current-card">
+
+                        <div class="current-ribbon">
+                            CURRENT FOCUS
+                        </div>
+
+
+                        <div class="module-top">
+
+                            <div class="module-heading">
+
+                                <span class="module-number">
+                                    MODULE 03
+                                </span>
+
+                                <h3>
+                                    Machine Learning Fundamentals
+                                </h3>
+
+                                <p>
+                                    Understand the core concepts behind
+                                    machine learning and intelligent systems.
+                                </p>
+
+                            </div>
+
+                            <span class="status current-status">
+                                IN PROGRESS
+                            </span>
+
+                        </div>
+
+
+                        <div class="module-progress">
+
+                            <div class="progress-info">
+
+                                <span>
+                                    Progress
+                                </span>
+
+                                <strong>
+                                    68%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-track">
+
+                                <div class="progress-bar"
+                                     style="width: 68%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="module-footer">
+
+                            <div class="topic-list">
+
+                                <span>ML Concepts</span>
+                                <span>Supervised Learning</span>
+                                <span>Unsupervised Learning</span>
+                                <span>Model Training</span>
+
+                            </div>
+
+                            <button class="module-btn primary-btn"
+                                    data-module="3">
+                                Continue
+                            </button>
+
+                        </div>
+
+
+                        <!-- CURRENT TOPICS -->
+
+                        <div class="current-topics">
+
+                            <div class="topic-heading">
+
+                                <strong>
+                                    Current Topics
+                                </strong>
+
+                                <span>
+                                    3 / 5 completed
+                                </span>
+
+                            </div>
+
+
+                            <div class="topic-row">
+
+                                <div class="topic-check done">
+                                    ✓
+                                </div>
+
+                                <span>
+                                    Introduction to Machine Learning
+                                </span>
+
+                            </div>
+
+
+                            <div class="topic-row">
+
+                                <div class="topic-check done">
+                                    ✓
+                                </div>
+
+                                <span>
+                                    Types of Machine Learning
+                                </span>
+
+                            </div>
+
+
+                            <div class="topic-row">
+
+                                <div class="topic-check done">
+                                    ✓
+                                </div>
+
+                                <span>
+                                    Training & Testing Data
+                                </span>
+
+                            </div>
+
+
+                            <div class="topic-row">
+
+                                <div class="topic-check">
+                                </div>
+
+                                <span>
+                                    Regression Algorithms
+                                </span>
+
+                            </div>
+
+
+                            <div class="topic-row">
+
+                                <div class="topic-check">
+                                </div>
+
+                                <span>
+                                    Classification Algorithms
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MODULE 4
+                ================================================== -->
+
+                <div class="roadmap-module upcoming-module"
+                     data-status="upcoming">
+
+                    <div class="timeline-marker upcoming">
+                        4
+                    </div>
+
+
+                    <div class="module-card">
+
+                        <div class="module-top">
+
+                            <div class="module-heading">
+
+                                <span class="module-number">
+                                    MODULE 04
+                                </span>
+
+                                <h3>
+                                    Deep Learning & Neural Networks
+                                </h3>
+
+                                <p>
+                                    Explore neural networks and the
+                                    foundations of deep learning.
+                                </p>
+
+                            </div>
+
+                            <span class="status upcoming-status">
+                                UPCOMING
+                            </span>
+
+                        </div>
+
+
+                        <div class="module-footer">
+
+                            <div class="topic-list">
+
+                                <span>Neural Networks</span>
+                                <span>Deep Learning</span>
+                                <span>TensorFlow</span>
+                                <span>Model Optimization</span>
+
+                            </div>
+
+                            <button class="module-btn locked-btn"
+                                    data-module="4">
+                                Locked
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MODULE 5
+                ================================================== -->
+
+                <div class="roadmap-module upcoming-module"
+                     data-status="upcoming">
+
+                    <div class="timeline-marker upcoming">
+                        5
+                    </div>
+
+
+                    <div class="module-card">
+
+                        <div class="module-top">
+
+                            <div class="module-heading">
+
+                                <span class="module-number">
+                                    MODULE 05
+                                </span>
+
+                                <h3>
+                                    AI Projects & Deployment
+                                </h3>
+
+                                <p>
+                                    Turn your knowledge into practical
+                                    AI projects and deploy intelligent
+                                    applications.
+                                </p>
+
+                            </div>
+
+                            <span class="status upcoming-status">
+                                UPCOMING
+                            </span>
+
+                        </div>
+
+
+                        <div class="module-footer">
+
+                            <div class="topic-list">
+
+                                <span>AI Projects</span>
+                                <span>APIs</span>
+                                <span>Flask</span>
+                                <span>Deployment</span>
+
+                            </div>
+
+                            <button class="module-btn locked-btn"
+                                    data-module="5">
+                                Locked
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 NEXT STEP
+            ================================================== -->
+
+            <div class="next-step-card">
+
+                <div class="next-step-icon">
+                    →
+                </div>
+
+                <div class="next-step-text">
+
+                    <span>
+                        RECOMMENDED NEXT STEP
+                    </span>
+
+                    <h3>
+                        Complete Regression Algorithms
+                    </h3>
+
+                    <p>
+                        Finish the next topic in your current
+                        Machine Learning module.
+                    </p>
+
+                </div>
+
+                <button class="next-step-btn"
+                        id="nextStepBtn">
+                    Start Learning
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     AI MENTOR MODAL
+========================================================== -->
+
+<div class="modal-overlay"
+     id="aiModal">
+
+    <div class="ai-modal">
+
+        <button class="close-modal"
+                id="closeAiModal">
+            ×
+        </button>
+
+
+        <div class="ai-modal-icon">
+            ✦
+        </div>
+
+        <span class="modal-label">
+            AI STUDENT MENTOR
+        </span>
+
+        <h2>
+            Need help with your roadmap?
+        </h2>
+
+        <p>
+            Your AI Mentor can explain topics, suggest what to
+            learn next, or help you understand difficult concepts.
+        </p>
+
+
+        <div class="ai-options">
+
+            <button>
+                Explain my current topic
+            </button>
+
+            <button>
+                What should I learn next?
+            </button>
+
+            <button>
+                Create a study plan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- NOTIFICATION -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>Notifications</strong>
+
+    <p>
+        You have 4 learning tasks scheduled for today.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/roadmap.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Documentation Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/documentation.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/profile" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+
+                <span>Student Profile</span>
+
+            </a>
+
+
+            <a href="/roadmap" class="nav-item">
+
+                <span class="nav-icon">◈</span>
+
+                <span>Learning Roadmap</span>
+
+            </a>
+
+
+            <a href="/mentor" class="nav-item">
+
+                <span class="nav-icon">✦</span>
+
+                <span>AI Project Mentor</span>
+
+            </a>
+
+
+            <a href="/documentation" class="nav-item active">
+
+                <span class="nav-icon">▤</span>
+
+                <span>Documentation</span>
+
+            </a>
+
+
+            <a href="/viva" class="nav-item">
+
+                <span class="nav-icon">◉</span>
+
+                <span>Viva Assistant</span>
+
+            </a>
+
+
+            <a href="/study_assist" class="nav-item">
+
+                <span class="nav-icon">✎</span>
+
+                <span>Study Assistant</span>
+
+            </a>
+
+
+            <a href="/progress" class="nav-item">
+
+                <span class="nav-icon">◒</span>
+
+                <span>Progress Tracker</span>
+
+            </a>
+
+
+            <a href="/evaluator" class="nav-item">
+
+                <span class="nav-icon">◇</span>
+
+                <span>Idea Evaluator</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Ask your AI Mentor
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+
+                    <strong>
+                        Student
+                    </strong>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </div>
+
+                <span class="user-arrow">
+                    ›
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+
+                <span>✦</span>
+
+                AI Student Mentor
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Student
+                        </strong>
+
+                        <span>
+                            BCA Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             DOCUMENTATION PAGE
+        ====================================================== -->
+
+        <section class="documentation-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        AI POWERED PROJECT WRITING
+                    </span>
+
+                    <h1>
+                        Documentation Assistant
+                    </h1>
+
+                    <p>
+                        Create clear and professional project
+                        documentation with the help of AI.
+                    </p>
+
+                </div>
+
+
+                <div class="document-status">
+
+                    <span class="status-dot"></span>
+
+                    AI Assistant Ready
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROJECT INFO
+            ================================================== -->
+
+            <div class="project-banner">
+
+                <div class="project-icon">
+                    ▤
+                </div>
+
+
+                <div class="project-details">
+
+                    <span>
+                        DOCUMENTING PROJECT
+                    </span>
+
+                    <h2>
+                        AI Student Mentor
+                    </h2>
+
+                    <p>
+                        Generate structured documentation for
+                        your academic project.
+                    </p>
+
+                </div>
+
+
+                <div class="document-stat">
+
+                    <strong id="sectionCount">
+                        0
+                    </strong>
+
+                    <span>
+                        Sections Generated
+                    </span>
+
+                </div>
+
+
+                <div class="document-stat">
+
+                    <strong>
+                        AI
+                    </strong>
+
+                    <span>
+                        Powered Assistant
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MAIN GRID
+            ================================================== -->
+
+            <div class="documentation-grid">
+
+
+                <!-- =================================================
+                     LEFT WORKSPACE
+                ================================================== -->
+
+                <div class="generator-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                DOCUMENT GENERATOR
+                            </span>
+
+                            <h3>
+                                Create Documentation
+                            </h3>
+
+                        </div>
+
+                        <div class="step-badge">
+                            STEP 1
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOCUMENT TYPE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Documentation Type
+                        </label>
+
+                        <select id="documentType">
+
+                            <option value="synopsis">
+                                Project Synopsis
+                            </option>
+
+                            <option value="introduction">
+                                Introduction
+                            </option>
+
+                            <option value="problem">
+                                Problem Statement
+                            </option>
+
+                            <option value="objectives">
+                                Objectives
+                            </option>
+
+                            <option value="methodology">
+                                Methodology
+                            </option>
+
+                            <option value="modules">
+                                Module Description
+                            </option>
+
+                            <option value="technology">
+                                Technology Stack
+                            </option>
+
+                            <option value="future">
+                                Future Enhancements
+                            </option>
+
+                            <option value="conclusion">
+                                Conclusion
+                            </option>
+
+                            <option value="custom">
+                                Custom Documentation
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- PROJECT DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Project Information
+                        </label>
+
+                        <textarea
+                            id="projectInput"
+                            placeholder="Describe your project, features, modules or the topic you want to document..."></textarea>
+
+                        <div class="textarea-footer">
+
+                            <span id="characterCount">
+                                0 characters
+                            </span>
+
+                            <span>
+                                AI will structure your content
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTIONS -->
+
+                    <div class="options-row">
+
+
+                        <div class="form-group small-group">
+
+                            <label>
+                                Writing Style
+                            </label>
+
+                            <select id="writingStyle">
+
+                                <option value="academic">
+                                    Academic
+                                </option>
+
+                                <option value="simple">
+                                    Simple
+                                </option>
+
+                                <option value="professional">
+                                    Professional
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group small-group">
+
+                            <label>
+                                Length
+                            </label>
+
+                            <select id="documentLength">
+
+                                <option value="short">
+                                    Short
+                                </option>
+
+                                <option value="medium"
+                                        selected>
+                                    Medium
+                                </option>
+
+                                <option value="detailed">
+                                    Detailed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GENERATE -->
+
+                    <button class="generate-btn"
+                            id="generateBtn">
+
+                        <span class="generate-icon">
+                            ✦
+                        </span>
+
+                        Generate Documentation
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <p class="generator-note">
+
+                        AI-generated content should be reviewed
+                        and customized before submission.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     RIGHT PREVIEW
+                ================================================== -->
+
+                <div class="preview-card">
+
+
+                    <div class="preview-header">
+
+                        <div>
+
+                            <span>
+                                DOCUMENT PREVIEW
+                            </span>
+
+                            <h3>
+                                Generated Content
+                            </h3>
+
+                        </div>
+
+
+                        <div class="preview-actions">
+
+                            <button id="copyBtn"
+                                    title="Copy">
+
+                                ⧉
+
+                            </button>
+
+
+                            <button id="downloadBtn"
+                                    title="Download">
+
+                                ↓
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PREVIEW -->
+
+                    <div class="document-preview"
+                         id="documentPreview">
+
+
+                        <!-- EMPTY STATE -->
+
+                        <div class="empty-state"
+                             id="emptyState">
+
+                            <div class="empty-icon">
+                                ▤
+                            </div>
+
+                            <h3>
+                                Your document will appear here
+                            </h3>
+
+                            <p>
+                                Select a documentation type,
+                                describe your project and click
+                                <strong>Generate Documentation</strong>.
+                            </p>
+
+                        </div>
+
+
+                        <!-- GENERATED DOCUMENT -->
+
+                        <article class="generated-document"
+                                 id="generatedDocument">
+
+                            <div class="document-label">
+                                AI GENERATED
+                            </div>
+
+                            <h2 id="generatedTitle">
+                                Project Documentation
+                            </h2>
+
+                            <div id="generatedContent"></div>
+
+                        </article>
+
+                    </div>
+
+
+                    <div class="preview-footer">
+
+                        <span id="wordCount">
+                            0 words
+                        </span>
+
+                        <span>
+                            AI Generated Draft
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 QUICK TEMPLATES
+            ================================================== -->
+
+            <div class="templates-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            QUICK START
+                        </span>
+
+                        <h2>
+                            Documentation Templates
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        Start with a predefined project section.
+                    </p>
+
+                </div>
+
+
+                <div class="template-grid">
+
+
+                    <button class="template-card"
+                            data-template="synopsis">
+
+                        <div class="template-icon purple">
+                            ▤
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Project Synopsis
+                            </strong>
+
+                            <p>
+                                Complete overview of your project
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button class="template-card"
+                            data-template="methodology">
+
+                        <div class="template-icon blue">
+                            ◈
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Methodology
+                            </strong>
+
+                            <p>
+                                Explain your project approach
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button class="template-card"
+                            data-template="modules">
+
+                        <div class="template-icon orange">
+                            ◇
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Module Description
+                            </strong>
+
+                            <p>
+                                Document individual modules
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button class="template-card"
+                            data-template="future">
+
+                        <div class="template-icon green">
+                            ✦
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Future Enhancements
+                            </strong>
+
+                            <p>
+                                Describe possible improvements
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DOCUMENT CHECKLIST
+            ================================================== -->
+
+            <div class="bottom-grid">
+
+
+                <div class="checklist-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <span>
+                                PROJECT DOCUMENTATION
+                            </span>
+
+                            <h3>
+                                Documentation Checklist
+                            </h3>
+
+                        </div>
+
+                        <span class="completion">
+                            2 / 6
+                        </span>
+
+                    </div>
+
+
+                    <div class="check-item completed">
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Project Introduction
+                            </strong>
+
+                            <p>
+                                Basic project overview
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="check-item completed">
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Problem Statement
+                            </strong>
+
+                            <p>
+                                Define the problem being solved
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            3
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Objectives
+                            </strong>
+
+                            <p>
+                                Goals of the project
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            4
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Methodology
+                            </strong>
+
+                            <p>
+                                Explain the project workflow
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            5
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Module Description
+                            </strong>
+
+                            <p>
+                                Explain all project modules
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            6
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Conclusion
+                            </strong>
+
+                            <p>
+                                Summarize the project
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI TIP -->
+
+                <div class="ai-tip-card">
+
+                    <div class="tip-icon">
+                        ✦
+                    </div>
+
+                    <span>
+                        AI DOCUMENTATION TIP
+                    </span>
+
+                    <h3>
+                        Make your documentation specific.
+                    </h3>
+
+                    <p>
+                        Instead of asking AI to write a generic
+                        introduction, provide your project's
+                        actual modules, technologies and objectives.
+                        This produces more relevant academic content.
+                    </p>
+
+
+                    <button id="tipButton">
+
+                        Use this approach
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================== -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>
+        Notifications
+    </strong>
+
+    <p>
+        Your documentation workspace is ready.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/documentation.js') }}"></script>
+
+</body>
+</html>

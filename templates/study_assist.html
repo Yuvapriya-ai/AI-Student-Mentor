@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Study Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/study_assist.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/profile" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+
+                <span>Student Profile</span>
+
+            </a>
+
+
+            <a href="/roadmap" class="nav-item">
+
+                <span class="nav-icon">◈</span>
+
+                <span>Learning Roadmap</span>
+
+            </a>
+
+
+            <a href="/mentor" class="nav-item">
+
+                <span class="nav-icon">✦</span>
+
+                <span>AI Project Mentor</span>
+
+            </a>
+
+
+            <a href="/documentation" class="nav-item">
+
+                <span class="nav-icon">▤</span>
+
+                <span>Documentation</span>
+
+            </a>
+
+
+            <a href="/viva" class="nav-item">
+
+                <span class="nav-icon">◉</span>
+
+                <span>Viva Assistant</span>
+
+            </a>
+
+
+            <a href="/study_assist" class="nav-item active">
+
+                <span class="nav-icon">✎</span>
+
+                <span>Study Assistant</span>
+
+            </a>
+
+
+            <a href="/progress" class="nav-item">
+
+                <span class="nav-icon">◒</span>
+
+                <span>Progress Tracker</span>
+
+            </a>
+
+
+            <a href="/evaluator" class="nav-item">
+
+                <span class="nav-icon">◇</span>
+
+                <span>Idea Evaluator</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Ask your AI Mentor
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+
+                    <strong>
+                        Student
+                    </strong>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </div>
+
+                <span class="user-arrow">
+                    ›
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+
+                <span>✦</span>
+
+                AI Student Mentor
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Student
+                        </strong>
+
+                        <span>
+                            BCA Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             STUDY ASSISTANT PAGE
+        ====================================================== -->
+
+        <section class="study-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        AI POWERED PROJECT LEARNING
+                    </span>
+
+                    <h1>
+                        Study Assistant
+                    </h1>
+
+                    <p>
+                        Ask questions about your project and get
+                        clear AI-powered explanations for learning
+                        and revision.
+                    </p>
+
+                </div>
+
+
+                <div class="assistant-status">
+
+                    <span class="status-dot"></span>
+
+                    AI Assistant Ready
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROJECT BANNER
+            ================================================== -->
+
+            <div class="project-banner">
+
+                <div class="project-icon">
+                    ✎
+                </div>
+
+
+                <div class="project-details">
+
+                    <span>
+                        PROJECT STUDY ASSISTANT
+                    </span>
+
+                    <h2>
+                        AI Student Mentor
+                    </h2>
+
+                    <p>
+                        Ask questions about project modules,
+                        technologies, database, AI concepts,
+                        implementation and architecture.
+                    </p>
+
+                </div>
+
+
+                <div class="study-stat">
+
+                    <strong id="questionCount">
+                        0
+                    </strong>
+
+                    <span>
+                        Questions Asked
+                    </span>
+
+                </div>
+
+
+                <div class="study-stat">
+
+                    <strong>
+                        AI
+                    </strong>
+
+                    <span>
+                        Powered Assistant
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 STUDY GRID
+            ================================================== -->
+
+            <div class="study-grid">
+
+
+                <!-- =================================================
+                     LEFT : QUESTION PANEL
+                ================================================== -->
+
+                <section class="question-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                ASK YOUR QUESTION
+                            </span>
+
+                            <h3>
+                                Project Question Assistant
+                            </h3>
+
+                        </div>
+
+                        <div class="step-badge">
+                            STEP 1
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUESTION TYPE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Question Category
+                        </label>
+
+                        <select id="questionCategory">
+
+                            <option value="general">
+                                General Project Question
+                            </option>
+
+                            <option value="module">
+                                Project Modules
+                            </option>
+
+                            <option value="technology">
+                                Technologies Used
+                            </option>
+
+                            <option value="database">
+                                Database / MySQL
+                            </option>
+
+                            <option value="ai">
+                                AI / LLM / OpenAI
+                            </option>
+
+                            <option value="implementation">
+                                Implementation
+                            </option>
+
+                            <option value="architecture">
+                                Project Architecture
+                            </option>
+
+                            <option value="learning">
+                                Learning Concept
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DIFFICULTY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Difficulty Level
+                        </label>
+
+                        <select id="difficultyLevel">
+
+                            <option value="basic">
+                                Basic
+                            </option>
+
+                            <option value="intermediate"
+                                    selected>
+                                Intermediate
+                            </option>
+
+                            <option value="advanced">
+                                Advanced
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- QUESTION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Your Question
+                        </label>
+
+                        <textarea
+                            id="questionInput"
+                            placeholder="Ask anything about your project, technology, database, AI, modules or implementation..."></textarea>
+
+                        <div class="textarea-footer">
+
+                            <span id="characterCount">
+                                0 characters
+                            </span>
+
+                            <span>
+                                Ask follow-up questions anytime
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ANSWER LENGTH -->
+
+                    <div class="options-row">
+
+                        <div class="form-group small-group">
+
+                            <label>
+                                Answer Style
+                            </label>
+
+                            <select id="answerStyle">
+
+                                <option value="brief">
+                                    Brief
+                                </option>
+
+                                <option value="detailed"
+                                        selected>
+                                    Detailed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group small-group">
+
+                            <label>
+                                Explanation Type
+                            </label>
+
+                            <select id="explanationType">
+
+                                <option value="simple">
+                                    Simple
+                                </option>
+
+                                <option value="academic"
+                                        selected>
+                                    Academic
+                                </option>
+
+                                <option value="technical">
+                                    Technical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ASK BUTTON -->
+
+                    <button class="ask-btn"
+                            id="askQuestionBtn">
+
+                        <span class="ask-icon">
+                            ✦
+                        </span>
+
+                        Ask AI Assistant
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <p class="question-note">
+
+                        AI-generated explanations should be
+                        reviewed with your project implementation.
+
+                    </p>
+
+                </section>
+
+
+                <!-- =================================================
+                     RIGHT : ANSWER PANEL
+                ================================================== -->
+
+                <section class="answer-card">
+
+
+                    <div class="answer-header">
+
+                        <div>
+
+                            <span>
+                                AI RESPONSE
+                            </span>
+
+                            <h3>
+                                Study Explanation
+                            </h3>
+
+                        </div>
+
+
+                        <div class="answer-actions">
+
+                            <button id="copyAnswerBtn"
+                                    title="Copy Answer">
+
+                                ⧉
+
+                            </button>
+
+                            <button id="clearAnswerBtn"
+                                    title="Clear">
+
+                                ×
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ANSWER AREA -->
+
+                    <div class="answer-preview"
+                         id="answerPreview">
+
+
+                        <!-- EMPTY STATE -->
+
+                        <div class="empty-state"
+                             id="emptyState">
+
+                            <div class="empty-icon">
+                                ✦
+                            </div>
+
+                            <h3>
+                                Your AI explanation will appear here
+                            </h3>
+
+                            <p>
+                                Select a category, enter your question
+                                and click <strong>Ask AI Assistant</strong>
+                                to receive a project-focused explanation.
+                            </p>
+
+                        </div>
+
+
+                        <!-- GENERATED ANSWER -->
+
+                        <article class="generated-answer"
+                                 id="generatedAnswer">
+
+                            <div class="answer-label">
+                                AI RESPONSE
+                            </div>
+
+                            <h2 id="answerTitle">
+                                Project Explanation
+                            </h2>
+
+                            <div id="answerContent"></div>
+
+                        </article>
+
+                    </div>
+
+
+                    <div class="answer-footer">
+
+                        <span id="answerWordCount">
+                            0 words
+                        </span>
+
+                        <span>
+                            AI Generated Explanation
+                        </span>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 QUICK QUESTIONS
+            ================================================== -->
+
+            <div class="quick-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            QUICK QUESTIONS
+                        </span>
+
+                        <h2>
+                            Ask About Your Project
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        Choose a topic to start learning quickly.
+                    </p>
+
+                </div>
+
+
+                <div class="quick-grid">
+
+
+                    <button class="quick-card"
+                            data-question="What are the eight modules of the AI Student Mentor project?">
+
+                        <div class="quick-icon purple">
+                            ◈
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Project Modules
+                            </strong>
+
+                            <p>
+                                Understand all eight project modules
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button class="quick-card"
+                            data-question="Why is MySQL used in the AI Student Mentor project?">
+
+                        <div class="quick-icon blue">
+                            ▤
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                MySQL Database
+                            </strong>
+
+                            <p>
+                                Learn how the database is used
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button class="quick-card"
+                            data-question="How does the OpenAI API and LLM work in the AI Student Mentor project?">
+
+                        <div class="quick-icon orange">
+                            ✦
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                AI & LLM
+                            </strong>
+
+                            <p>
+                                Understand the AI processing flow
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button class="quick-card"
+                            data-question="Explain the overall architecture and workflow of the AI Student Mentor project.">
+
+                        <div class="quick-icon green">
+                            ◇
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Architecture
+                            </strong>
+
+                            <p>
+                                Understand the project workflow
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 BOTTOM GRID
+            ================================================== -->
+
+            <div class="bottom-grid">
+
+
+                <!-- STUDY TOPICS -->
+
+                <div class="topics-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <span>
+                                REVISION TOPICS
+                            </span>
+
+                            <h3>
+                                Important Concepts
+                            </h3>
+
+                        </div>
+
+                        <span class="topic-count">
+                            6 Topics
+                        </span>
+
+                    </div>
+
+
+                    <div class="topic-item">
+
+                        <span class="topic-number">
+                            1
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Frontend Technologies
+                            </strong>
+
+                            <p>
+                                HTML, CSS and JavaScript
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="topic-item">
+
+                        <span class="topic-number">
+                            2
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Backend Development
+                            </strong>
+
+                            <p>
+                                Python and Flask
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="topic-item">
+
+                        <span class="topic-number">
+                            3
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Database
+                            </strong>
+
+                            <p>
+                                MySQL and project data storage
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="topic-item">
+
+                        <span class="topic-number">
+                            4
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Artificial Intelligence
+                            </strong>
+
+                            <p>
+                                LLM and OpenAI API
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="topic-item">
+
+                        <span class="topic-number">
+                            5
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Project Architecture
+                            </strong>
+
+                            <p>
+                                Frontend, backend and AI workflow
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="topic-item">
+
+                        <span class="topic-number">
+                            6
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Project Implementation
+                            </strong>
+
+                            <p>
+                                Development and integration
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI STUDY TIP -->
+
+                <div class="ai-tip-card">
+
+                    <div class="tip-icon">
+                        ✦
+                    </div>
+
+                    <span>
+                        AI STUDY TIP
+                    </span>
+
+                    <h3>
+                        Understand the concept before memorizing it.
+                    </h3>
+
+                    <p>
+                        Ask the AI Study Assistant to explain your
+                        project concepts in simple language first.
+                        Then use detailed and technical explanations
+                        for deeper revision.
+                    </p>
+
+
+                    <button id="studyTipButton">
+
+                        Start Learning
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================== -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>
+        Notifications
+    </strong>
+
+    <p>
+        Your AI Study Assistant is ready.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/study_assist.js') }}"></script>
+
+</body>
+</html>

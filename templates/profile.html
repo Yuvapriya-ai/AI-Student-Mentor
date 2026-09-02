@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Student Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/profile.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">✦</div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="/" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/profile" class="nav-item active">
+                <span class="nav-icon">♙</span>
+                <span>Student Profile</span>
+            </a>
+
+            <a href="/roadmap" class="nav-item">
+                <span class="nav-icon">◈</span>
+                <span>Learning Roadmap</span>
+            </a>
+
+            <a href="/mentor" class="nav-item">
+                <span class="nav-icon">✦</span>
+                <span>AI Project Mentor</span>
+            </a>
+
+            <a href="/documentation" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Documentation</span>
+            </a>
+
+            <a href="/viva" class="nav-item">
+                <span class="nav-icon">◉</span>
+                <span>Viva Assistant</span>
+            </a>
+
+            <a href="/study_assist" class="nav-item">
+                <span class="nav-icon">✎</span>
+                <span>Study Assistant</span>
+            </a>
+
+            <a href="/progress" class="nav-item">
+                <span class="nav-icon">◒</span>
+                <span>Progress Tracker</span>
+            </a>
+
+            <a href="/evaluator" class="nav-item">
+                <span class="nav-icon">◇</span>
+                <span>Idea Evaluator</span>
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">?</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <p>Ask your AI Mentor</p>
+                </div>
+
+            </div>
+
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+                    <strong>Student</strong>
+                    <span>View Profile</span>
+                </div>
+
+                <span class="user-arrow">›</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+                <span>✦</span>
+                AI Student Mentor
+            </div>
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+                        <strong>Student</strong>
+                        <span>BCA Student</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PROFILE PAGE
+        ================================================== -->
+
+        <section class="profile-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        YOUR AI ACADEMIC COMPANION
+                    </span>
+
+                    <h1>Student Profile</h1>
+
+                    <p>
+                        Manage your personal information and learning
+                        preferences.
+                    </p>
+
+                </div>
+
+
+                <button class="edit-btn" id="editProfileBtn">
+                    <span>✎</span>
+                    Edit Profile
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROFILE HERO
+            ================================================== -->
+
+            <div class="profile-hero">
+
+
+                <div class="profile-main">
+
+                    <div class="large-avatar" id="profileAvatar">
+                        Y
+                    </div>
+
+
+                    <div class="profile-intro">
+
+                        <span class="profile-status">
+                            ● ACTIVE STUDENT
+                        </span>
+
+                        <h2 id="profileName">
+                            Student Name
+                        </h2>
+
+                        <p>
+                            BCA Student
+                        </p>
+
+                        <div class="profile-tags">
+
+                            <span>Computer Applications</span>
+                            <span>AI & ML</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-completion">
+
+                    <div class="completion-top">
+
+                        <span>PROFILE COMPLETION</span>
+
+                        <strong id="completionPercent">
+                            75%
+                        </strong>
+
+                    </div>
+
+                    <div class="completion-track">
+
+                        <div class="completion-fill"
+                             id="completionFill">
+                        </div>
+
+                    </div>
+
+                    <small>
+                        Complete your profile to help your AI Mentor
+                        personalize your learning journey.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 INFORMATION GRID
+            ================================================== -->
+
+            <div class="profile-grid">
+
+
+                <!-- PERSONAL INFORMATION -->
+
+                <div class="profile-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon purple">
+                            ♙
+                        </div>
+
+                        <div>
+                            <span>PERSONAL INFORMATION</span>
+                            <h2>About You</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-grid">
+
+                        <div class="info-item">
+
+                            <label>FULL NAME</label>
+
+                            <div class="input-display"
+                                 data-field="name">
+                                Student Name
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <label>EMAIL ADDRESS</label>
+
+                            <div class="input-display"
+                                 data-field="email">
+                                student@example.com
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <label>PHONE NUMBER</label>
+
+                            <div class="input-display"
+                                 data-field="phone">
+                                +91 XXXXX XXXXX
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <label>LOCATION</label>
+
+                            <div class="input-display"
+                                 data-field="location">
+                                Bengaluru, India
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACADEMIC INFORMATION -->
+
+                <div class="profile-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon blue">
+                            ▤
+                        </div>
+
+                        <div>
+                            <span>ACADEMIC INFORMATION</span>
+                            <h2>Your Education</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-grid">
+
+                        <div class="info-item">
+
+                            <label>DEGREE</label>
+
+                            <div class="input-display"
+                                 data-field="degree">
+                                Bachelor of Computer Applications
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <label>COLLEGE</label>
+
+                            <div class="input-display"
+                                 data-field="college">
+                                Your College
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <label>YEAR / SEMESTER</label>
+
+                            <div class="input-display"
+                                 data-field="semester">
+                                3rd Year
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <label>ACADEMIC INTEREST</label>
+
+                            <div class="input-display"
+                                 data-field="interest">
+                                Artificial Intelligence
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LEARNING PREFERENCES -->
+
+                <div class="profile-card full-width">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon orange">
+                            ✦
+                        </div>
+
+                        <div>
+                            <span>LEARNING PREFERENCES</span>
+                            <h2>How You Learn</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="preferences-grid">
+
+
+                        <div class="preference-item">
+
+                            <label>PRIMARY GOAL</label>
+
+                            <div class="select-display">
+                                Become an AI Engineer
+                                <span>⌄</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="preference-item">
+
+                            <label>SKILL LEVEL</label>
+
+                            <div class="select-display">
+                                Intermediate
+                                <span>⌄</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="preference-item">
+
+                            <label>LEARNING STYLE</label>
+
+                            <div class="select-display">
+                                Practical Learning
+                                <span>⌄</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="preference-item">
+
+                            <label>DAILY STUDY TIME</label>
+
+                            <div class="select-display">
+                                2 - 3 Hours
+                                <span>⌄</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="profile-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon pink">
+                            ◈
+                        </div>
+
+                        <div>
+                            <span>SKILLS</span>
+                            <h2>Your Skill Set</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skills-list">
+
+                        <span>Python</span>
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                        <span>SQL</span>
+                        <span>Machine Learning</span>
+
+                    </div>
+
+
+                    <button class="add-skill-btn"
+                            id="addSkillBtn">
+                        + Add Skill
+                    </button>
+
+                </div>
+
+
+                <!-- AI MENTOR SETTINGS -->
+
+                <div class="profile-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon purple">
+                            ✦
+                        </div>
+
+                        <div>
+                            <span>AI MENTOR</span>
+                            <h2>Personalization</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="setting-list">
+
+
+                        <div class="setting-item">
+
+                            <div>
+                                <strong>Personalized Roadmap</strong>
+                                <p>
+                                    Adapt learning based on your progress.
+                                </p>
+                            </div>
+
+                            <label class="switch">
+
+                                <input type="checkbox"
+                                       checked>
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="setting-item">
+
+                            <div>
+                                <strong>Daily Recommendations</strong>
+                                <p>
+                                    Receive tasks based on your goals.
+                                </p>
+                            </div>
+
+                            <label class="switch">
+
+                                <input type="checkbox"
+                                       checked>
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="setting-item">
+
+                            <div>
+                                <strong>Learning Reminders</strong>
+                                <p>
+                                    Get reminders for pending tasks.
+                                </p>
+                            </div>
+
+                            <label class="switch">
+
+                                <input type="checkbox"
+                                       checked>
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SAVE AREA -->
+
+            <div class="save-section">
+
+                <p id="saveMessage">
+                    Your profile information is saved locally.
+                </p>
+
+                <button class="save-btn"
+                        id="saveProfileBtn">
+                    Save Changes
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     EDIT PROFILE MODAL
+========================================================== -->
+
+<div class="modal-overlay" id="profileModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span>PROFILE SETTINGS</span>
+                <h2>Edit Profile</h2>
+            </div>
+
+            <button class="close-btn"
+                    id="closeModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="profileForm">
+
+            <div class="form-group">
+
+                <label>FULL NAME</label>
+
+                <input type="text"
+                       id="nameInput"
+                       value="Student Name"
+                       placeholder="Enter your name">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>EMAIL ADDRESS</label>
+
+                <input type="email"
+                       id="emailInput"
+                       value="student@example.com"
+                       placeholder="Enter your email">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>PHONE NUMBER</label>
+
+                <input type="text"
+                       id="phoneInput"
+                       value="+91 XXXXX XXXXX"
+                       placeholder="Enter phone number">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>LOCATION</label>
+
+                <input type="text"
+                       id="locationInput"
+                       value="Bengaluru, India"
+                       placeholder="Enter location">
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button"
+                        class="cancel-btn"
+                        id="cancelBtn">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="modal-save-btn">
+                    Save Profile
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- NOTIFICATION -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>Notifications</strong>
+
+    <p>
+        You have 4 learning tasks scheduled for today.
+    </p>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+</body>
+</html>

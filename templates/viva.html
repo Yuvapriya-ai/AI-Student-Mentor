@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor|Project Viva Assistant </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/viva.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+
+<body>
+
+
+<div class="app-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div class="brand-text">
+
+                <h2>AI Student</h2>
+
+                <span>MENTOR</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/profile" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+
+                <span>Student Profile</span>
+
+            </a>
+
+
+            <a href="/roadmap" class="nav-item">
+
+                <span class="nav-icon">◈</span>
+
+                <span>Learning Roadmap</span>
+
+            </a>
+
+
+            <a href="/mentor" class="nav-item">
+
+                <span class="nav-icon">✦</span>
+
+                <span>AI Project Mentor</span>
+
+            </a>
+
+
+            <a href="/documentation" class="nav-item">
+
+                <span class="nav-icon">▤</span>
+
+                <span>Documentation</span>
+
+            </a>
+
+
+            <a href="/viva" class="nav-item active">
+
+                <span class="nav-icon">◉</span>
+
+                <span>Viva Assistant</span>
+
+            </a>
+
+
+            <a href="/study_assist" class="nav-item">
+
+                <span class="nav-icon">✎</span>
+
+                <span>Study Assistant</span>
+
+            </a>
+
+
+            <a href="/progress" class="nav-item">
+
+                <span class="nav-icon">◒</span>
+
+                <span>Progress Tracker</span>
+
+            </a>
+
+
+            <a href="/evaluator" class="nav-item">
+
+                <span class="nav-icon">◇</span>
+
+                <span>Idea Evaluator</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Ask your AI Mentor
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="/profile" class="user-mini">
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+
+                    <strong>
+                        Student
+                    </strong>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </div>
+
+                <span class="user-arrow">
+                    ›
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <div class="mobile-brand">
+
+                <span>✦</span>
+
+                AI Student Mentor
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+
+                <button class="notification-btn"
+                        id="notificationBtn">
+
+                    <span>♧</span>
+
+                    <i></i>
+
+                </button>
+
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Student
+                        </strong>
+
+                        <span>
+                            BCA Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             VIVA ASSISTANT PAGE
+        ====================================================== -->
+
+        <section class="viva-page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        AI POWERED VIVA PREPARATION
+                    </span>
+
+                    <h1>
+                        Project Viva Assistant
+                    </h1>
+
+                    <p>
+                        Prepare for your project viva with
+                        project-specific questions and model answers.
+                    </p>
+
+                </div>
+
+
+                <div class="document-status">
+
+                    <span class="status-dot"></span>
+
+                    AI Assistant Ready
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PROJECT INFO
+            ================================================== -->
+
+            <div class="project-banner">
+
+
+                <div class="project-icon">
+                    ◉
+                </div>
+
+
+                <div class="project-details">
+
+                    <span>
+                        PREPARING FOR VIVA
+                    </span>
+
+                    <h2>
+                        AI Student Mentor
+                    </h2>
+
+                    <p>
+                        Practice basic, technical, module,
+                        AI/LLM, database and implementation questions.
+                    </p>
+
+                </div>
+
+
+                <div class="document-stat">
+
+                    <strong id="questionCount">
+                        0
+                    </strong>
+
+                    <span>
+                        Questions Generated
+                    </span>
+
+                </div>
+
+
+                <div class="document-stat">
+
+                    <strong>
+                        AI
+                    </strong>
+
+                    <span>
+                        Powered Preparation
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MAIN GRID
+            ================================================== -->
+
+            <div class="documentation-grid">
+
+
+                <!-- =================================================
+                     LEFT VIVA GENERATOR
+                ================================================== -->
+
+                <div class="generator-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span>
+                                VIVA GENERATOR
+                            </span>
+
+                            <h3>
+                                Create Viva Questions
+                            </h3>
+
+                        </div>
+
+                        <div class="step-badge">
+                            STEP 1
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- QUESTION CATEGORY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Question Category
+                        </label>
+
+                        <select id="questionCategory">
+
+                            <option value="mixed">
+                                Mixed Questions
+                            </option>
+
+                            <option value="basic">
+                                Basic Project Questions
+                            </option>
+
+                            <option value="technical">
+                                Technical Questions
+                            </option>
+
+                            <option value="modules">
+                                Module-related Questions
+                            </option>
+
+                            <option value="ai">
+                                AI / LLM Questions
+                            </option>
+
+                            <option value="database">
+                                Database Questions
+                            </option>
+
+                            <option value="implementation">
+                                Implementation Questions
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- DIFFICULTY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Difficulty Level
+                        </label>
+
+                        <select id="difficultyLevel">
+
+                            <option value="basic">
+                                Basic
+                            </option>
+
+                            <option value="intermediate"
+                                    selected>
+                                Intermediate
+                            </option>
+
+                            <option value="advanced">
+                                Advanced
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- NUMBER OF QUESTIONS -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Number of Questions
+                        </label>
+
+                        <select id="questionNumber">
+
+                            <option value="5">
+                                5 Questions
+                            </option>
+
+                            <option value="10"
+                                    selected>
+                                10 Questions
+                            </option>
+
+                            <option value="15">
+                                15 Questions
+                            </option>
+
+                            <option value="20">
+                                20 Questions
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- PROJECT INFORMATION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Project Information
+                        </label>
+
+                        <textarea
+                            id="projectInput"
+                            placeholder="Describe your project, modules, technologies, AI/LLM usage, database and implementation details..."></textarea>
+
+                        <div class="textarea-footer">
+
+                            <span id="characterCount">
+                                0 characters
+                            </span>
+
+                            <span>
+                                AI will create project-specific questions
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- GENERATE BUTTON -->
+
+                    <button class="generate-btn"
+                            id="generateBtn">
+
+                        <span class="generate-icon">
+                            ✦
+                        </span>
+
+                        Generate Viva Questions
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <p class="generator-note">
+
+                        Review the model answers and revise the
+                        concepts before attending your viva.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RIGHT PREVIEW
+                ================================================== -->
+
+                <div class="preview-card">
+
+
+                    <div class="preview-header">
+
+                        <div>
+
+                            <span>
+                                VIVA PREVIEW
+                            </span>
+
+                            <h3>
+                                Questions & Answers
+                            </h3>
+
+                        </div>
+
+
+                        <div class="preview-actions">
+
+                            <button id="copyBtn"
+                                    title="Copy">
+
+                                ⧉
+
+                            </button>
+
+
+                            <button id="downloadBtn"
+                                    title="Download">
+
+                                ↓
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PREVIEW -->
+
+                    <div class="document-preview"
+                         id="documentPreview">
+
+
+                        <!-- EMPTY STATE -->
+
+                        <div class="empty-state"
+                             id="emptyState">
+
+                            <div class="empty-icon">
+                                ◉
+                            </div>
+
+                            <h3>
+                                Your viva questions will appear here
+                            </h3>
+
+                            <p>
+                                Select a question category,
+                                difficulty level and number of
+                                questions, then click
+                                <strong>Generate Viva Questions</strong>.
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- GENERATED QUESTIONS -->
+
+                        <article class="generated-document"
+                                 id="generatedDocument">
+
+                            <div class="document-label">
+                                AI GENERATED
+                            </div>
+
+                            <h2 id="generatedTitle">
+                                Project Viva Questions
+                            </h2>
+
+                            <div id="generatedContent"></div>
+
+                        </article>
+
+                    </div>
+
+
+                    <div class="preview-footer">
+
+                        <span id="wordCount">
+                            0 words
+                        </span>
+
+                        <span>
+                            AI Generated Preparation
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK PRACTICE
+            ================================================== -->
+
+            <div class="templates-section">
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            QUICK PRACTICE
+                        </span>
+
+                        <h2>
+                            Viva Question Categories
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        Start practicing an important area of
+                        your project viva.
+                    </p>
+
+                </div>
+
+
+
+                <div class="template-grid">
+
+
+                    <!-- BASIC -->
+
+                    <button class="template-card"
+                            data-template="basic">
+
+                        <div class="template-icon purple">
+                            ?
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Basic Questions
+                            </strong>
+
+                            <p>
+                                Practice project introduction
+                                and fundamental questions.
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- TECHNICAL -->
+
+                    <button class="template-card"
+                            data-template="technical">
+
+                        <div class="template-icon blue">
+                            ◈
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Technical Questions
+                            </strong>
+
+                            <p>
+                                Revise technical concepts and
+                                technologies used.
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- AI -->
+
+                    <button class="template-card"
+                            data-template="ai">
+
+                        <div class="template-icon orange">
+                            ✦
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                AI / LLM Questions
+                            </strong>
+
+                            <p>
+                                Prepare for AI, LLM and
+                                OpenAI API questions.
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- DATABASE -->
+
+                    <button class="template-card"
+                            data-template="database">
+
+                        <div class="template-icon green">
+                            ◇
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Database Questions
+                            </strong>
+
+                            <p>
+                                Practice MySQL and database
+                                implementation questions.
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BOTTOM GRID
+            ================================================== -->
+
+            <div class="bottom-grid">
+
+
+                <!-- =================================================
+                     REVISION CHECKLIST
+                ================================================== -->
+
+                <div class="checklist-card">
+
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <span>
+                                VIVA PREPARATION
+                            </span>
+
+                            <h3>
+                                Revision Checklist
+                            </h3>
+
+                        </div>
+
+                        <span class="completion">
+                            2 / 6
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- ITEM 1 -->
+
+                    <div class="check-item completed">
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Project Introduction
+                            </strong>
+
+                            <p>
+                                Explain the purpose and significance
+                                of AI Student Mentor.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ITEM 2 -->
+
+                    <div class="check-item completed">
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Problem Statement
+                            </strong>
+
+                            <p>
+                                Explain the problem solved by
+                                the centralized platform.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ITEM 3 -->
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            3
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Project Objectives
+                            </strong>
+
+                            <p>
+                                Revise the main and specific
+                                objectives of the system.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ITEM 4 -->
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            4
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Project Modules
+                            </strong>
+
+                            <p>
+                                Understand all eight modules
+                                and their functions.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ITEM 5 -->
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            5
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Technology Stack
+                            </strong>
+
+                            <p>
+                                Revise HTML, CSS, JavaScript,
+                                Python, Flask, MySQL and LLM.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ITEM 6 -->
+
+                    <div class="check-item">
+
+                        <span class="check">
+                            6
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Implementation & Workflow
+                            </strong>
+
+                            <p>
+                                Understand the complete system
+                                workflow and AI processing.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     AI VIVA TIP
+                ================================================== -->
+
+                <div class="ai-tip-card">
+
+
+                    <div class="tip-icon">
+                        ✦
+                    </div>
+
+
+                    <span>
+                        AI VIVA TIP
+                    </span>
+
+
+                    <h3>
+                        Understand your project, don't just memorize answers.
+                    </h3>
+
+
+                    <p>
+                        Focus on your project's modules,
+                        technologies, AI/LLM integration,
+                        MySQL database, implementation and
+                        overall workflow. Understanding these
+                        concepts helps you answer follow-up
+                        questions confidently.
+                    </p>
+
+
+                    <button id="tipButton">
+
+                        Start with important concepts
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================== -->
+
+<div class="notification-popup"
+     id="notificationPopup">
+
+    <strong>
+        Notifications
+    </strong>
+
+    <p>
+        Your viva preparation workspace is ready.
+    </p>
+
+</div>
+
+
+
+<script src="{{ url_for('static', filename='js/viva.js') }}"></script>
+
+</body>
+</html>

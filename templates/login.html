@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/login.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <!-- BACKGROUND GLOWS -->
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- BRAND -->
+
+    <a href="/welcome" class="brand">
+
+        <div class="brand-icon">
+            ✦
+        </div>
+
+        <div class="brand-text">
+            <h2>AI Student</h2>
+            <span>MENTOR</span>
+        </div>
+
+    </a>
+
+
+    <!-- LOGIN AREA -->
+
+    <main class="login-container">
+
+        <div class="login-card">
+
+            <!-- HEADER -->
+
+            <div class="card-header">
+
+                <div class="header-icon">
+                    ✦
+                </div>
+
+                <span class="eyebrow">
+                    WELCOME BACK
+                </span>
+
+                <h1>
+                    Login to Your Account
+                </h1>
+
+                <p>
+                    Continue your personalized academic journey
+                    with AI Student Mentor.
+                </p>
+
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form class="login-form" id="loginForm">
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <div class="password-label">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <a href="#">
+                            Forgot Password?
+                        </a>
+
+                    </div>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ●
+                        </span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('password', this)">
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REMEMBER -->
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        name="remember">
+
+                    <span>
+                        Remember me
+                    </span>
+
+                </label>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-btn">
+
+                    Login to Dashboard
+
+                    <span>→</span>
+
+                </button>
+
+            </form>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-section">
+
+                <span>
+                    Don't have an account?
+                </span>
+
+                <a href="/register">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- BACK LINK -->
+
+        <a href="/welcome" class="back-link">
+            ← Back to Welcome
+        </a>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <span>
+            ✦ AI Student Mentor
+        </span>
+
+        <p>
+            Your intelligent academic companion.
+        </p>
+
+    </footer>
+
+</div>
+
+
+<!-- PASSWORD TOGGLE -->
+
+<script>
+
+function togglePassword(inputId, button) {
+
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+        button.textContent = "Hide";
+
+    } else {
+
+        input.type = "password";
+        button.textContent = "Show";
+
+    }
+
+}
+
+</script>
+<script>
+
+document.getElementById("loginForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    let message = document.getElementById("loginMessage");
+
+    if (!message) {
+        message = document.createElement("div");
+        message.id = "loginMessage";
+        message.style.marginTop = "15px";
+        message.style.textAlign = "center";
+        this.appendChild(message);
+    }
+
+    try {
+
+        const response = await fetch("/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            message.textContent = "Login successful! Opening Dashboard...";
+            message.style.color = "#60a5fa";
+
+            setTimeout(function() {
+                window.location.href = "/";
+            }, 1000);
+
+        } else {
+
+            message.textContent = result.message;
+            message.style.color = "#f87171";
+
+        }
+
+    } catch (error) {
+
+        message.textContent = "Unable to login. Please try again.";
+        message.style.color = "#f87171";
+
+        console.error(error);
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

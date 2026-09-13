@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+
     /* =====================================================
        ELEMENTS
     ====================================================== */
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       PROFILE INPUTS
+       INPUTS
     ====================================================== */
 
     const nameInput =
@@ -51,9 +52,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const locationInput =
         document.getElementById("locationInput");
 
+    const courseInput =
+        document.getElementById("courseInput");
+
+    const semesterInput =
+        document.getElementById("semesterInput");
+
+    const skillsInput =
+        document.getElementById("skillsInput");
+
+    const careerGoalInput =
+        document.getElementById("careerGoalInput");
+
 
     /* =====================================================
-       PROFILE DISPLAY ELEMENTS
+       DISPLAY ELEMENTS
     ====================================================== */
 
     const profileAvatar =
@@ -61,6 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const profileName =
         document.getElementById("profileName");
+
+    const profileCourse =
+        document.getElementById("profileCourse");
 
     const completionPercent =
         document.getElementById("completionPercent");
@@ -80,21 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebarName =
         document.querySelector(".user-details strong");
 
-
-    /* =====================================================
-       GET INITIAL
-    ====================================================== */
-
-    function getInitial(name) {
-
-        if (!name || name.trim() === "") {
-            return "Y";
-        }
-
-        return name.trim()
-                   .charAt(0)
-                   .toUpperCase();
-    }
+    const skillsList =
+        document.getElementById("skillsList");
 
 
     /* =====================================================
@@ -109,13 +112,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
         phone: "+91 XXXXX XXXXX",
 
-        location: "Bengaluru, India"
+        location: "Bengaluru, India",
+
+        course: "Bachelor of Computer Applications",
+
+        semester: 6,
+
+        skills:
+            "Python, HTML, CSS, JavaScript, SQL, Machine Learning",
+
+        career_goal: "AI Engineer"
 
     };
 
 
     /* =====================================================
-       LOAD PROFILE FROM LOCAL STORAGE
+       GET INITIAL
+    ====================================================== */
+
+    function getInitial(name) {
+
+        if (!name || name.trim() === "") {
+
+            return "Y";
+
+        }
+
+        return name
+            .trim()
+            .charAt(0)
+            .toUpperCase();
+
+    }
+
+
+    /* =====================================================
+       LOAD PROFILE
     ====================================================== */
 
     function getSavedProfile() {
@@ -123,18 +155,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const savedProfile =
             localStorage.getItem("studentProfile");
 
+
         if (!savedProfile) {
-            return defaultProfile;
+
+            return {
+                ...defaultProfile
+            };
+
         }
+
 
         try {
 
             const profile =
                 JSON.parse(savedProfile);
 
+
             return {
+
                 ...defaultProfile,
+
                 ...profile
+
             };
 
         } catch (error) {
@@ -144,7 +186,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
-            return defaultProfile;
+
+            return {
+                ...defaultProfile
+            };
+
         }
 
     }
@@ -156,73 +202,94 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateProfileDisplay(profile) {
 
+
         const name =
+
             profile.name &&
             profile.name.trim()
+
                 ? profile.name.trim()
+
                 : "Student Name";
+
 
         const initial =
             getInitial(name);
 
 
-        /* ================================================
-           LARGE PROFILE AVATAR
-        ================================================ */
+        /* PROFILE AVATAR */
 
         if (profileAvatar) {
-            profileAvatar.textContent = initial;
+
+            profileAvatar.textContent =
+                initial;
+
         }
 
 
-        /* ================================================
-           PROFILE NAME
-        ================================================ */
+        /* PROFILE NAME */
 
         if (profileName) {
-            profileName.textContent = name;
+
+            profileName.textContent =
+                name;
+
         }
 
 
-        /* ================================================
-           TOP-RIGHT AVATAR
-        ================================================ */
+        /* PROFILE COURSE */
+
+        if (profileCourse) {
+
+            profileCourse.textContent =
+                profile.course
+                    ? profile.course
+                    : "BCA Student";
+
+        }
+
+
+        /* TOP AVATAR */
 
         if (topAvatar) {
-            topAvatar.textContent = initial;
+
+            topAvatar.textContent =
+                initial;
+
         }
 
 
-        /* ================================================
-           TOP-RIGHT NAME
-        ================================================ */
+        /* TOP NAME */
 
         if (topProfileName) {
-            topProfileName.textContent = name;
+
+            topProfileName.textContent =
+                name;
+
         }
 
 
-        /* ================================================
-           SIDEBAR AVATAR
-        ================================================ */
+        /* SIDEBAR AVATAR */
 
         if (sidebarAvatar) {
-            sidebarAvatar.textContent = initial;
+
+            sidebarAvatar.textContent =
+                initial;
+
         }
 
 
-        /* ================================================
-           SIDEBAR NAME
-        ================================================ */
+        /* SIDEBAR NAME */
 
         if (sidebarName) {
-            sidebarName.textContent = name;
+
+            sidebarName.textContent =
+                name;
+
         }
 
 
-        /* ================================================
-           PERSONAL INFORMATION
-        ================================================ */
+        /* PERSONAL INFORMATION */
 
         const nameDisplay =
             document.querySelector(
@@ -245,63 +312,239 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
+        /* ACADEMIC INFORMATION */
+
+        const courseDisplay =
+            document.querySelector(
+                '[data-field="course"]'
+            );
+
+        const semesterDisplay =
+            document.querySelector(
+                '[data-field="semester"]'
+            );
+
+
+        /* CAREER GOAL */
+
+        const careerGoalDisplay =
+            document.querySelector(
+                '[data-field="career_goal"]'
+            );
+
+
         if (nameDisplay) {
+
             nameDisplay.textContent =
-                profile.name || defaultProfile.name;
+                profile.name ||
+                defaultProfile.name;
+
         }
+
 
         if (emailDisplay) {
+
             emailDisplay.textContent =
-                profile.email || defaultProfile.email;
+                profile.email ||
+                defaultProfile.email;
+
         }
+
 
         if (phoneDisplay) {
+
             phoneDisplay.textContent =
-                profile.phone || defaultProfile.phone;
+                profile.phone ||
+                defaultProfile.phone;
+
         }
 
+
         if (locationDisplay) {
+
             locationDisplay.textContent =
-                profile.location || defaultProfile.location;
+                profile.location ||
+                defaultProfile.location;
+
         }
+
+
+        if (courseDisplay) {
+
+            courseDisplay.textContent =
+                profile.course ||
+                defaultProfile.course;
+
+        }
+
+
+        if (semesterDisplay) {
+
+            const semester =
+                Number(profile.semester);
+
+
+            if (semester) {
+
+                semesterDisplay.textContent =
+                    semester + "th Semester";
+
+            } else {
+
+                semesterDisplay.textContent =
+                    "Not specified";
+
+            }
+
+        }
+
+
+        if (careerGoalDisplay) {
+
+            careerGoalDisplay.textContent =
+                profile.career_goal ||
+                defaultProfile.career_goal;
+
+        }
+
+
+        /* UPDATE SKILLS */
+
+        updateSkillsDisplay(
+            profile.skills
+        );
 
     }
 
 
     /* =====================================================
-       UPDATE FORM VALUES
+       UPDATE SKILLS DISPLAY
+    ====================================================== */
+
+    function updateSkillsDisplay(skills) {
+
+        if (!skillsList) {
+
+            return;
+
+        }
+
+
+        skillsList.innerHTML = "";
+
+
+        if (!skills || skills.trim() === "") {
+
+            return;
+
+        }
+
+
+        const skillArray =
+            skills
+                .split(",")
+                .map(skill => skill.trim())
+                .filter(skill => skill !== "");
+
+
+        skillArray.forEach(skill => {
+
+            const skillElement =
+                document.createElement("span");
+
+
+            skillElement.textContent =
+                skill;
+
+
+            skillsList.appendChild(
+                skillElement
+            );
+
+        });
+
+    }
+
+
+    /* =====================================================
+       UPDATE FORM
     ====================================================== */
 
     function updateForm(profile) {
 
+
         if (nameInput) {
+
             nameInput.value =
                 profile.name || "";
+
         }
+
 
         if (emailInput) {
+
             emailInput.value =
                 profile.email || "";
+
         }
+
 
         if (phoneInput) {
+
             phoneInput.value =
                 profile.phone || "";
+
         }
 
+
         if (locationInput) {
+
             locationInput.value =
                 profile.location || "";
+
+        }
+
+
+        if (courseInput) {
+
+            courseInput.value =
+                profile.course || "";
+
+        }
+
+
+        if (semesterInput) {
+
+            semesterInput.value =
+                profile.semester || "";
+
+        }
+
+
+        if (skillsInput) {
+
+            skillsInput.value =
+                profile.skills || "";
+
+        }
+
+
+        if (careerGoalInput) {
+
+            careerGoalInput.value =
+                profile.career_goal || "";
+
         }
 
     }
 
 
     /* =====================================================
-       CALCULATE PROFILE COMPLETION
+       PROFILE COMPLETION
     ====================================================== */
 
     function calculateCompletion(profile) {
+
 
         const fields = [
 
@@ -311,7 +554,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             profile.phone,
 
-            profile.location
+            profile.location,
+
+            profile.course,
+
+            profile.semester,
+
+            profile.skills,
+
+            profile.career_goal
 
         ];
 
@@ -322,10 +573,13 @@ document.addEventListener("DOMContentLoaded", () => {
         fields.forEach(field => {
 
             if (
-                field &&
-                field.trim() !== "" &&
-                !field.includes("XXXXX") &&
-                !field.includes("example.com")
+
+                field !== null &&
+                field !== undefined &&
+                String(field).trim() !== "" &&
+                !String(field).includes("XXXXX") &&
+                !String(field).includes("example.com")
+
             ) {
 
                 completed++;
@@ -335,20 +589,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-        /*
-         * Four basic personal-information fields.
-         * Minimum profile completion is 75% because
-         * the page originally starts at 75%.
-         */
-
         let percentage =
+
             Math.round(
                 (completed / fields.length) * 100
             );
 
 
         if (percentage < 75) {
+
             percentage = 75;
+
         }
 
 
@@ -372,65 +623,208 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        SAVE PROFILE
+       LOCAL STORAGE + MYSQL
     ====================================================== */
 
-    function saveProfile() {
+    async function saveProfile() {
+
+
+        const semesterValue =
+
+            semesterInput
+                ? semesterInput.value.trim()
+                : "";
+
 
         const profile = {
 
+
             name:
+
                 nameInput
                     ? nameInput.value.trim()
                     : "",
 
+
             email:
+
                 emailInput
                     ? emailInput.value.trim()
                     : "",
 
+
             phone:
+
                 phoneInput
                     ? phoneInput.value.trim()
                     : "",
 
+
             location:
+
                 locationInput
                     ? locationInput.value.trim()
+                    : "",
+
+
+            course:
+
+                courseInput
+                    ? courseInput.value.trim()
+                    : "",
+
+
+            semester:
+
+                semesterValue
+                    ? parseInt(
+                        semesterValue,
+                        10
+                    )
+                    : null,
+
+
+            skills:
+
+                skillsInput
+                    ? skillsInput.value.trim()
+                    : "",
+
+
+            career_goal:
+
+                careerGoalInput
+                    ? careerGoalInput.value.trim()
                     : ""
 
         };
 
 
-        /* ================================================
+        /* =================================================
            SAVE TO LOCAL STORAGE
-        ================================================ */
+        ================================================== */
 
         localStorage.setItem(
+
             "studentProfile",
+
             JSON.stringify(profile)
+
         );
 
 
-        /* ================================================
-           UPDATE PAGE
-        ================================================ */
+        /* =================================================
+           SAVE TO MYSQL
+        ================================================== */
 
-        updateProfileDisplay(profile);
-
-        calculateCompletion(profile);
+        try {
 
 
-        /* ================================================
-           SUCCESS MESSAGE
-        ================================================ */
+            const response =
 
-        if (saveMessage) {
+                await fetch(
+                    "/api/profile",
+                    {
 
-            saveMessage.textContent =
-                "✓ Your profile information has been saved successfully.";
+                        method: "POST",
 
-            saveMessage.style.color =
-                "#a7f3d0";
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify(profile)
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server returned an error: " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (data.success) {
+
+
+                updateProfileDisplay(
+                    profile
+                );
+
+
+                calculateCompletion(
+                    profile
+                );
+
+
+                if (saveMessage) {
+
+                    saveMessage.textContent =
+
+                        "✓ Your profile information has been saved successfully.";
+
+                    saveMessage.style.color =
+                        "#a7f3d0";
+
+                }
+
+
+                console.log(
+                    "Profile successfully saved to MySQL."
+                );
+
+
+            } else {
+
+
+                console.error(
+                    "Profile was not saved."
+                );
+
+
+                if (saveMessage) {
+
+                    saveMessage.textContent =
+                        "✗ Profile could not be saved.";
+
+                    saveMessage.style.color =
+                        "#fca5a5";
+
+                }
+
+            }
+
+
+        } catch (error) {
+
+
+            console.error(
+                "Error saving profile to MySQL:",
+                error
+            );
+
+
+            if (saveMessage) {
+
+                saveMessage.textContent =
+                    "✗ Error saving profile to MySQL.";
+
+                saveMessage.style.color =
+                    "#fca5a5";
+
+            }
 
         }
 
@@ -438,19 +832,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       OPEN EDIT PROFILE MODAL
+       OPEN EDIT PROFILE
     ====================================================== */
 
     if (editProfileBtn) {
 
         editProfileBtn.addEventListener(
+
             "click",
+
             () => {
+
 
                 const profile =
                     getSavedProfile();
 
-                updateForm(profile);
+
+                updateForm(
+                    profile
+                );
+
 
                 if (profileModal) {
 
@@ -461,6 +862,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
+
         );
 
     }
@@ -510,11 +912,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (profileModal) {
 
         profileModal.addEventListener(
+
             "click",
+
             event => {
 
+
                 if (
-                    event.target === profileModal
+
+                    event.target ===
+                    profileModal
+
                 ) {
 
                     closeProfileModal();
@@ -522,6 +930,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
+
         );
 
     }
@@ -534,16 +943,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (profileForm) {
 
         profileForm.addEventListener(
+
             "submit",
-            event => {
+
+            async event => {
+
 
                 event.preventDefault();
 
-                saveProfile();
+
+                await saveProfile();
+
 
                 closeProfileModal();
 
             }
+
         );
 
     }
@@ -556,17 +971,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (saveProfileBtn) {
 
         saveProfileBtn.addEventListener(
+
             "click",
-            () => {
 
-                const profile =
-                    getSavedProfile();
+            async () => {
 
-                updateForm(profile);
-
-                saveProfile();
+                await saveProfile();
 
             }
+
         );
 
     }
@@ -579,8 +992,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addSkillBtn) {
 
         addSkillBtn.addEventListener(
+
             "click",
+
             () => {
+
 
                 const skill =
                     prompt(
@@ -589,37 +1005,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 if (
+
                     !skill ||
                     skill.trim() === ""
+
                 ) {
+
                     return;
+
                 }
 
 
-                const skillsList =
-                    document.querySelector(
-                        ".skills-list"
+                const currentSkills =
+
+                    skillsInput
+                        ? skillsInput.value.trim()
+                        : "";
+
+
+                if (skillsInput) {
+
+
+                    if (currentSkills === "") {
+
+                        skillsInput.value =
+                            skill.trim();
+
+                    } else {
+
+                        skillsInput.value =
+                            currentSkills +
+                            ", " +
+                            skill.trim();
+
+                    }
+
+
+                    updateSkillsDisplay(
+                        skillsInput.value
                     );
 
-
-                if (!skillsList) {
-                    return;
                 }
 
-
-                const newSkill =
-                    document.createElement("span");
-
-
-                newSkill.textContent =
-                    skill.trim();
-
-
-                skillsList.appendChild(
-                    newSkill
-                );
-
             }
+
         );
 
     }
@@ -634,31 +1063,43 @@ document.addEventListener("DOMContentLoaded", () => {
         notificationPopup
     ) {
 
+
         notificationBtn.addEventListener(
+
             "click",
+
             event => {
 
+
                 event.stopPropagation();
+
 
                 notificationPopup.classList.toggle(
                     "show"
                 );
 
             }
+
         );
 
 
         document.addEventListener(
+
             "click",
+
             event => {
 
+
                 if (
+
                     !notificationPopup.contains(
                         event.target
                     ) &&
+
                     !notificationBtn.contains(
                         event.target
                     )
+
                 ) {
 
                     notificationPopup.classList.remove(
@@ -668,54 +1109,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
+
         );
 
     }
 
 
     /* =====================================================
-       UPDATE WHEN STORAGE CHANGES
-    ====================================================== */
-
-    window.addEventListener(
-        "storage",
-        event => {
-
-            if (
-                event.key === "studentProfile"
-            ) {
-
-                const profile =
-                    getSavedProfile();
-
-                updateProfileDisplay(
-                    profile
-                );
-
-                updateForm(profile);
-
-                calculateCompletion(
-                    profile
-                );
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIALIZE PROFILE PAGE
+       INITIALIZE
     ====================================================== */
 
     const currentProfile =
         getSavedProfile();
 
-
-    /*
-     * Create the localStorage entry only
-     * if it doesn't already exist.
-     */
 
     if (
         !localStorage.getItem(
@@ -724,10 +1130,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
 
         localStorage.setItem(
+
             "studentProfile",
+
             JSON.stringify(
                 currentProfile
             )
+
         );
 
     }
@@ -737,9 +1146,11 @@ document.addEventListener("DOMContentLoaded", () => {
         currentProfile
     );
 
+
     updateForm(
         currentProfile
     );
+
 
     calculateCompletion(
         currentProfile
@@ -750,5 +1161,5 @@ document.addEventListener("DOMContentLoaded", () => {
         "AI Student Mentor - Profile loaded."
     );
 
-});
 
+});

@@ -1,5 +1,12 @@
 from flask import Flask, render_template, request, jsonify, session, redirect
 import mysql.connector
+import os
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 app = Flask(__name__)
 app.secret_key = "ai_student_mentor_secret_key"
@@ -306,6 +313,53 @@ def evaluator():
         return check
 
     return render_template('evaluator.html')
+
+@app.route("/test-gemini")
+def test_gemini():
+    response = client.models.generate_content(
+        model="gemini-3.6-flash",
+        contents="Say hello to my AI Student Mentor project in one short sentence."
+    )
+    return response.text
+
+@app.route("/api/mentor", methods=["POST"])
+def mentor_api():
+    data = request.get_json()
+    user_message = data.get("message", "").strip()
+
+    if not user_message:
+        return jsonify({"error": "Message is required"}), 400
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents=f"""
+You are the AI Project Mentor in an AI Student Mentor system.
+
+Help BCA students with:
+- software projects
+- programming
+- databases
+- web development
+- AI/ML
+- project planning
+- debugging
+- documentation
+- viva preparation
+
+Give clear, practical, beginner-friendly answers.
+If the student asks for code, explain the code briefly.
+Do not make answers unnecessarily long.
+
+Student's question:
+{user_message}
+"""
+        )
+
+        return jsonify({"response": response.text})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':

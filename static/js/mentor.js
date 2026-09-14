@@ -32,34 +32,74 @@ document.addEventListener("DOMContentLoaded", () => {
        SEND MESSAGE
     ====================================================== */
 
-    function sendMessage(message) {
+    async function sendMessage(message) {
 
-        message = message.trim();
+    message = message.trim();
+
+    if (message === "") {
+        return;
+    }
+
+    addUserMessage(message);
+
+    chatInput.value = "";
+
+    resizeTextarea();
+
+    try {
+
+        const response = await fetch("/api/mentor", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                message: message
+            })
+
+        });
 
 
-        if (message === "") {
-            return;
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error || "Something went wrong."
+            );
+
         }
 
 
-        addUserMessage(message);
+        addAIMessage(
+            escapeHTML(data.response).replace(
+                /\n/g,
+                "<br>"
+            )
+        );
 
 
-        chatInput.value = "";
+    } catch (error) {
 
-        resizeTextarea();
+        console.error(
+            "Mentor API Error:",
+            error
+        );
 
 
-        setTimeout(() => {
-
-            addAIMessage(
-                generateResponse(message)
-            );
-
-        }, 700);
+        addAIMessage(`
+            Sorry, I couldn't connect to the AI Mentor right now.
+            <br><br>
+            Please try again in a moment.
+        `);
 
     }
 
+}
 
     /* =====================================================
        USER MESSAGE
@@ -149,242 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
        BASIC AI RESPONSE
     ====================================================== */
 
-    function generateResponse(message) {
-
-        const text =
-            message.toLowerCase();
-
-
-        if (
-            text.includes("structure") ||
-            text.includes("architecture")
-        ) {
-
-            return `
-
-                A good structure for your AI Student Mentor
-                project would separate the application into
-                frontend, backend, database and AI components.
-
-                <br><br>
-
-                <strong>Suggested flow:</strong>
-
-                <br>
-
-                User → Flask Backend → AI/API → Database → UI
-
-                <br><br>
-
-                Keep each major feature as a separate module
-                so the project remains easy to maintain.
-
-            `;
-
-        }
-
-
-        if (
-            text.includes("technology") ||
-            text.includes("technologies") ||
-            text.includes("tech stack")
-        ) {
-
-            return `
-
-                For your project, a suitable technology stack
-                could be:
-
-                <br><br>
-
-                <strong>Frontend:</strong>
-                HTML, CSS, JavaScript
-
-                <br>
-
-                <strong>Backend:</strong>
-                Python + Flask
-
-                <br>
-
-                <strong>Database:</strong>
-                MySQL
-
-                <br>
-
-                <strong>AI:</strong>
-                LLM / OpenAI API
-
-                <br><br>
-
-                This keeps the architecture practical for a
-                BCA-level AI project.
-
-            `;
-
-        }
-
-
-        if (
-            text.includes("improve") ||
-            text.includes("better")
-        ) {
-
-            return `
-
-                To improve your project, focus on three areas:
-
-                <br><br>
-
-                1. Make every module useful and connected.
-
-                <br>
-
-                2. Add proper database storage for student
-                progress and project information.
-
-                <br>
-
-                3. Make the AI responses specific to the
-                student's project rather than generic.
-
-                <br><br>
-
-                A strong project should demonstrate both
-                functionality and a clear problem-solving purpose.
-
-            `;
-
-        }
-
-
-        if (
-            text.includes("step") ||
-            text.includes("implementation")
-        ) {
-
-            return `
-
-                I recommend implementing the project in this order:
-
-                <br><br>
-
-                <strong>1.</strong> Design the database
-
-                <br>
-
-                <strong>2.</strong> Create Flask routes
-
-                <br>
-
-                <strong>3.</strong> Complete the frontend modules
-
-                <br>
-
-                <strong>4.</strong> Connect frontend with Flask
-
-                <br>
-
-                <strong>5.</strong> Integrate the AI API
-
-                <br>
-
-                <strong>6.</strong> Test each module
-
-                <br>
-
-                <strong>7.</strong> Connect the complete workflow
-
-                <br><br>
-
-                This approach makes debugging much easier.
-
-            `;
-
-        }
-
-
-        if (
-            text.includes("database") ||
-            text.includes("mysql")
-        ) {
-
-            return `
-
-                For MySQL, you can organize your database
-                around students, projects, roadmap progress,
-                modules and interactions.
-
-                <br><br>
-
-                Start with the core student and project tables,
-                then add module-specific tables as the project
-                grows.
-
-            `;
-
-        }
-
-
-        if (
-            text.includes("debug") ||
-            text.includes("error") ||
-            text.includes("bug")
-        ) {
-
-            return `
-
-                I can help you debug it.
-
-                <br><br>
-
-                Send me:
-
-                <br>
-
-                • The error message
-
-                <br>
-
-                • The relevant HTML/CSS/JS/Python code
-
-                <br>
-
-                • What you expected to happen
-
-                <br>
-
-                • What actually happened
-
-                <br><br>
-
-                Then we can identify the problem step by step.
-
-            `;
-
-        }
-
-
-        return `
-
-            That's a good project question.
-
-            <br><br>
-
-            For the AI Student Mentor project, I recommend
-            breaking the problem into smaller parts first.
-
-            <br><br>
-
-            Tell me whether you need help with the
-            <strong>frontend, Flask backend, MySQL database,
-            AI integration, project architecture or a specific
-            error</strong>, and I can guide you from there.
-
-        `;
-
-    }
-
+    
 
     /* =====================================================
        QUICK QUESTIONS

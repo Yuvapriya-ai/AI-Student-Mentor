@@ -7,6 +7,7 @@ from google import genai
 load_dotenv()
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+print("GEMINI KEY LOADED:", bool(os.getenv("GEMINI_API_KEY")))
 
 app = Flask(__name__)
 app.secret_key = "ai_student_mentor_secret_key"
@@ -361,6 +362,91 @@ Student's question:
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/documentation", methods=["POST"])
+def documentation_api():
+
+    data = request.get_json()
+
+    document_type = data.get("type", "").strip()
+    description = data.get("description", "").strip()
+    style = data.get("style", "").strip()
+    length = data.get("length", "").strip()
+
+    if not description:
+        return jsonify({"error": "Project description is required"}), 400
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents=f"""
+You are the Documentation Assistant for this specific BCA project:
+
+Project Title:
+AI Student Mentor: An Intelligent Learning and Project Guidance System
+
+Actual Technology Stack:
+- Frontend: HTML, CSS, JavaScript
+- Backend: Python with Flask
+- Database: MySQL
+- AI Integration: Gemini API
+- Development Environment: Visual Studio Code
+
+Development Methodology:
+- Waterfall Software Development Life Cycle (SDLC)
+
+Actual Project Modules:
+1. Student Profile Management
+2. Learning Roadmap
+3. AI Project Mentor
+4. Documentation Assistant
+5. Project Viva Assistant
+6. AI Study Assistant
+7. Project Progress Tracker
+8. AI Project Idea Evaluator
+
+Generate academic documentation based on the user's selected document type and project description.
+
+Document Type:
+{document_type}
+
+Project Description:
+{description}
+
+Writing Style:
+{style}
+
+Document Length:
+{length}
+
+IMPORTANT RULES:
+- Use ONLY the actual project technologies and modules given above.
+- Never replace Flask with FastAPI, Node.js, or any other backend.
+- Never replace MySQL with PostgreSQL, MongoDB, or another database.
+- Never replace HTML/CSS/JavaScript with React.js or another frontend framework.
+- Never mention OpenAI, LangChain, RAG, or other AI technologies unless explicitly provided by the user.
+- Never use Agile methodology. The project follows Waterfall SDLC.
+- Do not invent technologies, modules, features, or architecture that are not provided.
+- Keep the documentation suitable for a BCA academic project.
+- Use clear, professional academic language.
+- Organize the output with clear headings and sections.
+- Return plain text or Markdown only.
+- Do NOT use HTML tags such as <h1>, <h2>, <h3>, <br>, <strong>, <p>, or similar tags.
+- Use # or ## for headings and - for bullet points.
+- Do not wrap the response in a code block.
+- Return only the requested documentation content.
+"""
+        )
+
+        return jsonify({
+            "success": True,
+            "response": response.text
+        })
+
+    except Exception as e:
+        print("DOCUMENTATION GEMINI ERROR:", repr(e))
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

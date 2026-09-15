@@ -191,92 +191,148 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    function generateDocument() {
+    async function generateDocument() {
 
-        const type =
-            documentType.value;
+    const type =
+        documentType.value;
 
-        const description =
-            projectInput.value.trim();
+    const description =
+        projectInput.value.trim();
 
-        const style =
-            writingStyle.value;
+    const style =
+        writingStyle.value;
 
-        const length =
-            documentLength.value;
+    const length =
+        documentLength.value;
 
 
-        if (description === "") {
+    if (description === "") {
 
-            projectInput.focus();
+        projectInput.focus();
+
+        projectInput.style.borderColor =
+            "#e58a98";
+
+        setTimeout(() => {
 
             projectInput.style.borderColor =
-                "#e58a98";
+                "";
 
-            setTimeout(() => {
+        }, 1500);
 
-                projectInput.style.borderColor =
-                    "";
-
-            }, 1500);
-
-            return;
-
-        }
+        return;
+    }
 
 
-        generateBtn.classList.add(
-            "loading"
+    generateBtn.classList.add("loading");
+
+    generateBtn.innerHTML = `
+        <span class="generate-icon">
+            ✦
+        </span>
+        Generating...
+    `;
+
+
+    try {
+
+        const response = await fetch(
+            "/api/documentation",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    type: type,
+                    description: description,
+                    style: style,
+                    length: length
+                })
+            }
         );
 
 
-        generateBtn.innerHTML = `
+        const data =
+            await response.json();
 
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Failed to generate documentation."
+            );
+        }
+
+
+        const document = {
+
+            title:
+                type.charAt(0).toUpperCase() +
+                type.slice(1),
+
+            content:
+    data.response
+        .replace(/<h1[^>]*>/gi, "<h2>")
+        .replace(/<\/h1>/gi, "</h2>")
+        .replace(/<h2[^>]*>/gi, "<h2>")
+        .replace(/<\/h2>/gi, "</h2>")
+        .replace(/<h3[^>]*>/gi, "<h3>")
+        .replace(/<\/h3>/gi, "</h3>")
+        .replace(/<h4[^>]*>/gi, "<h4>")
+        .replace(/<\/h4>/gi, "</h4>")
+        .replace(/<p[^>]*>/gi, "<p>")
+        .replace(/<\/p>/gi, "</p>")
+        .replace(/<strong[^>]*>/gi, "<strong>")
+        .replace(/<\/strong>/gi, "</strong>")
+        .replace(/<br\s*\/?>/gi, "<br>")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/^### (.*)$/gm, "<h4>$1</h4>")
+        .replace(/^## (.*)$/gm, "<h3>$1</h3>")
+        .replace(/^# (.*)$/gm, "<h2>$1</h2>")
+        .replace(/\n/g, "<br>"),
+        
+            style:
+                style,
+
+            length:
+                length
+        };
+
+
+        showDocument(document);
+
+
+    } catch (error) {
+
+        console.error(
+            "Documentation generation error:",
+            error
+        );
+
+        alert(
+            "Unable to generate documentation. Please try again."
+        );
+
+
+    } finally {
+
+        generateBtn.classList.remove("loading");
+
+        generateBtn.innerHTML = `
             <span class="generate-icon">
                 ✦
             </span>
 
-            Generating...
+            Generate Documentation
 
+            <span class="arrow">
+                →
+            </span>
         `;
-
-
-        setTimeout(() => {
-
-            const document =
-                createDocument(
-                    type,
-                    description,
-                    style,
-                    length
-                );
-
-
-            showDocument(document);
-
-
-            generateBtn.classList.remove(
-                "loading"
-            );
-
-
-            generateBtn.innerHTML = `
-
-                <span class="generate-icon">
-                    ✦
-                </span>
-
-                Generate Documentation
-
-                <span class="arrow">
-                    →
-                </span>
-
-            `;
-
-        }, 900);
-
     }
+}
 
 
     /* =====================================================
@@ -698,47 +754,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showDocument(document) {
 
-        emptyState.style.display =
-            "none";
+    emptyState.style.display = "none";
 
+    generatedDocument.classList.add("show");
 
-        generatedDocument.classList.add(
-            "show"
-        );
+    generatedTitle.textContent = document.title;
 
+    generatedContent.innerHTML = document.content;
 
-        generatedTitle.textContent =
-            document.title;
+    const text = generatedContent.textContent;
 
+    const words =
+        text.trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .length;
 
-        generatedContent.innerHTML =
-            document.content;
+    wordCount.textContent = `${words} words`;
 
-
-        const text =
-            generatedDocument.innerText;
-
-
-        const words =
-            text.trim()
-                .split(/\s+/)
-                .filter(Boolean)
-                .length;
-
-
-        wordCount.textContent =
-            `${words} words`;
-
-
-        sectionCount.textContent =
-            document.querySelectorAll
-                ? document.querySelectorAll(
-                    "#generatedContent h3"
-                  ).length
-                : 1;
-
-    }
-
+    sectionCount.textContent =
+        (text.match(/^#{1,3}\s/gm) || []).length;
+}
 
     /* =====================================================
        COPY DOCUMENT

@@ -1265,6 +1265,10 @@ body {
     line-height: 1.75;
 }
 
+.generated-document.show {
+    display: block;
+}
+
 .document-label {
     display: inline-block;
 

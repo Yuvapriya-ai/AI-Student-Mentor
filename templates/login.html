@@ -278,12 +278,14 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         const result = await response.json();
 
         if (result.success) {
-
-            message.textContent = "Login successful! Opening Dashboard...";
+            message.textContent = "Login successful! Opening your page...";
             message.style.color = "#60a5fa";
 
+            const params = new URLSearchParams(window.location.search);
+            const nextPage = params.get("next") || "/";
+
             setTimeout(function() {
-                window.location.href = "/";
+                window.location.href = nextPage;
             }, 1000);
 
         } else {

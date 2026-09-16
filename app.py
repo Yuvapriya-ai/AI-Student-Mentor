@@ -130,7 +130,9 @@ def logout():
     
 def login_required():
     if "student_id" not in session:
-        return redirect("/login")
+        next_page = request.path
+        return redirect(f"/login?next={next_page}")
+
     return None
 
 # 1. Main Dashboard

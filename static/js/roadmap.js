@@ -225,35 +225,65 @@ document.addEventListener("DOMContentLoaded", () => {
        LOAD TOPIC STATE
     ====================================================== */
 
-    function loadTopicState() {
+    async function loadTopicState() {
 
-        const completedTopics =
-            JSON.parse(
-                localStorage.getItem(
-                    "roadmapTopics"
-                )
-            ) || [];
+    try {
 
+        const response =
+            await fetch("/api/roadmap");
 
-        topicChecks.forEach((check, index) => {
+        const data =
+            await response.json();
 
-            if (
-                completedTopics.includes(index)
-            ) {
+        if (!data.success) {
+
+            console.error(
+                "Failed to load roadmap progress:",
+                data.message
+            );
+
+            return;
+        }
+
+        topicChecks.forEach((check) => {
+
+            const topicRow =
+                check.closest(".topic-row");
+
+            const topicName =
+                topicRow
+                    .querySelector("span")
+                    .textContent
+                    .trim();
+
+            const completed =
+                data.completed_topics.some(
+                    (topic) =>
+                        topic.module_number === 3 &&
+                        topic.topic_name === topicName &&
+                        topic.completed === 1
+                );
+
+            if (completed) {
 
                 check.classList.add("done");
-
                 check.textContent = "✓";
 
             }
 
         });
 
-
         updateCurrentModuleProgress();
 
-    }
+    } catch (error) {
 
+        console.error(
+            "ROADMAP LOAD ERROR:",
+            error
+        );
+
+    }
+}
 
     /* =====================================================
        UPDATE CURRENT MODULE

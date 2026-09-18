@@ -127,59 +127,99 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    topicChecks.forEach((check, index) => {
+    const currentTopicChecks =
+    document.querySelectorAll(
+        ".current-topics .topic-check"
+    );
 
-        check.addEventListener("click", () => {
+        currentTopicChecks.forEach((check, index) => {
+            
+            check.addEventListener("click", () => {
+                
+                if (
+                    
+                    !check.classList.contains("done")
+                
+                ) {
+                    
+                    check.classList.add("done");
 
-            if (
-                !check.classList.contains("done")
-            ) {
+                    check.textContent = "✓";
 
-                check.classList.add("done");
+                    updateCurrentModuleProgress();
 
-                check.textContent = "✓";
-
-                updateCurrentModuleProgress();
-
-                saveTopicState(index);
-
-            }
-
+                    saveTopicState(index);
+                
+                }
+            
+            });
+        
         });
-
-    });
 
 
     /* =====================================================
        SAVE TOPIC STATE
     ====================================================== */
 
-    function saveTopicState(index) {
+    async function saveTopicState(index) {
 
-        let completedTopics =
-            JSON.parse(
-                localStorage.getItem(
-                    "roadmapTopics"
-                )
-            ) || [];
+    const topicChecks =
+        document.querySelectorAll(
+            ".current-topics .topic-check"
+        );
 
+    const topicCheck =
+        topicChecks[index];
 
-        if (
-            !completedTopics.includes(index)
-        ) {
+    const topicRow =
+    topicCheck.closest(".topic-row");
 
-            completedTopics.push(index);
+    const topicName =
+    topicRow.querySelector("span").textContent.trim();
 
+    try {
+
+        const response = await fetch("/api/roadmap", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                module_number: 3,
+                topic_name: topicName
+            })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            showNotification(
+                data.message ||
+                "Failed to save roadmap progress."
+            );
+
+            return;
         }
 
+        showNotification(
+            "Progress saved successfully."
+        );
 
-        localStorage.setItem(
-            "roadmapTopics",
-            JSON.stringify(completedTopics)
+    } catch (error) {
+
+        console.error(
+            "ROADMAP SAVE ERROR:",
+            error
+        );
+
+        showNotification(
+            "Could not save progress. Please try again."
         );
 
     }
 
+}
 
     /* =====================================================
        LOAD TOPIC STATE

@@ -241,6 +241,7 @@ def save_profile():
 
 
 # 3. Learning Roadmap
+
 @app.route('/roadmap')
 def roadmap():
 
@@ -251,6 +252,130 @@ def roadmap():
 
     return render_template('roadmap.html')
 
+
+# Roadmap Progress API
+
+@app.route('/api/roadmap', methods=['GET', 'POST'])
+def roadmap_api():
+
+    # Check whether the student is logged in
+    check = login_required()
+
+    if check:
+        return check
+
+    student_id = session["student_id"]
+
+    cursor = db.cursor()
+
+    # =====================================================
+    # GET → Load the logged-in student's roadmap progress
+    # =====================================================
+
+    if request.method == 'GET':
+
+        cursor.execute("""
+            SELECT module_number, topic_name, completed
+            FROM roadmap_progress
+            WHERE student_id = %s
+              AND completed = 1
+        """, (student_id,))
+
+        rows = cursor.fetchall()
+
+        cursor.close()
+
+        completed_topics = []
+
+        for row in rows:
+
+            completed_topics.append({
+                "module_number": row[0],
+                "topic_name": row[1],
+                "completed": row[2]
+            })
+
+        return jsonify({
+            "success": True,
+            "completed_topics": completed_topics
+        })
+
+
+    # =====================================================
+    # POST → Save completed topic
+    # =====================================================
+
+    data = request.get_json()
+
+    if not data:
+        cursor.close()
+
+        return jsonify({
+            "success": False,
+            "message": "No roadmap data received."
+        }), 400
+
+    module_number = data.get("module_number")
+    topic_name = data.get("topic_name")
+
+    if module_number is None or not topic_name:
+
+        cursor.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Module number and topic name are required."
+        }), 400
+
+
+    # Check whether this topic is already saved
+    cursor.execute("""
+        SELECT id
+        FROM roadmap_progress
+        WHERE student_id = %s
+          AND module_number = %s
+          AND topic_name = %s
+    """, (
+        student_id,
+        module_number,
+        topic_name
+    ))
+
+    existing = cursor.fetchone()
+
+
+    if existing:
+
+        # Mark existing topic as completed
+        cursor.execute("""
+            UPDATE roadmap_progress
+            SET completed = 1
+            WHERE id = %s
+        """, (existing[0],))
+
+    else:
+
+        # Create new progress record
+        cursor.execute("""
+            INSERT INTO roadmap_progress
+            (student_id, module_number, topic_name, completed)
+            VALUES (%s, %s, %s, 1)
+        """, (
+            student_id,
+            module_number,
+            topic_name
+        ))
+
+
+    db.commit()
+    cursor.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Roadmap progress saved successfully."
+    })
+
+    
 # 4. AI Project Mentor
 @app.route('/mentor')
 def mentor():
@@ -447,6 +572,116 @@ IMPORTANT RULES:
     except Exception as e:
         print("DOCUMENTATION GEMINI ERROR:", repr(e))
         return jsonify({
+            "error": str(e)
+        }), 500
+
+@app.route("/api/viva", methods=["POST"])
+def viva_api():
+
+    data = request.get_json()
+
+    category = data.get("category", "mixed")
+    difficulty = data.get("difficulty", "intermediate")
+    count = data.get("count", "5")
+    project_info = data.get("project_info", "").strip()
+
+    if not project_info:
+        return jsonify({
+            "success": False,
+            "error": "Project information is required."
+        }), 400
+
+    prompt = f"""
+You are an AI Viva Assistant for a BCA student's project.
+
+The student is preparing for their project viva.
+
+PROJECT INFORMATION:
+{project_info}
+
+VIVA REQUIREMENTS:
+- Category: {category}
+- Difficulty: {difficulty}
+- Number of questions: {count}
+
+Generate exactly {count} viva questions.
+
+The questions should be relevant to the student's actual project.
+
+Cover appropriate areas such as:
+- Project introduction
+- Objectives
+- Technologies used
+- Project modules
+- Implementation
+- Database
+- Frontend
+- Backend
+- AI/Gemini API
+- Project workflow
+- Testing
+- Challenges
+- Future enhancements
+
+IMPORTANT ACCURACY RULES:
+- Use ONLY facts explicitly provided in the PROJECT INFORMATION.
+- Do NOT invent database tables, fields, APIs, modules, features, libraries, frameworks, algorithms, or implementation details.
+- Do NOT assume that a feature exists just because it is common in similar projects.
+- If a technical detail is not provided, do not mention it as an existing feature.
+- Questions and answers must describe the student's actual project, not a generic AI project.
+- Never claim that the project uses technologies other than HTML, CSS, JavaScript, Python Flask, MySQL, and Gemini API unless the PROJECT INFORMATION explicitly says so.
+
+Difficulty rules:
+- Basic: simple conceptual and project-understanding questions
+- Intermediate: implementation and technical understanding
+- Advanced: deeper technical reasoning and problem-solving
+
+For every question provide:
+1. The question
+2. A clear model answer suitable for a BCA student
+
+Return ONLY valid JSON.
+
+Use exactly this format:
+
+[
+    {{
+        "question": "Question text",
+        "answer": "Model answer"
+    }}
+]
+"""
+
+    try:
+
+        response = client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents=prompt
+        )
+
+        response_text = response.text.strip()
+
+        # Remove markdown code fences if Gemini adds them
+        if response_text.startswith("```"):
+            response_text = response_text.replace("```json", "")
+            response_text = response_text.replace("```", "")
+            response_text = response_text.strip()
+
+        import json
+
+        questions = json.loads(response_text)
+
+        return jsonify({
+            "success": True,
+            "questions": questions
+        })
+
+    except Exception as e:
+
+        print("VIVA API ERROR:", e)
+
+        return jsonify({
+            "success": False,
             "error": str(e)
         }), 500
 

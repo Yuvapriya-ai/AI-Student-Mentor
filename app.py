@@ -423,13 +423,188 @@ def study_assist():
 # 8. Project Progress Tracker
 @app.route('/progress')
 def progress():
-
     check = login_required()
 
     if check:
         return check
 
     return render_template('progress.html')
+# =========================================================
+# PROGRESS TRACKER API
+# =========================================================
+
+@app.route('/api/progress', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def progress_api():
+
+    check = login_required()
+    if check:
+        return check
+
+    student_id = session["student_id"]
+
+    # -----------------------------------------------------
+    # GET TASKS
+    # -----------------------------------------------------
+    if request.method == 'GET':
+
+        cursor = db.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT
+                id,
+                task_name,
+                milestone,
+                priority,
+                due_date,
+                completed,
+                completed_at,
+                created_at
+            FROM progress_tasks
+            WHERE student_id = %s
+            ORDER BY created_at ASC
+        """, (student_id,))
+
+        tasks = cursor.fetchall()
+
+        cursor.close()
+
+        return jsonify({
+            "success": True,
+            "tasks": tasks
+        })
+
+
+    # -----------------------------------------------------
+    # ADD NEW TASK
+    # -----------------------------------------------------
+    if request.method == 'POST':
+
+        data = request.get_json()
+
+        task_name = data.get("task_name")
+        milestone = data.get("milestone")
+        priority = data.get("priority")
+        due_date = data.get("due_date")
+
+        if not task_name or not milestone or not priority:
+            return jsonify({
+                "success": False,
+                "message": "Required fields are missing."
+            }), 400
+
+        cursor = db.cursor()
+
+        cursor.execute("""
+            INSERT INTO progress_tasks
+            (
+                student_id,
+                task_name,
+                milestone,
+                priority,
+                due_date,
+                completed
+            )
+            VALUES (%s, %s, %s, %s, %s, FALSE)
+        """, (
+            student_id,
+            task_name,
+            milestone,
+            priority,
+            due_date if due_date else None
+        ))
+
+        db.commit()
+
+        task_id = cursor.lastrowid
+
+        cursor.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Task added successfully.",
+            "task_id": task_id
+        })
+
+
+    # -----------------------------------------------------
+    # UPDATE TASK / MARK COMPLETE
+    # -----------------------------------------------------
+    if request.method == 'PUT':
+
+        data = request.get_json()
+
+        task_id = data.get("id")
+        completed = data.get("completed")
+
+        if task_id is None or completed is None:
+            return jsonify({
+                "success": False,
+                "message": "Task ID and completion status are required."
+            }), 400
+
+        cursor = db.cursor()
+
+        if completed:
+            cursor.execute("""
+                UPDATE progress_tasks
+                SET
+                    completed = TRUE,
+                    completed_at = NOW()
+                WHERE id = %s
+                AND student_id = %s
+            """, (task_id, student_id))
+
+        else:
+            cursor.execute("""
+                UPDATE progress_tasks
+                SET
+                    completed = FALSE,
+                    completed_at = NULL
+                WHERE id = %s
+                AND student_id = %s
+            """, (task_id, student_id))
+
+        db.commit()
+
+        cursor.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Task updated successfully."
+        })
+
+
+    # -----------------------------------------------------
+    # DELETE TASK
+    # -----------------------------------------------------
+    if request.method == 'DELETE':
+
+        data = request.get_json()
+
+        task_id = data.get("id")
+
+        if task_id is None:
+            return jsonify({
+                "success": False,
+                "message": "Task ID is required."
+            }), 400
+
+        cursor = db.cursor()
+
+        cursor.execute("""
+            DELETE FROM progress_tasks
+            WHERE id = %s
+            AND student_id = %s
+        """, (task_id, student_id))
+
+        db.commit()
+
+        cursor.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Task deleted successfully."
+        })
 
 # 9. AI Project Idea Evaluator
 @app.route('/evaluator')

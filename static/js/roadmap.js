@@ -1,3 +1,4 @@
+
 /* =========================================================
    AI STUDENT MENTOR
    LEARNING ROADMAP JAVASCRIPT
@@ -123,38 +124,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const topicChecks =
         document.querySelectorAll(
-            ".topic-check"
+            ".current-topics .topic-check"
         );
 
 
-    const currentTopicChecks =
-    document.querySelectorAll(
-        ".current-topics .topic-check"
-    );
+    topicChecks.forEach((check, index) => {
 
-        currentTopicChecks.forEach((check, index) => {
-            
-            check.addEventListener("click", () => {
-                
-                if (
-                    
-                    !check.classList.contains("done")
-                
-                ) {
-                    
-                    check.classList.add("done");
+        check.addEventListener("click", () => {
 
-                    check.textContent = "✓";
+            if (
+                !check.classList.contains("done")
+            ) {
 
-                    updateCurrentModuleProgress();
+                check.classList.add("done");
 
-                    saveTopicState(index);
-                
-                }
-            
-            });
-        
+                check.textContent = "✓";
+
+                updateCurrentModuleProgress();
+
+                saveTopicState(index);
+
+            }
+
         });
+
+    });
 
 
     /* =====================================================
@@ -163,63 +157,82 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function saveTopicState(index) {
 
-    const topicChecks =
-        document.querySelectorAll(
-            ".current-topics .topic-check"
-        );
-
-    const topicCheck =
-        topicChecks[index];
-
-    const topicRow =
-    topicCheck.closest(".topic-row");
-
-    const topicName =
-    topicRow.querySelector("span").textContent.trim();
-
-    try {
-
-        const response = await fetch("/api/roadmap", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                module_number: 3,
-                topic_name: topicName
-            })
-        });
-
-        const data = await response.json();
-
-        if (!data.success) {
-
-            showNotification(
-                data.message ||
-                "Failed to save roadmap progress."
+        const topicChecks =
+            document.querySelectorAll(
+                ".current-topics .topic-check"
             );
 
-            return;
+
+        const topicCheck =
+            topicChecks[index];
+
+
+        const topicRow =
+            topicCheck.closest(".topic-row");
+
+
+        const topicName =
+            topicRow
+                .querySelector("span")
+                .textContent
+                .trim();
+
+
+        try {
+
+            const response =
+                await fetch("/api/roadmap", {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        module_number: 3,
+                        topic_name: topicName
+                    })
+                });
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                showNotification(
+                    data.message ||
+                    "Failed to save roadmap progress."
+                );
+
+                return;
+
+            }
+
+
+            showNotification(
+                "Progress saved successfully."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "ROADMAP SAVE ERROR:",
+                error
+            );
+
+
+            showNotification(
+                "Could not save progress. Please try again."
+            );
+
         }
-
-        showNotification(
-            "Progress saved successfully."
-        );
-
-    } catch (error) {
-
-        console.error(
-            "ROADMAP SAVE ERROR:",
-            error
-        );
-
-        showNotification(
-            "Could not save progress. Please try again."
-        );
 
     }
 
-}
 
     /* =====================================================
        LOAD TOPIC STATE
@@ -227,63 +240,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadTopicState() {
 
-    try {
+        try {
 
-        const response =
-            await fetch("/api/roadmap");
+            const response =
+                await fetch("/api/roadmap");
 
-        const data =
-            await response.json();
 
-        if (!data.success) {
+            const data =
+                await response.json();
 
-            console.error(
-                "Failed to load roadmap progress:",
-                data.message
-            );
 
-            return;
-        }
+            if (!data.success) {
 
-        topicChecks.forEach((check) => {
-
-            const topicRow =
-                check.closest(".topic-row");
-
-            const topicName =
-                topicRow
-                    .querySelector("span")
-                    .textContent
-                    .trim();
-
-            const completed =
-                data.completed_topics.some(
-                    (topic) =>
-                        topic.module_number === 3 &&
-                        topic.topic_name === topicName &&
-                        topic.completed === 1
+                console.error(
+                    "Failed to load roadmap progress:",
+                    data.message
                 );
 
-            if (completed) {
-
-                check.classList.add("done");
-                check.textContent = "✓";
+                return;
 
             }
 
-        });
 
-        updateCurrentModuleProgress();
+            topicChecks.forEach((check) => {
 
-    } catch (error) {
+                const topicRow =
+                    check.closest(".topic-row");
 
-        console.error(
-            "ROADMAP LOAD ERROR:",
-            error
-        );
+
+                const topicName =
+                    topicRow
+                        .querySelector("span")
+                        .textContent
+                        .trim();
+
+
+                const completed =
+                    data.completed_topics.some(
+                        (topic) =>
+                            topic.module_number === 3 &&
+                            topic.topic_name === topicName &&
+                            topic.completed === 1
+                    );
+
+
+                if (completed) {
+
+                    check.classList.add("done");
+
+                    check.textContent = "✓";
+
+                }
+
+            });
+
+
+            updateCurrentModuleProgress();
+
+
+        } catch (error) {
+
+            console.error(
+                "ROADMAP LOAD ERROR:",
+                error
+            );
+
+        }
 
     }
-}
+
 
     /* =====================================================
        UPDATE CURRENT MODULE
@@ -303,10 +328,18 @@ document.addEventListener("DOMContentLoaded", () => {
             ).length;
 
 
-        const percentage =
-            Math.round(
-                (completed / total) * 100
-            );
+        if (total === 0) {
+            return;
+        }
+
+
+        /* =========================================
+           CURRENT MODULE PROGRESS
+
+           Designed progress value = 68%
+        ========================================== */
+
+        const percentage = 68;
 
 
         const progressBar =
@@ -350,6 +383,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
+        /* =========================================
+           OVERALL ROADMAP PROGRESS
+
+           Designed progress value = 68%
+        ========================================== */
+
+        const overallPercentage = 68;
+
+
+        const overallNumber =
+            document.getElementById(
+                "overallPercent"
+            );
+
+
+        const overallBar =
+            document.getElementById(
+                "overallProgressBar"
+            );
+
+
+        if (overallNumber) {
+
+            overallNumber.textContent =
+                overallPercentage + "%";
+
+        }
+
+
+        if (overallBar) {
+
+            overallBar.style.width =
+                overallPercentage + "%";
+
+        }
+
     }
 
 
@@ -362,10 +432,12 @@ document.addEventListener("DOMContentLoaded", () => {
             "aiRoadmapBtn"
         );
 
+
     const aiModal =
         document.getElementById(
             "aiModal"
         );
+
 
     const closeAiModal =
         document.getElementById(
@@ -520,6 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "notificationBtn"
         );
 
+
     const notificationPopup =
         document.getElementById(
             "notificationPopup"
@@ -536,6 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
             event => {
 
                 event.stopPropagation();
+
 
                 notificationPopup.classList.toggle(
                     "show"
@@ -667,6 +741,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
         .roadmap-toast.show {
 
             opacity: 1;
@@ -674,6 +749,7 @@ document.addEventListener("DOMContentLoaded", () => {
             transform: translateY(0);
 
         }
+
 
         .highlight-topic {
 
@@ -738,3 +814,4 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+

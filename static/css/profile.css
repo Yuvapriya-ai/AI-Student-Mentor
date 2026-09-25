@@ -1264,6 +1264,51 @@ body {
 }
 
 /* =========================================================
+   LEARNING PREFERENCE DROPDOWNS
+========================================================= */
+
+.profile-select {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 38px 12px 14px;
+    border-radius: 10px;
+
+    background: rgba(6, 18, 47, 0.55);
+    border: 1px solid rgba(120, 160, 255, 0.11);
+
+    color: #e9f1ff;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    outline: none;
+    cursor: pointer;
+
+    appearance: auto;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.profile-select:hover {
+    border-color: rgba(96, 165, 250, 0.35);
+    background: rgba(6, 18, 47, 0.75);
+}
+
+.profile-select:focus {
+    border-color: #3b82f6;
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.profile-select option {
+    background: #142653;
+    color: #e9f1ff;
+    font-family: "Inter", sans-serif;
+}
+/* =========================================================
    SKILLS
 ========================================================= */
 
@@ -2124,9 +2169,11 @@ body {
     }
 
     .input-display,
-    .select-display {
+    .select-display,
+    .profile-select {
         font-size: 14px;
     }
+
 
     .modal {
         padding: 22px 18px;

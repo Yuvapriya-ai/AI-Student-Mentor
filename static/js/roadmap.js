@@ -1,8 +1,98 @@
-
 /* =========================================================
    AI STUDENT MENTOR
    LEARNING ROADMAP JAVASCRIPT
 ========================================================= */
+
+
+/* =========================================================
+   STUDENT PROFILE
+========================================================= */
+
+function getInitial(name) {
+    if (!name || name.trim() === "") {
+        return "Y";
+    }
+
+    return name.trim().charAt(0).toUpperCase();
+}
+
+
+async function loadStudentProfile() {
+    try {
+        const response = await fetch("/api/profile");
+        const data = await response.json();
+
+        if (!response.ok || !data.success || !data.profile) {
+            console.error("Could not load student profile.");
+            return;
+        }
+
+        const profile = data.profile;
+
+        const name =
+            profile.name &&
+            profile.name.trim()
+                ? profile.name.trim()
+                : "Student";
+
+        const initial = getInitial(name);
+
+
+        /* =================================================
+           TOP-RIGHT PROFILE
+        ================================================= */
+
+        const topAvatar =
+            document.querySelector(".top-avatar");
+
+        if (topAvatar) {
+            topAvatar.textContent = initial;
+        }
+
+
+        const topProfileName =
+            document.querySelector(".top-profile strong");
+
+        if (topProfileName) {
+            topProfileName.textContent = name;
+        }
+
+
+        /* =================================================
+           SIDEBAR PROFILE
+        ================================================= */
+
+        const sidebarAvatar =
+            document.querySelector(".user-avatar");
+
+        if (sidebarAvatar) {
+            sidebarAvatar.textContent = initial;
+        }
+
+
+        const sidebarName =
+            document.querySelector(".user-details strong");
+
+        if (sidebarName) {
+            sidebarName.textContent = name;
+        }
+
+
+        console.log(
+            "Roadmap profile loaded from MySQL:",
+            profile
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Roadmap profile loading error:",
+            error
+        );
+
+    }
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -451,7 +541,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             () => {
 
-                aiModal.classList.add("show");
+                if (aiModal) {
+
+                    aiModal.classList.add("show");
+
+                }
 
             }
         );
@@ -465,9 +559,13 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             () => {
 
-                aiModal.classList.remove(
-                    "show"
-                );
+                if (aiModal) {
+
+                    aiModal.classList.remove(
+                        "show"
+                    );
+
+                }
 
             }
         );
@@ -517,9 +615,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     option.textContent.trim();
 
 
-                aiModal.classList.remove(
-                    "show"
-                );
+                if (aiModal) {
+
+                    aiModal.classList.remove(
+                        "show"
+                    );
+
+                }
 
 
                 showNotification(
@@ -805,6 +907,8 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
        INITIALIZE
     ====================================================== */
+
+    loadStudentProfile();
 
     loadTopicState();
 

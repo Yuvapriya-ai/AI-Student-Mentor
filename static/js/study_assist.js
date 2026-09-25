@@ -65,6 +65,123 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       LOAD LOGGED-IN STUDENT PROFILE
+    ===================================================== */
+
+    function getInitial(name) {
+
+        if (!name || name.trim() === "") {
+            return "Y";
+        }
+
+        return name.trim().charAt(0).toUpperCase();
+    }
+
+
+    async function loadStudentProfile() {
+
+        try {
+
+            const response =
+                await fetch("/api/profile");
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success ||
+                !data.profile
+            ) {
+
+                console.error(
+                    "Could not load student profile."
+                );
+
+                return;
+            }
+
+
+            const profile =
+                data.profile;
+
+
+            const name =
+                profile.name &&
+                profile.name.trim()
+                    ? profile.name.trim()
+                    : "Student";
+
+
+            const initial =
+                getInitial(name);
+
+
+            /* TOP AVATAR */
+
+            const topAvatar =
+                document.querySelector(".top-avatar");
+
+            if (topAvatar) {
+                topAvatar.textContent =
+                    initial;
+            }
+
+
+            /* TOP PROFILE NAME */
+
+            const topProfileName =
+                document.querySelector(
+                    ".top-profile strong"
+                );
+
+            if (topProfileName) {
+                topProfileName.textContent =
+                    name;
+            }
+
+
+            /* SIDEBAR AVATAR */
+
+            const sidebarAvatar =
+                document.querySelector(".user-avatar");
+
+            if (sidebarAvatar) {
+                sidebarAvatar.textContent =
+                    initial;
+            }
+
+
+            /* SIDEBAR PROFILE NAME */
+
+            const sidebarName =
+                document.querySelector(
+                    ".user-details strong"
+                );
+
+            if (sidebarName) {
+                sidebarName.textContent =
+                    name;
+            }
+
+
+            console.log(
+                "Study Assistant profile loaded from MySQL:",
+                profile
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Study Assistant profile loading error:",
+                error
+            );
+        }
+    }
+
+
+    /* =====================================================
        STATE
     ===================================================== */
 
@@ -77,15 +194,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (questionInput) {
 
-        questionInput.addEventListener("input", function () {
+        questionInput.addEventListener(
+            "input",
+            function () {
 
-            const count = questionInput.value.length;
+                const count =
+                    questionInput.value.length;
 
-            characterCount.textContent =
-                `${count} characters`;
-
-        });
-
+                characterCount.textContent =
+                    `${count} characters`;
+            }
+        );
     }
 
 
@@ -95,95 +214,105 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (askQuestionBtn) {
 
-        askQuestionBtn.addEventListener("click", async function () {
+        askQuestionBtn.addEventListener(
+            "click",
+            async function () {
 
-            const question =
-                questionInput.value.trim();
-
-            if (!question) {
-
-                showNotification(
-                    "Please enter a question first."
-                );
-
-                questionInput.focus();
-
-                return;
-            }
+                const question =
+                    questionInput.value.trim();
 
 
-            /* Increase question count */
+                if (!question) {
 
-            totalQuestions++;
+                    showNotification(
+                        "Please enter a question first."
+                    );
 
-            questionCount.textContent =
-                totalQuestions;
+                    questionInput.focus();
 
-
-            /* Loading state */
-
-            askQuestionBtn.disabled = true;
-
-            askQuestionBtn.innerHTML = `
-                <span class="ask-icon">⟳</span>
-                Thinking...
-            `;
+                    return;
+                }
 
 
-            try {
+                /* Increase question count */
 
-                /*
-                 * Try Flask backend first.
-                 *
-                 * If your backend route exists,
-                 * the response will be used.
-                 *
-                 * Otherwise the built-in answer
-                 * generator will be used.
-                 */
+                totalQuestions++;
 
-                const response = await fetch(
-                    "/api/study-assistant",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            question: question,
-
-                            category:
-                                questionCategory.value,
-
-                            difficulty:
-                                difficultyLevel.value,
-
-                            answer_style:
-                                answerStyle.value,
-
-                            explanation_type:
-                                explanationType.value
-
-                        })
-                    }
-                );
+                questionCount.textContent =
+                    totalQuestions;
 
 
-                if (response.ok) {
+                /* Loading state */
 
-                    const data =
-                        await response.json();
+                askQuestionBtn.disabled =
+                    true;
 
-                    if (data.answer) {
+                askQuestionBtn.innerHTML = `
+                    <span class="ask-icon">⟳</span>
+                    Thinking...
+                `;
 
-                        displayAnswer(
-                            question,
-                            data.answer
+
+                try {
+
+                    /*
+                     * Send question to Flask backend.
+                     */
+
+                    const response =
+                        await fetch(
+                            "/api/study-assistant",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    question:
+                                        question,
+
+                                    category:
+                                        questionCategory.value,
+
+                                    difficulty:
+                                        difficultyLevel.value,
+
+                                    answer_style:
+                                        answerStyle.value,
+
+                                    explanation_type:
+                                        explanationType.value
+                                })
+                            }
                         );
+
+
+                    if (response.ok) {
+
+                        const data =
+                            await response.json();
+
+
+                        if (data.answer) {
+
+                            displayAnswer(
+                                question,
+                                data.answer
+                            );
+
+                        } else {
+
+                            displayAnswer(
+                                question,
+                                generateLocalAnswer(
+                                    question
+                                )
+                            );
+                        }
 
                     } else {
 
@@ -193,10 +322,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                 question
                             )
                         );
-
                     }
 
-                } else {
+                } catch (error) {
+
+                    /*
+                     * Backend unavailable.
+                     * Use local fallback.
+                     */
+
+                    console.error(
+                        "Study Assistant API error:",
+                        error
+                    );
 
                     displayAnswer(
                         question,
@@ -204,39 +342,21 @@ document.addEventListener("DOMContentLoaded", function () {
                             question
                         )
                     );
-
                 }
 
-            } catch (error) {
 
-                /*
-                 * Backend not connected.
-                 * Use local fallback instead of
-                 * displaying a JavaScript error.
-                 */
+                /* Restore button */
 
-                displayAnswer(
-                    question,
-                    generateLocalAnswer(
-                        question
-                    )
-                );
+                askQuestionBtn.disabled =
+                    false;
 
+                askQuestionBtn.innerHTML = `
+                    <span class="ask-icon">✦</span>
+                    Ask AI Assistant
+                    <span class="arrow">→</span>
+                `;
             }
-
-
-            /* Restore button */
-
-            askQuestionBtn.disabled = false;
-
-            askQuestionBtn.innerHTML = `
-                <span class="ask-icon">✦</span>
-                Ask AI Assistant
-                <span class="arrow">→</span>
-            `;
-
-        });
-
+        );
     }
 
 
@@ -246,9 +366,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function displayAnswer(question, answer) {
 
-        emptyState.style.display = "none";
+        emptyState.style.display =
+            "none";
 
-        generatedAnswer.style.display = "block";
+        generatedAnswer.style.display =
+            "block";
 
 
         answerTitle.textContent =
@@ -262,19 +384,17 @@ document.addEventListener("DOMContentLoaded", function () {
         updateWordCount(answer);
 
 
-        /*
-         * Scroll answer area to top
-         */
-
         const preview =
-            document.getElementById("answerPreview");
+            document.getElementById(
+                "answerPreview"
+            );
+
 
         if (preview) {
 
-            preview.scrollTop = 0;
-
+            preview.scrollTop =
+                0;
         }
-
     }
 
 
@@ -286,6 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const category =
             questionCategory.value;
+
 
         const titles = {
 
@@ -312,11 +433,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             learning:
                 "Learning Explanation"
-
         };
 
+
         return titles[category] ||
-               "Project Explanation";
+            "Project Explanation";
     }
 
 
@@ -327,8 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function formatAnswer(text) {
 
         /*
-         * Escape HTML first so normal user/API
-         * text cannot inject HTML.
+         * Escape HTML first.
          */
 
         const escaped =
@@ -336,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * Convert simple markdown-like formatting
+         * Convert bold markdown.
          */
 
         let formatted =
@@ -347,7 +467,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * Convert numbered lines
+         * Convert numbered lines.
          */
 
         formatted =
@@ -358,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * Convert headings
+         * Convert headings.
          */
 
         formatted =
@@ -369,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * Convert remaining paragraphs
+         * Convert remaining paragraphs.
          */
 
         formatted =
@@ -381,20 +501,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         paragraph.trim().startsWith("<h3>") ||
                         paragraph.trim().startsWith("<p>")
                     ) {
-
                         return paragraph;
-
                     }
 
-                    return `<p>${paragraph
-                        .replace(/\n/g, "<br>")}</p>`;
 
+                    return `
+                        <p>
+                            ${paragraph.replace(
+                                /\n/g,
+                                "<br>"
+                            )}
+                        </p>
+                    `;
                 })
                 .join("");
 
 
         return formatted;
-
     }
 
 
@@ -423,6 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (category === "module") {
 
             answer = `
+
 The AI Student Mentor project contains eight core modules.
 
 1. Student Profile Management – manages student academic details, skills and interests.
@@ -440,11 +564,13 @@ The AI Student Mentor project contains eight core modules.
 7. Project Progress Tracker – manages tasks and milestones and calculates project completion percentage.
 
 8. AI Project Idea Evaluator – evaluates originality, difficulty, technologies, complexity, AI feasibility and suitability for a BCA project.
+
 `;
 
         } else if (category === "technology") {
 
             answer = `
+
 The AI Student Mentor uses HTML, CSS and JavaScript for the frontend.
 
 Python and Flask are used for backend development.
@@ -454,11 +580,13 @@ MySQL is used as the database for storing student information, project-related d
 For artificial intelligence, the system uses a Large Language Model through the OpenAI API.
 
 Visual Studio Code is used as the development environment.
+
 `;
 
         } else if (category === "database") {
 
             answer = `
+
 MySQL is used as the database of the AI Student Mentor system.
 
 Student information, academic details, technical skills and project progress can be stored in MySQL.
@@ -474,11 +602,13 @@ Frontend → Flask Backend → MySQL Database
 The AI-related request flow can be represented as:
 
 Frontend → Flask → OpenAI API → AI Response → Frontend
+
 `;
 
         } else if (category === "ai") {
 
             answer = `
+
 The AI functionality of the AI Student Mentor is based on a Large Language Model and the OpenAI API.
 
 The student enters a question or request through the frontend.
@@ -494,28 +624,35 @@ The response is then returned to the Flask backend and displayed on the frontend
 The simplified flow is:
 
 Student → Frontend → Flask → OpenAI API → LLM Processing → Flask → Frontend
+
 `;
 
         } else if (category === "implementation") {
 
             answer = `
+
 The implementation uses a three-layer structure.
 
 Frontend:
+
 HTML, CSS and JavaScript are responsible for the user interface and interaction.
 
 Backend:
+
 Python and Flask handle application logic, routing and communication with external AI services.
 
 Database:
+
 MySQL stores persistent student and project-related information.
 
 The OpenAI API is integrated with the Flask backend so that AI-generated responses can be processed and displayed in the frontend.
+
 `;
 
         } else if (category === "architecture") {
 
             answer = `
+
 The AI Student Mentor follows a frontend-backend-database architecture with AI integration.
 
 The frontend is developed using HTML, CSS and JavaScript.
@@ -529,39 +666,59 @@ The OpenAI API provides access to the Large Language Model.
 The general architecture is:
 
 Student
+
 ↓
+
 Frontend Interface
+
 ↓
+
 Flask Backend
+
 ↓
+
 MySQL Database / OpenAI API
+
 ↓
+
 AI Processing
+
 ↓
+
 Personalized Response
+
 ↓
+
 Frontend
+
 `;
 
         } else if (category === "learning") {
 
             answer = `
+
 The best way to study a project concept is to understand its purpose, implementation and relationship with the other components.
 
 For every concept, try to understand:
 
 1. What it is.
+
 2. Why it is used.
+
 3. How it is implemented.
+
 4. Where it is used in the project.
+
 5. How it communicates with other components.
 
 For example, if you study Flask, understand that it is the Python backend framework used to handle routes, application logic and communication between the frontend, database and AI services.
+
 `;
 
         } else {
 
             answer = `
+
 The AI Student Mentor is an integrated platform designed to provide students with learning and academic project guidance.
 
 It combines learning guidance, project development, documentation, viva preparation, project-related question answering, progress tracking and project idea evaluation.
@@ -569,8 +726,8 @@ It combines learning guidance, project development, documentation, viva preparat
 The main technologies are HTML, CSS, JavaScript, Python, Flask, MySQL, a Large Language Model and the OpenAI API.
 
 The purpose of the system is to provide personalized AI-based assistance throughout the student's project development process.
-`;
 
+`;
         }
 
 
@@ -583,9 +740,11 @@ The purpose of the system is to provide personalized AI-based assistance through
             answer =
                 answer.substring(
                     0,
-                    Math.min(answer.length, 950)
+                    Math.min(
+                        answer.length,
+                        950
+                    )
                 );
-
         }
 
 
@@ -598,8 +757,8 @@ The purpose of the system is to provide personalized AI-based assistance through
             answer += `
 
 For an advanced understanding, focus on the interaction between the Flask backend, MySQL database and OpenAI API, including request processing, data flow, API communication and system integration.
-`;
 
+`;
         }
 
 
@@ -612,33 +771,40 @@ For an advanced understanding, focus on the interaction between the Flask backen
             answer += `
 
 From an academic perspective, this concept should be explained by clearly identifying its purpose, implementation, role within the system and contribution to the overall functionality of the AI Student Mentor.
-`;
 
+`;
         }
 
+
+        /*
+         * Simple style note.
+         */
 
         if (explanation === "simple") {
 
             answer += `
 
 In simple terms, remember what the component does, why the project needs it and how it connects with the other parts of the system.
-`;
 
+`;
         }
 
+
+        /*
+         * Technical style note.
+         */
 
         if (explanation === "technical") {
 
             answer += `
 
 Technically, the component should be understood in terms of its data flow, API interaction, backend processing, database communication and frontend response handling.
-`;
 
+`;
         }
 
 
         return answer.trim();
-
     }
 
 
@@ -651,10 +817,10 @@ Technically, the component should be understood in terms of its data flow, API i
         const div =
             document.createElement("div");
 
-        div.textContent = text;
+        div.textContent =
+            text;
 
         return div.innerHTML;
-
     }
 
 
@@ -667,21 +833,22 @@ Technically, the component should be understood in terms of its data flow, API i
         const cleanText =
             text.trim();
 
+
         if (!cleanText) {
 
             answerWordCount.textContent =
                 "0 words";
 
             return;
-
         }
+
 
         const words =
             cleanText.split(/\s+/).length;
 
+
         answerWordCount.textContent =
             `${words} words`;
-
     }
 
 
@@ -690,80 +857,91 @@ Technically, the component should be understood in terms of its data flow, API i
     ===================================================== */
 
     const quickCards =
-        document.querySelectorAll(".quick-card");
+        document.querySelectorAll(
+            ".quick-card"
+        );
 
 
     quickCards.forEach(function (card) {
 
-        card.addEventListener("click", function () {
+        card.addEventListener(
+            "click",
+            function () {
 
-            const question =
-                card.dataset.question;
-
-            questionInput.value =
-                question;
-
-
-            characterCount.textContent =
-                `${question.length} characters`;
+                const question =
+                    card.dataset.question;
 
 
-            /*
-             * Automatically select suitable category
-             */
-
-            const text =
-                question.toLowerCase();
+                questionInput.value =
+                    question;
 
 
-            if (text.includes("module")) {
+                characterCount.textContent =
+                    `${question.length} characters`;
 
-                questionCategory.value =
-                    "module";
 
-            } else if (
-                text.includes("mysql") ||
-                text.includes("database")
-            ) {
+                /*
+                 * Automatically select suitable category.
+                 */
 
-                questionCategory.value =
-                    "database";
+                const text =
+                    question.toLowerCase();
 
-            } else if (
-                text.includes("openai") ||
-                text.includes("llm") ||
-                text.includes("ai")
-            ) {
 
-                questionCategory.value =
-                    "ai";
+                if (text.includes("module")) {
 
-            } else if (
-                text.includes("architecture") ||
-                text.includes("workflow")
-            ) {
+                    questionCategory.value =
+                        "module";
 
-                questionCategory.value =
-                    "architecture";
+                } else if (
+                    text.includes("mysql") ||
+                    text.includes("database")
+                ) {
 
+                    questionCategory.value =
+                        "database";
+
+                } else if (
+                    text.includes("openai") ||
+                    text.includes("llm") ||
+                    text.includes("ai")
+                ) {
+
+                    questionCategory.value =
+                        "ai";
+
+                } else if (
+                    text.includes("architecture") ||
+                    text.includes("workflow")
+                ) {
+
+                    questionCategory.value =
+                        "architecture";
+                }
+
+
+                questionInput.focus();
+
+
+                /*
+                 * Scroll to question panel.
+                 */
+
+                const questionCard =
+                    document.querySelector(
+                        ".question-card"
+                    );
+
+
+                if (questionCard) {
+
+                    questionCard.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
             }
-
-
-            questionInput.focus();
-
-            /*
-             * Scroll smoothly to question panel.
-             */
-
-            document.querySelector(
-                ".question-card"
-            ).scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        });
-
+        );
     });
 
 
@@ -780,6 +958,7 @@ Technically, the component should be understood in terms of its data flow, API i
                 const text =
                     answerContent.innerText.trim();
 
+
                 if (!text) {
 
                     showNotification(
@@ -787,7 +966,6 @@ Technically, the component should be understood in terms of its data flow, API i
                     );
 
                     return;
-
                 }
 
 
@@ -796,6 +974,7 @@ Technically, the component should be understood in terms of its data flow, API i
                     await navigator.clipboard.writeText(
                         text
                     );
+
 
                     showNotification(
                         "Answer copied successfully."
@@ -806,12 +985,9 @@ Technically, the component should be understood in terms of its data flow, API i
                     showNotification(
                         "Unable to copy the answer."
                     );
-
                 }
-
             }
         );
-
     }
 
 
@@ -839,10 +1015,8 @@ Technically, the component should be understood in terms of its data flow, API i
 
                 answerWordCount.textContent =
                     "0 words";
-
             }
         );
-
     }
 
 
@@ -859,10 +1033,8 @@ Technically, the component should be understood in terms of its data flow, API i
                 notificationPopup.classList.toggle(
                     "show"
                 );
-
             }
         );
-
     }
 
 
@@ -877,16 +1049,18 @@ Technically, the component should be understood in terms of its data flow, API i
             if (
                 notificationPopup &&
                 notificationBtn &&
-                !notificationPopup.contains(event.target) &&
-                !notificationBtn.contains(event.target)
+                !notificationPopup.contains(
+                    event.target
+                ) &&
+                !notificationBtn.contains(
+                    event.target
+                )
             ) {
 
                 notificationPopup.classList.remove(
                     "show"
                 );
-
             }
-
         }
     );
 
@@ -901,29 +1075,33 @@ Technically, the component should be understood in terms of its data flow, API i
             return;
         }
 
+
         const paragraph =
             notificationPopup.querySelector("p");
+
 
         if (paragraph) {
 
             paragraph.textContent =
                 message;
-
         }
+
 
         notificationPopup.classList.add(
             "show"
         );
 
 
-        setTimeout(function () {
+        setTimeout(
+            function () {
 
-            notificationPopup.classList.remove(
-                "show"
-            );
+                notificationPopup.classList.remove(
+                    "show"
+                );
 
-        }, 3000);
-
+            },
+            3000
+        );
     }
 
 
@@ -940,17 +1118,22 @@ Technically, the component should be understood in terms of its data flow, API i
                 questionInput.value =
                     "Explain the overall architecture and workflow of the AI Student Mentor project.";
 
+
                 characterCount.textContent =
                     `${questionInput.value.length} characters`;
+
 
                 questionCategory.value =
                     "architecture";
 
+
                 difficultyLevel.value =
                     "intermediate";
 
+
                 answerStyle.value =
                     "detailed";
+
 
                 explanationType.value =
                     "academic";
@@ -959,16 +1142,21 @@ Technically, the component should be understood in terms of its data flow, API i
                 questionInput.focus();
 
 
-                document.querySelector(
-                    ".question-card"
-                ).scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
+                const questionCard =
+                    document.querySelector(
+                        ".question-card"
+                    );
 
+
+                if (questionCard) {
+
+                    questionCard.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
             }
         );
-
     }
 
 
@@ -989,18 +1177,28 @@ Technically, the component should be understood in terms of its data flow, API i
 
                 if (
                     event.key === "Enter" &&
-                    (event.ctrlKey || event.shiftKey)
+                    (event.ctrlKey ||
+                        event.shiftKey)
                 ) {
 
                     event.preventDefault();
 
                     askQuestionBtn.click();
-
                 }
-
             }
         );
-
     }
+
+
+    /* =====================================================
+       INITIALIZE STUDY ASSISTANT
+    ===================================================== */
+
+    loadStudentProfile();
+
+
+    console.log(
+        "AI Student Mentor - Study Assistant loaded."
+    );
 
 });

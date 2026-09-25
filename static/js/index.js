@@ -1,341 +1,261 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-function getInitial(name) {
+    /* =====================================================
+       STUDENT IDENTITY
+    ====================================================== */
 
-    if (!name || name.trim() === "") {
-        return "Y";
-    }
+    function getInitial(name) {
 
-    return name.trim().charAt(0).toUpperCase();
-}
+        if (!name || name.trim() === "") {
+            return "Y";
+        }
 
-
-function loadStudentProfile() {
-
-    const savedProfile =
-        JSON.parse(
-            localStorage.getItem("studentProfile")
-        );
-
-    const name =
-        savedProfile &&
-        savedProfile.name &&
-        savedProfile.name.trim()
-            ? savedProfile.name.trim()
-            : "Student";
-
-
-    const initial = getInitial(name);
-
-
-    /* =================================================
-       TOP-RIGHT AVATAR
-    ================================================= */
-
-    const topAvatar =
-        document.querySelector(".top-avatar");
-
-    if (topAvatar) {
-        topAvatar.textContent = initial;
+        return name.trim().charAt(0).toUpperCase();
     }
 
 
-    /* =================================================
-       TOP-RIGHT STUDENT NAME
-    ================================================= */
+    /* =====================================================
+       LOAD STUDENT PROFILE FROM MYSQL
+    ====================================================== */
 
-    const topProfileName =
-        document.querySelector(
-            ".top-profile strong"
-        );
+    async function loadStudentProfile() {
 
-    if (topProfileName) {
-        topProfileName.textContent = name;
+        try {
+
+            const response = await fetch("/api/profile");
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success || !data.profile) {
+
+                console.error(
+                    "Could not load student profile."
+                );
+
+                return;
+            }
+
+            const profile = data.profile;
+
+            const name =
+                profile.name &&
+                profile.name.trim()
+                    ? profile.name.trim()
+                    : "Student";
+
+            const initial = getInitial(name);
+
+
+            /* -------------------------------------------------
+               TOP RIGHT PROFILE
+            ------------------------------------------------- */
+
+            const topAvatar =
+                document.querySelector(".top-avatar");
+
+            if (topAvatar) {
+                topAvatar.textContent = initial;
+            }
+
+
+            const topProfileName =
+                document.querySelector(
+                    ".top-profile strong"
+                );
+
+            if (topProfileName) {
+                topProfileName.textContent = name;
+            }
+
+
+            /* -------------------------------------------------
+               SIDEBAR PROFILE
+            ------------------------------------------------- */
+
+            const sidebarAvatar =
+                document.querySelector(".user-avatar");
+
+            if (sidebarAvatar) {
+                sidebarAvatar.textContent = initial;
+            }
+
+
+            const sidebarName =
+                document.querySelector(
+                    ".user-details strong"
+                );
+
+            if (sidebarName) {
+                sidebarName.textContent = name;
+            }
+
+
+            /* -------------------------------------------------
+               WELCOME MESSAGE
+            ------------------------------------------------- */
+
+            const welcomeName =
+                document.querySelector(
+                    ".welcome-text h1 span"
+                );
+
+            if (welcomeName) {
+                welcomeName.textContent = name + "!";
+            }
+
+
+            console.log(
+                "Dashboard profile loaded from MySQL:",
+                profile
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard profile loading error:",
+                error
+            );
+
+        }
     }
 
 
-    /* =================================================
-       SIDEBAR AVATAR
-    ================================================= */
+    /* =====================================================
+       NOTIFICATIONS
+    ====================================================== */
 
-    const sidebarAvatar =
-        document.querySelector(".user-avatar");
+    const notificationBtn =
+        document.querySelector(".notification-btn");
 
-    if (sidebarAvatar) {
-        sidebarAvatar.textContent = initial;
-    }
+    const notificationPanel =
+        document.querySelector(".notification-panel");
 
+    if (notificationBtn && notificationPanel) {
 
-    /* =================================================
-       SIDEBAR STUDENT NAME
-    ================================================= */
-
-    const sidebarName =
-        document.querySelector(
-            ".user-details strong"
-        );
-
-    if (sidebarName) {
-        sidebarName.textContent = name;
-    }
-
-
-    /* =================================================
-       WELCOME MESSAGE
-    ================================================= */
-
-    const welcomeName =
-        document.querySelector(
-            ".welcome-text h1 span"
-        );
-
-    if (welcomeName) {
-        welcomeName.textContent = name + "!";
-    }
-
-}
-
-
-/* =====================================================
-   NOTIFICATION
-====================================================== */
-
-const notificationBtn =
-    document.getElementById(
-        "notificationBtn"
-    );
-
-const notificationPopup =
-    document.getElementById(
-        "notificationPopup"
-    );
-
-
-if (
-    notificationBtn &&
-    notificationPopup
-) {
-
-    notificationBtn.addEventListener(
-        "click",
-        event => {
+        notificationBtn.addEventListener("click", (event) => {
 
             event.stopPropagation();
 
-            notificationPopup.classList.toggle(
-                "show"
-            );
+            notificationPanel.classList.toggle("show");
 
-        }
-    );
+        });
 
 
-    document.addEventListener(
-        "click",
-        event => {
+        document.addEventListener("click", (event) => {
 
             if (
-                !notificationPopup.contains(
-                    event.target
-                ) &&
-                !notificationBtn.contains(
-                    event.target
-                )
+                !notificationPanel.contains(event.target) &&
+                !notificationBtn.contains(event.target)
             ) {
 
-                notificationPopup.classList.remove(
-                    "show"
-                );
+                notificationPanel.classList.remove("show");
 
             }
 
-        }
-    );
+        });
 
-}
-
-
-/* =====================================================
-   DASHBOARD TASKS
-====================================================== */
-
-const taskButtons =
-    document.querySelectorAll(
-        ".task-check"
-    );
+    }
 
 
-function loadCompletedTasks() {
+    /* =====================================================
+       DASHBOARD TASKS
+    ====================================================== */
 
-    const completedTasks =
-        JSON.parse(
-            localStorage.getItem(
-                "completedDashboardTasks"
-            )
-        ) || [];
+    const taskItems =
+        document.querySelectorAll(".task-item");
+
+    const STORAGE_KEY =
+        "completedDashboardTasks";
 
 
-    taskButtons.forEach(button => {
+    function loadCompletedTasks() {
 
-        const taskId =
-            button.dataset.task;
+        const completedTasks =
+            JSON.parse(
+                localStorage.getItem(STORAGE_KEY)
+            ) || [];
 
-        if (
-            completedTasks.includes(taskId)
-        ) {
 
-            button.classList.add(
-                "completed"
+        taskItems.forEach((task, index) => {
+
+            if (completedTasks.includes(index)) {
+
+                task.classList.add("completed");
+
+            }
+
+        });
+
+    }
+
+
+    taskItems.forEach((task, index) => {
+
+        task.addEventListener("click", () => {
+
+            task.classList.toggle("completed");
+
+
+            let completedTasks =
+                JSON.parse(
+                    localStorage.getItem(STORAGE_KEY)
+                ) || [];
+
+
+            if (task.classList.contains("completed")) {
+
+                if (!completedTasks.includes(index)) {
+
+                    completedTasks.push(index);
+
+                }
+
+            } else {
+
+                completedTasks =
+                    completedTasks.filter(
+                        item => item !== index
+                    );
+
+            }
+
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(completedTasks)
             );
+
+        });
+
+    });
+
+
+    /* =====================================================
+       PROFILE UPDATE LISTENER
+    ====================================================== */
+
+    window.addEventListener("storage", event => {
+
+        if (event.key === "studentProfile") {
+
+            loadStudentProfile();
 
         }
 
     });
 
 
-    updateTaskCount();
+    /* =====================================================
+       INITIALIZE DASHBOARD
+    ====================================================== */
 
-}
+    loadStudentProfile();
 
-
-function updateTaskCount() {
-
-    const completedTasks =
-        JSON.parse(
-            localStorage.getItem(
-                "completedDashboardTasks"
-            )
-        ) || [];
+    loadCompletedTasks();
 
 
-    const tasksCompleted =
-        document.getElementById(
-            "tasksCompleted"
-        );
-
-
-    if (tasksCompleted) {
-
-        const currentCompleted =
-            completedTasks.length;
-
-        /*
-         * Dashboard originally starts
-         * with 18 completed tasks.
-         */
-
-        const totalCompleted =
-            Math.min(
-                25,
-                18 + currentCompleted
-            );
-
-        tasksCompleted.textContent =
-            totalCompleted;
-
-    }
-
-}
-
-
-taskButtons.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            const taskId =
-                button.dataset.task;
-
-
-            let completedTasks =
-                JSON.parse(
-                    localStorage.getItem(
-                        "completedDashboardTasks"
-                    )
-                ) || [];
-
-
-            if (
-                completedTasks.includes(
-                    taskId
-                )
-            ) {
-
-                completedTasks =
-                    completedTasks.filter(
-                        id => id !== taskId
-                    );
-
-                button.classList.remove(
-                    "completed"
-                );
-
-            } else {
-
-                completedTasks.push(
-                    taskId
-                );
-
-                button.classList.add(
-                    "completed"
-                );
-
-            }
-
-
-            localStorage.setItem(
-                "completedDashboardTasks",
-                JSON.stringify(
-                    completedTasks
-                )
-            );
-
-
-            updateTaskCount();
-
-        }
+    console.log(
+        "AI Student Mentor - Dashboard loaded."
     );
-
-});
-
-
-/* =====================================================
-   PROFILE UPDATE LISTENER
-   
-   This allows the dashboard to refresh its
-   avatar/name when profile information changes
-   in another page/tab.
-====================================================== */
-
-window.addEventListener(
-    "storage",
-    event => {
-
-        if (
-            event.key === "studentProfile"
-        ) {
-
-            loadStudentProfile();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIALIZE DASHBOARD
-====================================================== */
-
-loadStudentProfile();
-
-loadCompletedTasks();
-
-
-console.log(
-    "AI Student Mentor - Dashboard loaded."
-);
-
 
 });

@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-
     /* =====================================================
        ELEMENTS
     ====================================================== */
@@ -102,26 +101,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        DEFAULT PROFILE
+       Used only when MySQL has no profile yet.
     ====================================================== */
 
     const defaultProfile = {
 
-        name: "Student Name",
+        name: "",
 
-        email: "student@example.com",
+        email: "",
 
-        phone: "+91 XXXXX XXXXX",
+        phone: "",
 
-        location: "Bengaluru, India",
+        location: "",
 
-        course: "Bachelor of Computer Applications",
+        course: "",
 
-        semester: 6,
+        semester: "",
 
-        skills:
-            "Python, HTML, CSS, JavaScript, SQL, Machine Learning",
+        skills: "",
 
-        career_goal: "AI Engineer"
+        career_goal: ""
 
     };
 
@@ -147,49 +146,125 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       LOAD PROFILE
+       LOAD PROFILE FROM MYSQL
     ====================================================== */
 
-    function getSavedProfile() {
-
-        const savedProfile =
-            localStorage.getItem("studentProfile");
-
-
-        if (!savedProfile) {
-
-            return {
-                ...defaultProfile
-            };
-
-        }
-
+    async function loadProfile() {
 
         try {
 
+            const response =
+                await fetch("/api/profile");
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server returned " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load profile."
+                );
+
+            }
+
+
+            /*
+             * MySQL is now the source of truth.
+             *
+             * If the student has no profile yet,
+             * use an empty profile.
+             */
+
             const profile =
-                JSON.parse(savedProfile);
+                data.profile
+                    ? {
+                        ...defaultProfile,
+                        ...data.profile
+                    }
+                    : {
+                        ...defaultProfile
+                    };
 
 
-            return {
+            updateProfileDisplay(
+                profile
+            );
 
-                ...defaultProfile,
+            updateForm(
+                profile
+            );
 
-                ...profile
+            calculateCompletion(
+                profile
+            );
 
-            };
+
+            console.log(
+                "Profile loaded from MySQL:",
+                profile
+            );
+
+
+            return profile;
+
 
         } catch (error) {
 
             console.error(
-                "Error reading student profile:",
+                "Error loading profile:",
                 error
             );
 
 
-            return {
-                ...defaultProfile
-            };
+            if (saveMessage) {
+
+                saveMessage.textContent =
+                    "✗ Could not load profile information.";
+
+                saveMessage.style.color =
+                    "#fca5a5";
+
+            }
+
+
+            /*
+             * Do not load old localStorage data.
+             * This prevents another student's
+             * profile from appearing.
+             */
+
+            const emptyProfile =
+                {
+                    ...defaultProfile
+                };
+
+
+            updateProfileDisplay(
+                emptyProfile
+            );
+
+            updateForm(
+                emptyProfile
+            );
+
+            calculateCompletion(
+                emptyProfile
+            );
+
+
+            return emptyProfile;
 
         }
 
@@ -202,14 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateProfileDisplay(profile) {
 
-
         const name =
-
             profile.name &&
             profile.name.trim()
-
                 ? profile.name.trim()
-
                 : "Student Name";
 
 
@@ -289,7 +360,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* PERSONAL INFORMATION */
+        /* =================================================
+           PERSONAL INFORMATION
+        ================================================== */
 
         const nameDisplay =
             document.querySelector(
@@ -312,7 +385,9 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-        /* ACADEMIC INFORMATION */
+        /* =================================================
+           ACADEMIC INFORMATION
+        ================================================== */
 
         const courseDisplay =
             document.querySelector(
@@ -325,19 +400,24 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-        /* CAREER GOAL */
+        /* =================================================
+           CAREER GOAL
+        ================================================== */
 
         const careerGoalDisplay =
             document.querySelector(
                 '[data-field="career_goal"]'
             );
 
+        const skillsDisplay =
+             document.querySelector(
+                '[data-field="skills"]'
+            );  
 
         if (nameDisplay) {
 
             nameDisplay.textContent =
-                profile.name ||
-                defaultProfile.name;
+                profile.name || "Not specified";
 
         }
 
@@ -345,8 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (emailDisplay) {
 
             emailDisplay.textContent =
-                profile.email ||
-                defaultProfile.email;
+                profile.email || "Not specified";
 
         }
 
@@ -354,8 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (phoneDisplay) {
 
             phoneDisplay.textContent =
-                profile.phone ||
-                defaultProfile.phone;
+                profile.phone || "Not specified";
 
         }
 
@@ -363,8 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (locationDisplay) {
 
             locationDisplay.textContent =
-                profile.location ||
-                defaultProfile.location;
+                profile.location || "Not specified";
 
         }
 
@@ -372,8 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (courseDisplay) {
 
             courseDisplay.textContent =
-                profile.course ||
-                defaultProfile.course;
+                profile.course || "Not specified";
 
         }
 
@@ -403,7 +479,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             careerGoalDisplay.textContent =
                 profile.career_goal ||
-                defaultProfile.career_goal;
+                "Not specified";
+
+        }
+
+        if (skillsDisplay) {
+
+            skillsDisplay.textContent =
+                profile.skills ||
+                "Not specified";
 
         }
 
@@ -435,6 +519,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!skills || skills.trim() === "") {
 
+            const emptySkill =
+                document.createElement("span");
+
+            emptySkill.textContent =
+                "No skills added";
+
+            skillsList.appendChild(
+                emptySkill
+            );
+
             return;
 
         }
@@ -443,8 +537,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const skillArray =
             skills
                 .split(",")
-                .map(skill => skill.trim())
-                .filter(skill => skill !== "");
+                .map(
+                    skill => skill.trim()
+                )
+                .filter(
+                    skill => skill !== ""
+                );
 
 
         skillArray.forEach(skill => {
@@ -472,7 +570,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateForm(profile) {
 
-
         if (nameInput) {
 
             nameInput.value =
@@ -485,6 +582,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             emailInput.value =
                 profile.email || "";
+
+            /*
+             * Email belongs to the logged-in account.
+             * It should not be changed through the
+             * profile form.
+             */
+
+            emailInput.readOnly = true;
 
         }
 
@@ -545,7 +650,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function calculateCompletion(profile) {
 
-
         const fields = [
 
             profile.name,
@@ -576,9 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 field !== null &&
                 field !== undefined &&
-                String(field).trim() !== "" &&
-                !String(field).includes("XXXXX") &&
-                !String(field).includes("example.com")
+                String(field).trim() !== ""
 
             ) {
 
@@ -589,18 +691,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-        let percentage =
-
+        const percentage =
             Math.round(
                 (completed / fields.length) * 100
             );
-
-
-        if (percentage < 75) {
-
-            percentage = 75;
-
-        }
 
 
         if (completionPercent) {
@@ -622,15 +716,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       SAVE PROFILE
-       LOCAL STORAGE + MYSQL
+       SAVE PROFILE TO MYSQL
     ====================================================== */
 
     async function saveProfile() {
 
-
         const semesterValue =
-
             semesterInput
                 ? semesterInput.value.trim()
                 : "";
@@ -638,44 +729,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const profile = {
 
-
             name:
-
                 nameInput
                     ? nameInput.value.trim()
                     : "",
 
+            /*
+             * Email is taken from the current
+             * logged-in account by the backend.
+             *
+             * We still send the displayed value,
+             * but the backend does not use it
+             * to identify the student.
+             */
 
             email:
-
                 emailInput
                     ? emailInput.value.trim()
                     : "",
 
-
             phone:
-
                 phoneInput
                     ? phoneInput.value.trim()
                     : "",
 
-
             location:
-
                 locationInput
                     ? locationInput.value.trim()
                     : "",
 
-
             course:
-
                 courseInput
                     ? courseInput.value.trim()
                     : "",
 
-
             semester:
-
                 semesterValue
                     ? parseInt(
                         semesterValue,
@@ -683,16 +771,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     )
                     : null,
 
-
             skills:
-
                 skillsInput
                     ? skillsInput.value.trim()
                     : "",
 
-
             career_goal:
-
                 careerGoalInput
                     ? careerGoalInput.value.trim()
                     : ""
@@ -701,27 +785,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /* =================================================
-           SAVE TO LOCAL STORAGE
-        ================================================== */
-
-        localStorage.setItem(
-
-            "studentProfile",
-
-            JSON.stringify(profile)
-
-        );
-
-
-        /* =================================================
            SAVE TO MYSQL
         ================================================== */
 
         try {
 
+            if (saveProfileBtn) {
+
+                saveProfileBtn.disabled = true;
+
+            }
+
 
             const response =
-
                 await fetch(
                     "/api/profile",
                     {
@@ -729,10 +805,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         method: "POST",
 
                         headers: {
-
                             "Content-Type":
                                 "application/json"
-
                         },
 
                         body:
@@ -742,76 +816,66 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-            if (!response.ok) {
-
-                throw new Error(
-                    "Server returned an error: " +
-                    response.status
-                );
-
-            }
-
-
             const data =
                 await response.json();
 
 
-            if (data.success) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
-
-                updateProfileDisplay(
-                    profile
+                throw new Error(
+                    data.message ||
+                    "Profile could not be saved."
                 );
-
-
-                calculateCompletion(
-                    profile
-                );
-
-
-                if (saveMessage) {
-
-                    saveMessage.textContent =
-
-                        "✓ Your profile information has been saved successfully.";
-
-                    saveMessage.style.color =
-                        "#a7f3d0";
-
-                }
-
-
-                console.log(
-                    "Profile successfully saved to MySQL."
-                );
-
-
-            } else {
-
-
-                console.error(
-                    "Profile was not saved."
-                );
-
-
-                if (saveMessage) {
-
-                    saveMessage.textContent =
-                        "✗ Profile could not be saved.";
-
-                    saveMessage.style.color =
-                        "#fca5a5";
-
-                }
 
             }
 
 
+            /*
+             * Only update the page after
+             * MySQL confirms the save.
+             */
+
+            updateProfileDisplay(
+                profile
+            );
+
+            updateForm(
+                profile
+            );
+
+            calculateCompletion(
+                profile
+            );
+
+
+            if (saveMessage) {
+
+                saveMessage.textContent =
+                    "✓ Your profile information has been saved successfully.";
+
+                saveMessage.style.color =
+                    "#a7f3d0";
+
+            }
+
+
+            showNotification(
+                "Profile saved successfully!"
+            );
+
+
+            console.log(
+                "Profile successfully saved to MySQL."
+            );
+
+
         } catch (error) {
 
-
             console.error(
-                "Error saving profile to MySQL:",
+                "Error saving profile:",
                 error
             );
 
@@ -819,10 +883,23 @@ document.addEventListener("DOMContentLoaded", () => {
             if (saveMessage) {
 
                 saveMessage.textContent =
-                    "✗ Error saving profile to MySQL.";
+                    "✗ Profile could not be saved.";
 
                 saveMessage.style.color =
                     "#fca5a5";
+
+            }
+
+
+            showNotification(
+                "Could not save profile."
+            );
+
+        } finally {
+
+            if (saveProfileBtn) {
+
+                saveProfileBtn.disabled = false;
 
             }
 
@@ -838,14 +915,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (editProfileBtn) {
 
         editProfileBtn.addEventListener(
-
             "click",
+            async () => {
 
-            () => {
-
+                /*
+                 * Always get the latest data
+                 * from MySQL before opening edit.
+                 */
 
                 const profile =
-                    getSavedProfile();
+                    await loadProfile();
 
 
                 updateForm(
@@ -862,7 +941,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
-
         );
 
     }
@@ -912,17 +990,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (profileModal) {
 
         profileModal.addEventListener(
-
             "click",
-
             event => {
 
-
                 if (
-
                     event.target ===
                     profileModal
-
                 ) {
 
                     closeProfileModal();
@@ -930,38 +1003,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
-
         );
 
     }
 
 
     /* =====================================================
-       SAVE PROFILE FROM MODAL
+       SAVE PROFILE FROM FORM
     ====================================================== */
 
     if (profileForm) {
+    profileForm.addEventListener(
+        "submit",
+        async event => {
+            event.preventDefault();
 
-        profileForm.addEventListener(
+            await saveProfile();
 
-            "submit",
-
-            async event => {
-
-
-                event.preventDefault();
-
-
-                await saveProfile();
-
-
-                closeProfileModal();
-
-            }
-
-        );
-
-    }
+            closeProfileModal();
+        }
+    );
+}
+    
 
 
     /* =====================================================
@@ -971,15 +1034,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (saveProfileBtn) {
 
         saveProfileBtn.addEventListener(
-
             "click",
-
             async () => {
 
                 await saveProfile();
 
             }
-
         );
 
     }
@@ -992,11 +1052,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addSkillBtn) {
 
         addSkillBtn.addEventListener(
-
             "click",
-
             () => {
-
 
                 const skill =
                     prompt(
@@ -1005,10 +1062,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 if (
-
                     !skill ||
                     skill.trim() === ""
-
                 ) {
 
                     return;
@@ -1017,14 +1072,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 const currentSkills =
-
                     skillsInput
                         ? skillsInput.value.trim()
                         : "";
 
 
                 if (skillsInput) {
-
 
                     if (currentSkills === "") {
 
@@ -1048,7 +1101,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
-
         );
 
     }
@@ -1063,13 +1115,9 @@ document.addEventListener("DOMContentLoaded", () => {
         notificationPopup
     ) {
 
-
         notificationBtn.addEventListener(
-
             "click",
-
             event => {
-
 
                 event.stopPropagation();
 
@@ -1079,27 +1127,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
             }
-
         );
 
 
         document.addEventListener(
-
             "click",
-
             event => {
 
-
                 if (
-
                     !notificationPopup.contains(
                         event.target
                     ) &&
-
                     !notificationBtn.contains(
                         event.target
                     )
-
                 ) {
 
                     notificationPopup.classList.remove(
@@ -1109,57 +1150,76 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }
-
         );
 
     }
-
 
     /* =====================================================
-       INITIALIZE
-    ====================================================== */
+   SAVE NOTIFICATION
+====================================================== */
 
-    const currentProfile =
-        getSavedProfile();
+function showNotification(message) {
 
-
-    if (
-        !localStorage.getItem(
-            "studentProfile"
-        )
-    ) {
-
-        localStorage.setItem(
-
-            "studentProfile",
-
-            JSON.stringify(
-                currentProfile
-            )
-
-        );
-
+    if (!notificationPopup) {
+        return;
     }
 
+    notificationPopup.textContent = message;
 
-    updateProfileDisplay(
-        currentProfile
-    );
+    notificationPopup.classList.add("show");
+
+    setTimeout(() => {
+
+        notificationPopup.classList.remove("show");
+
+    }, 3000);
+
+}
+
+    /* =====================================================
+       LEARNING PREFERENCE DROPDOWNS
+    ====================================================== */
+
+    const primaryGoal =
+        document.getElementById("primaryGoal");
+
+    const skillLevel =
+        document.getElementById("skillLevel");
+
+    const learningStyle =
+        document.getElementById("learningStyle");
+
+    const studyTime =
+        document.getElementById("studyTime");
 
 
-    updateForm(
-        currentProfile
-    );
+    /* DEFAULT VALUES */
 
+    if (primaryGoal) {
+        primaryGoal.value = "AI Engineer";
+    }
 
-    calculateCompletion(
-        currentProfile
-    );
+    if (skillLevel) {
+        skillLevel.value = "Intermediate";
+    }
+
+    if (learningStyle) {
+        learningStyle.value = "Practical Learning";
+    }
+
+    if (studyTime) {
+        studyTime.value = "2 - 3 Hours";
+    }
+    
+    /* =====================================================
+       INITIALIZE PROFILE
+    ====================================================== */
+
+    loadProfile();
 
 
     console.log(
-        "AI Student Mentor - Profile loaded."
+        "AI Student Mentor - Profile initialized."
     );
-
 
 });

@@ -32,6 +32,8 @@ const clearCompletedBtn =
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    loadStudentProfile();
+
     initializeProgressTracker();
 
     setupTaskForm();
@@ -46,6 +48,149 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 /* =========================================================
+   LOAD LOGGED-IN STUDENT PROFILE
+========================================================= */
+
+function getInitial(name) {
+
+    if (!name || name.trim() === "") {
+        return "Y";
+    }
+
+    return name.trim().charAt(0).toUpperCase();
+}
+
+
+async function loadStudentProfile() {
+
+    try {
+
+        const response =
+            await fetch("/api/profile");
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.profile
+        ) {
+
+            console.error(
+                "Could not load student profile."
+            );
+
+            return;
+        }
+
+
+        const profile =
+            data.profile;
+
+
+        const name =
+            profile.name &&
+            profile.name.trim()
+                ? profile.name.trim()
+                : "Student";
+
+
+        const initial =
+            getInitial(name);
+
+
+        /* =================================================
+           TOP AVATAR
+        ================================================== */
+
+        const topAvatar =
+            document.querySelector(".top-avatar");
+
+
+        if (topAvatar) {
+
+            topAvatar.textContent =
+                initial;
+
+        }
+
+
+        /* =================================================
+           TOP PROFILE NAME
+        ================================================== */
+
+        const topProfileName =
+            document.querySelector(
+                ".top-profile strong"
+            );
+
+
+        if (topProfileName) {
+
+            topProfileName.textContent =
+                name;
+
+        }
+
+
+        /* =================================================
+           SIDEBAR AVATAR
+        ================================================== */
+
+        const sidebarAvatar =
+            document.querySelector(
+                ".user-avatar"
+            );
+
+
+        if (sidebarAvatar) {
+
+            sidebarAvatar.textContent =
+                initial;
+
+        }
+
+
+        /* =================================================
+           SIDEBAR PROFILE NAME
+        ================================================== */
+
+        const sidebarName =
+            document.querySelector(
+                ".user-details strong"
+            );
+
+
+        if (sidebarName) {
+
+            sidebarName.textContent =
+                name;
+
+        }
+
+
+        console.log(
+            "Progress Tracker profile loaded from MySQL:",
+            profile
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Progress Tracker profile loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
    LOAD TASKS FROM MYSQL
 ========================================================= */
 
@@ -56,6 +201,7 @@ async function loadTasks() {
         const response =
             await fetch("/api/progress");
 
+
         if (!response.ok) {
 
             throw new Error(
@@ -63,6 +209,7 @@ async function loadTasks() {
             );
 
         }
+
 
         const data =
             await response.json();
@@ -96,26 +243,32 @@ async function loadTasks() {
             error
         );
 
+
         showNotification(
             "Could not load project tasks."
         );
+
 
         return false;
 
     }
 
 }
+
+
 /* =========================================================
    ADD TASK
 ========================================================= */
 
 function setupTaskForm() {
 
-    const addTaskBtn =
-        document.getElementById("addTaskBtn");
+    const addTaskButton =
+        document.getElementById(
+            "addTaskBtn"
+        );
 
 
-    if (!addTaskBtn) {
+    if (!addTaskButton) {
 
         console.error(
             "Add Task button not found."
@@ -126,7 +279,7 @@ function setupTaskForm() {
     }
 
 
-    addTaskBtn.addEventListener(
+    addTaskButton.addEventListener(
         "click",
         async function () {
 
@@ -140,15 +293,18 @@ function setupTaskForm() {
                     "taskName"
                 );
 
+
             const milestoneInput =
                 document.getElementById(
                     "taskMilestone"
                 );
 
+
             const priorityInput =
                 document.getElementById(
                     "taskPriority"
                 );
+
 
             const dateInput =
                 document.getElementById(
@@ -195,7 +351,8 @@ function setupTaskForm() {
             }
 
 
-            addTaskBtn.disabled = true;
+            addTaskButton.disabled =
+                true;
 
 
             try {
@@ -215,6 +372,7 @@ function setupTaskForm() {
                     await fetch(
                         "/api/progress",
                         {
+
                             method: "POST",
 
                             headers: {
@@ -224,6 +382,7 @@ function setupTaskForm() {
 
                             body:
                                 JSON.stringify({
+
                                     task_name:
                                         taskName,
 
@@ -235,7 +394,9 @@ function setupTaskForm() {
 
                                     due_date:
                                         dueDate || null
+
                                 })
+
                         }
                     );
 
@@ -265,24 +426,25 @@ function setupTaskForm() {
                 }
 
 
-                /* Reload tasks from MySQL */
-
                 await loadTasks();
 
-
-                /* Refresh the entire page data */
 
                 renderEverything();
 
 
-                /* Clear input fields */
-
                 if (taskNameInput) {
-                    taskNameInput.value = "";
+
+                    taskNameInput.value =
+                        "";
+
                 }
 
+
                 if (dateInput) {
-                    dateInput.value = "";
+
+                    dateInput.value =
+                        "";
+
                 }
 
 
@@ -306,7 +468,8 @@ function setupTaskForm() {
 
             } finally {
 
-                addTaskBtn.disabled = false;
+                addTaskButton.disabled =
+                    false;
 
             }
 
@@ -350,35 +513,43 @@ function renderTasks() {
     }
 
 
-    taskList.innerHTML = "";
+    taskList.innerHTML =
+        "";
 
 
-    let filteredTasks = [];
+    let filteredTasks =
+        [];
 
 
     if (currentFilter === "pending") {
 
         filteredTasks =
-            tasks.filter(function (task) {
+            tasks.filter(
+                function (task) {
 
-                return !Boolean(
-                    task.completed
-                );
+                    return !Boolean(
+                        task.completed
+                    );
 
-            });
+                }
+            );
+
 
     } else if (
         currentFilter === "completed"
     ) {
 
         filteredTasks =
-            tasks.filter(function (task) {
+            tasks.filter(
+                function (task) {
 
-                return Boolean(
-                    task.completed
-                );
+                    return Boolean(
+                        task.completed
+                    );
 
-            });
+                }
+            );
+
 
     } else {
 
@@ -587,7 +758,7 @@ function renderTasks() {
 
 
             /* =================================================
-               TASK META / PRIORITY
+               PRIORITY
             ================================================== */
 
             const priorityBadge =
@@ -779,7 +950,10 @@ async function toggleTask(id) {
             await response.json();
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             showNotification(
                 data.message ||
@@ -810,6 +984,7 @@ async function toggleTask(id) {
             "Error updating task:",
             error
         );
+
 
         showNotification(
             "Could not connect to server."
@@ -867,7 +1042,10 @@ async function deleteTask(id) {
             await response.json();
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             showNotification(
                 data.message ||
@@ -896,6 +1074,7 @@ async function deleteTask(id) {
             "Error deleting task:",
             error
         );
+
 
         showNotification(
             "Could not connect to server."
@@ -928,7 +1107,8 @@ function calculateProgress() {
         ).length;
 
 
-    let percentage = 0;
+    let percentage =
+        0;
 
 
     if (totalTasks > 0) {
@@ -945,13 +1125,20 @@ function calculateProgress() {
 
 
     return {
-        total: totalTasks,
-        completed: completedTasks,
+
+        total:
+            totalTasks,
+
+        completed:
+            completedTasks,
+
         pending:
             totalTasks -
             completedTasks,
+
         percentage:
             percentage
+
     };
 
 }
@@ -1090,7 +1277,9 @@ function updateOverviewCards() {
                 tasks
                     .map(
                         function (task) {
+
                             return task.milestone;
+
                         }
                     )
                     .filter(Boolean)
@@ -1207,6 +1396,8 @@ function updateProjectCompletion() {
 
     if (progressCircle) {
 
+        /* FIXED: only one const degrees */
+
         const degrees =
             (
                 progress.percentage /
@@ -1234,6 +1425,7 @@ function updateProjectCompletion() {
 function updateWeeklyProgress() {
 
     const days = [
+
         "monday",
         "tuesday",
         "wednesday",
@@ -1241,10 +1433,12 @@ function updateWeeklyProgress() {
         "friday",
         "saturday",
         "sunday"
+
     ];
 
 
     const values = [
+
         0,
         0,
         0,
@@ -1252,6 +1446,7 @@ function updateWeeklyProgress() {
         0,
         0,
         0
+
     ];
 
 
@@ -1309,7 +1504,8 @@ function updateWeeklyProgress() {
     );
 
 
-    let weeklyTotal = 0;
+    let weeklyTotal =
+        0;
 
 
     days.forEach(
@@ -1319,7 +1515,8 @@ function updateWeeklyProgress() {
                 values[index];
 
 
-            weeklyTotal += value;
+            weeklyTotal +=
+                value;
 
 
             const valueElement =
@@ -1366,7 +1563,8 @@ function updateWeeklyProgress() {
         tasks.length;
 
 
-    let percentage = 0;
+    let percentage =
+        0;
 
 
     if (totalTasks > 0) {
@@ -1480,7 +1678,8 @@ function renderMilestones() {
     }
 
 
-    milestoneGrid.innerHTML = "";
+    milestoneGrid.innerHTML =
+        "";
 
 
     const milestoneMap =
@@ -1520,8 +1719,10 @@ function renderMilestones() {
     if (milestoneMap.size === 0) {
 
         milestoneGrid.innerHTML = `
+
             <div class="empty-task-state"
                  style="display:flex; grid-column:1/-1;">
+
                 <div class="empty-task-icon">
                     ◈
                 </div>
@@ -1533,7 +1734,9 @@ function renderMilestones() {
                 <p>
                     Add a task with a milestone to begin tracking project stages.
                 </p>
+
             </div>
+
         `;
 
         return;
@@ -1541,11 +1744,15 @@ function renderMilestones() {
     }
 
 
-    let milestoneNumber = 1;
+    let milestoneNumber =
+        1;
 
 
     milestoneMap.forEach(
-        function (milestoneTasks, milestoneName) {
+        function (
+            milestoneTasks,
+            milestoneName
+        ) {
 
             const completedCount =
                 milestoneTasks.filter(
@@ -1616,7 +1823,9 @@ function renderMilestones() {
                 </div>
 
                 <h3>
-                    ${escapeHTML(milestoneName)}
+                    ${escapeHTML(
+                        milestoneName
+                    )}
                 </h3>
 
                 <p>
@@ -1685,7 +1894,8 @@ function renderPendingTasks() {
     }
 
 
-    pendingGrid.innerHTML = "";
+    pendingGrid.innerHTML =
+        "";
 
 
     const pendingTasks =

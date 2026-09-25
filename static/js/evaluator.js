@@ -7,6 +7,156 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       LOAD LOGGED-IN STUDENT PROFILE
+    ===================================================== */
+
+    function getInitial(name) {
+
+        if (!name || name.trim() === "") {
+            return "Y";
+        }
+
+        return name.trim().charAt(0).toUpperCase();
+    }
+
+
+    async function loadStudentProfile() {
+
+        try {
+
+            const response =
+                await fetch("/api/profile");
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success ||
+                !data.profile
+            ) {
+
+                console.error(
+                    "Could not load student profile."
+                );
+
+                return;
+            }
+
+
+            const profile =
+                data.profile;
+
+
+            const name =
+                profile.name &&
+                profile.name.trim()
+                    ? profile.name.trim()
+                    : "Student";
+
+
+            const initial =
+                getInitial(name);
+
+
+            /* =================================================
+               TOP AVATAR
+            ================================================== */
+
+            const topAvatar =
+                document.querySelector(
+                    ".top-avatar"
+                );
+
+
+            if (topAvatar) {
+
+                topAvatar.textContent =
+                    initial;
+
+            }
+
+
+            /* =================================================
+               TOP PROFILE NAME
+            ================================================== */
+
+            const topProfileName =
+                document.querySelector(
+                    ".top-profile strong"
+                );
+
+
+            if (topProfileName) {
+
+                topProfileName.textContent =
+                    name;
+
+            }
+
+
+            /* =================================================
+               SIDEBAR AVATAR
+            ================================================== */
+
+            const sidebarAvatar =
+                document.querySelector(
+                    ".user-avatar"
+                );
+
+
+            if (sidebarAvatar) {
+
+                sidebarAvatar.textContent =
+                    initial;
+
+            }
+
+
+            /* =================================================
+               SIDEBAR PROFILE NAME
+            ================================================== */
+
+            const sidebarName =
+                document.querySelector(
+                    ".user-details strong"
+                );
+
+
+            if (sidebarName) {
+
+                sidebarName.textContent =
+                    name;
+
+            }
+
+
+            console.log(
+                "Evaluator profile loaded from MySQL:",
+                profile
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Evaluator profile loading error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* Load logged-in student profile */
+
+    loadStudentProfile();
+
+
+    /* =====================================================
        ELEMENTS
     ===================================================== */
 
@@ -115,11 +265,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 const count =
                     ideaInput.value.length;
 
-                characterCount.textContent =
-                    `${count} characters`;
+
+                if (characterCount) {
+
+                    characterCount.textContent =
+                        `${count} characters`;
+
+                }
 
             }
         );
+
     }
 
 
@@ -136,8 +292,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const title =
                     projectTitle.value.trim();
 
+
                 const idea =
                     ideaInput.value.trim();
+
 
                 if (!title) {
 
@@ -145,9 +303,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Please enter a project title."
                     );
 
+
                     projectTitle.focus();
 
+
                     return;
+
                 }
 
 
@@ -157,9 +318,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Please describe your project idea."
                     );
 
+
                     ideaInput.focus();
 
+
                     return;
+
                 }
 
 
@@ -167,13 +331,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 totalEvaluations++;
 
-                evaluationCount.textContent =
-                    totalEvaluations;
+
+                if (evaluationCount) {
+
+                    evaluationCount.textContent =
+                        totalEvaluations;
+
+                }
 
 
                 /* Loading state */
 
-                evaluateBtn.disabled = true;
+                evaluateBtn.disabled =
+                    true;
+
 
                 evaluateBtn.innerHTML = `
                     <span class="evaluate-icon">⟳</span>
@@ -195,6 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         await fetch(
                             "/api/evaluate-project",
                             {
+
                                 method: "POST",
 
                                 headers: {
@@ -202,22 +374,26 @@ document.addEventListener("DOMContentLoaded", function () {
                                         "application/json"
                                 },
 
-                                body: JSON.stringify({
+                                body:
+                                    JSON.stringify({
 
-                                    title: title,
+                                        title:
+                                            title,
 
-                                    idea: idea,
+                                        idea:
+                                            idea,
 
-                                    category:
-                                        projectCategory.value,
+                                        category:
+                                            projectCategory.value,
 
-                                    skill_level:
-                                        skillLevel.value,
+                                        skill_level:
+                                            skillLevel.value,
 
-                                    duration:
-                                        projectDuration.value
+                                        duration:
+                                            projectDuration.value
 
-                                })
+                                    })
+
                             }
                         );
 
@@ -259,6 +435,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     }
 
+
                 } catch (error) {
 
                     /*
@@ -267,6 +444,12 @@ document.addEventListener("DOMContentLoaded", function () {
                      * Use local evaluation so the
                      * frontend can still be tested.
                      */
+
+                    console.error(
+                        "Evaluation API error:",
+                        error
+                    );
+
 
                     displayEvaluation(
                         title,
@@ -281,7 +464,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 /* Restore button */
 
-                evaluateBtn.disabled = false;
+                evaluateBtn.disabled =
+                    false;
+
 
                 evaluateBtn.innerHTML = `
                     <span class="evaluate-icon">✦</span>
@@ -291,6 +476,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
+
     }
 
 
@@ -298,65 +484,129 @@ document.addEventListener("DOMContentLoaded", function () {
        DISPLAY EVALUATION
     ===================================================== */
 
-    function displayEvaluation(title, evaluation) {
+    function displayEvaluation(
+        title,
+        evaluation
+    ) {
 
-        emptyState.style.display =
-            "none";
+        if (emptyState) {
 
-        generatedResult.style.display =
-            "block";
+            emptyState.style.display =
+                "none";
 
-
-        resultTitle.textContent =
-            title;
-
-
-        originalityScore.textContent =
-            evaluation.originality_score || "Good";
-
-        difficultyScore.textContent =
-            evaluation.difficulty || "Moderate";
-
-        feasibilityScore.textContent =
-            evaluation.ai_feasibility || "Good";
-
-        bcaScore.textContent =
-            evaluation.bca_suitability || "Suitable";
+        }
 
 
-        originalityText.textContent =
-            evaluation.originality_text || "";
+        if (generatedResult) {
+
+            generatedResult.style.display =
+                "block";
+
+        }
 
 
-        difficultyText.textContent =
-            evaluation.difficulty_text || "";
+        if (resultTitle) {
+
+            resultTitle.textContent =
+                title;
+
+        }
 
 
-        feasibilityText.textContent =
-            evaluation.feasibility_text || "";
+        if (originalityScore) {
+
+            originalityScore.textContent =
+                evaluation.originality_score ||
+                "Good";
+
+        }
 
 
-        bcaText.textContent =
-            evaluation.bca_text || "";
+        if (difficultyScore) {
+
+            difficultyScore.textContent =
+                evaluation.difficulty ||
+                "Moderate";
+
+        }
+
+
+        if (feasibilityScore) {
+
+            feasibilityScore.textContent =
+                evaluation.ai_feasibility ||
+                "Good";
+
+        }
+
+
+        if (bcaScore) {
+
+            bcaScore.textContent =
+                evaluation.bca_suitability ||
+                "Suitable";
+
+        }
+
+
+        if (originalityText) {
+
+            originalityText.textContent =
+                evaluation.originality_text ||
+                "";
+
+        }
+
+
+        if (difficultyText) {
+
+            difficultyText.textContent =
+                evaluation.difficulty_text ||
+                "";
+
+        }
+
+
+        if (feasibilityText) {
+
+            feasibilityText.textContent =
+                evaluation.feasibility_text ||
+                "";
+
+        }
+
+
+        if (bcaText) {
+
+            bcaText.textContent =
+                evaluation.bca_text ||
+                "";
+
+        }
 
 
         renderTechnologies(
-            evaluation.technologies || []
+            evaluation.technologies ||
+            []
         );
 
 
         renderModules(
-            evaluation.modules || []
+            evaluation.modules ||
+            []
         );
 
 
         renderImprovements(
-            evaluation.improvements || []
+            evaluation.improvements ||
+            []
         );
 
 
         updateWordCount(
-            buildEvaluationText(evaluation)
+            buildEvaluationText(
+                evaluation
+            )
         );
 
 
@@ -365,9 +615,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 "resultPreview"
             );
 
+
         if (preview) {
 
-            preview.scrollTop = 0;
+            preview.scrollTop =
+                0;
 
         }
 
@@ -378,26 +630,43 @@ document.addEventListener("DOMContentLoaded", function () {
        TECHNOLOGIES
     ===================================================== */
 
-    function renderTechnologies(technologies) {
+    function renderTechnologies(
+        technologies
+    ) {
 
-        technologyList.innerHTML = "";
+        if (!technologyList) {
+            return;
+        }
+
+
+        technologyList.innerHTML =
+            "";
+
 
         technologies.forEach(
             function (technology) {
 
                 const tag =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 tag.className =
                     "technology-tag";
 
+
                 tag.textContent =
                     technology;
 
-                technologyList.appendChild(tag);
+
+                technologyList.appendChild(
+                    tag
+                );
 
             }
         );
+
     }
 
 
@@ -405,18 +674,34 @@ document.addEventListener("DOMContentLoaded", function () {
        MODULES
     ===================================================== */
 
-    function renderModules(modules) {
+    function renderModules(
+        modules
+    ) {
 
-        moduleList.innerHTML = "";
+        if (!moduleList) {
+            return;
+        }
+
+
+        moduleList.innerHTML =
+            "";
+
 
         modules.forEach(
-            function (module, index) {
+            function (
+                module,
+                index
+            ) {
 
                 const item =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 item.className =
                     "module-item";
+
 
                 item.innerHTML = `
                     <span>
@@ -426,10 +711,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${escapeHTML(module)}
                 `;
 
-                moduleList.appendChild(item);
+
+                moduleList.appendChild(
+                    item
+                );
 
             }
         );
+
     }
 
 
@@ -437,18 +726,34 @@ document.addEventListener("DOMContentLoaded", function () {
        IMPROVEMENTS
     ===================================================== */
 
-    function renderImprovements(improvements) {
+    function renderImprovements(
+        improvements
+    ) {
 
-        improvementList.innerHTML = "";
+        if (!improvementList) {
+            return;
+        }
+
+
+        improvementList.innerHTML =
+            "";
+
 
         improvements.forEach(
-            function (improvement, index) {
+            function (
+                improvement,
+                index
+            ) {
 
                 const item =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 item.className =
                     "improvement-item";
+
 
                 item.innerHTML = `
                     <span>
@@ -456,14 +761,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     </span>
 
                     <div>
-                        ${escapeHTML(improvement)}
+                        ${escapeHTML(
+                            improvement
+                        )}
                     </div>
                 `;
 
-                improvementList.appendChild(item);
+
+                improvementList.appendChild(
+                    item
+                );
 
             }
         );
+
     }
 
 
@@ -483,12 +794,14 @@ document.addEventListener("DOMContentLoaded", function () {
         let difficulty =
             "Moderate";
 
+
         let difficultyText =
             "The proposed project has a moderate development complexity. It should be manageable for a BCA project when the implementation is divided into smaller modules and developed step by step.";
 
 
         let originalityScore =
             "Good";
+
 
         let originalityText =
             "The idea has potential for originality when it provides a clear solution to a specific student, academic or real-world problem. The uniqueness can be improved by adding features that are not commonly available in similar applications.";
@@ -497,12 +810,14 @@ document.addEventListener("DOMContentLoaded", function () {
         let aiFeasibility =
             "Good";
 
+
         let feasibilityText =
             "AI can be integrated if the project requires intelligent recommendations, question answering, analysis, content generation or personalized assistance. The exact AI implementation should depend on the actual project requirements.";
 
 
         let bcaScore =
             "Suitable";
+
 
         let bcaText =
             "The idea can be suitable for a BCA academic project if its scope is clearly defined and the implementation demonstrates appropriate frontend, backend, database and, where applicable, AI concepts.";
@@ -523,8 +838,10 @@ document.addEventListener("DOMContentLoaded", function () {
             difficulty =
                 "Advanced";
 
+
             difficultyText =
                 "The project may require advanced implementation because it involves AI or machine learning concepts. Dataset preparation, model integration, evaluation and system integration should be considered during development.";
+
 
         } else if (
             lowerIdea.includes("ai") ||
@@ -535,6 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             difficulty =
                 "Intermediate";
+
 
             difficultyText =
                 "The project has an intermediate level of complexity because AI-related functionality may require API integration, prompt design, response handling and testing.";
@@ -554,6 +872,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             originalityScore =
                 "High";
+
 
             originalityText =
                 "The idea contains potentially differentiating characteristics. Its originality can be strengthened further by defining a specific target problem and adding features that provide clear value to users.";
@@ -576,6 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             aiFeasibility =
                 "High";
+
 
             feasibilityText =
                 "The project appears suitable for AI integration. An LLM or other AI service can be considered where the system requires intelligent responses, recommendations, analysis or personalized assistance.";
@@ -732,7 +1052,9 @@ document.addEventListener("DOMContentLoaded", function () {
        BUILD EVALUATION TEXT
     ===================================================== */
 
-    function buildEvaluationText(evaluation) {
+    function buildEvaluationText(
+        evaluation
+    ) {
 
         return [
 
@@ -762,12 +1084,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function escapeHTML(text) {
 
         const div =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         div.textContent =
-            text;
+            text == null
+                ? ""
+                : String(text);
+
 
         return div.innerHTML;
+
     }
 
 
@@ -776,6 +1105,11 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function updateWordCount(text) {
+
+        if (!resultWordCount) {
+            return;
+        }
+
 
         const cleanText =
             text.trim();
@@ -786,16 +1120,21 @@ document.addEventListener("DOMContentLoaded", function () {
             resultWordCount.textContent =
                 "0 words";
 
+
             return;
+
         }
 
 
         const words =
-            cleanText.split(/\s+/).length;
+            cleanText.split(
+                /\s+/
+            ).length;
 
 
         resultWordCount.textContent =
             `${words} words`;
+
     }
 
 
@@ -820,44 +1159,53 @@ document.addEventListener("DOMContentLoaded", function () {
                         card.dataset.focus;
 
 
-                    let message = "";
+                    let message =
+                        "";
 
 
-                    if (focus === "originality") {
+                    if (
+                        focus ===
+                        "originality"
+                    ) {
 
                         message =
                             "Originality evaluates how unique and innovative your project idea is.";
 
                     } else if (
-                        focus === "difficulty"
+                        focus ===
+                        "difficulty"
                     ) {
 
                         message =
                             "Difficulty estimates the development effort and technical complexity of your project.";
 
                     } else if (
-                        focus === "technology"
+                        focus ===
+                        "technology"
                     ) {
 
                         message =
                             "The evaluator identifies suitable technologies and frameworks for your project.";
 
                     } else if (
-                        focus === "ai"
+                        focus ===
+                        "ai"
                     ) {
 
                         message =
                             "AI feasibility checks whether artificial intelligence can be practically integrated into the project.";
 
                     } else if (
-                        focus === "bca"
+                        focus ===
+                        "bca"
                     ) {
 
                         message =
                             "BCA suitability checks whether the project has an appropriate academic and technical scope.";
 
                     } else if (
-                        focus === "modules"
+                        focus ===
+                        "modules"
                     ) {
 
                         message =
@@ -866,18 +1214,30 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    showNotification(message);
+                    showNotification(
+                        message
+                    );
 
 
-                    document.querySelector(
-                        ".idea-card"
-                    ).scrollIntoView({
+                    const ideaCard =
+                        document.querySelector(
+                            ".idea-card"
+                        );
 
-                        behavior: "smooth",
 
-                        block: "start"
+                    if (ideaCard) {
 
-                    });
+                        ideaCard.scrollIntoView({
+
+                            behavior:
+                                "smooth",
+
+                            block:
+                                "start"
+
+                        });
+
+                    }
 
                 }
             );
@@ -899,35 +1259,53 @@ document.addEventListener("DOMContentLoaded", function () {
                 projectTitle.value =
                     "AI Student Study Assistant";
 
+
                 projectCategory.value =
                     "ai";
+
 
                 ideaInput.value =
                     "An AI-powered web application that helps BCA students ask project-related questions, understand technical concepts, receive personalized explanations and prepare for project development and viva examinations.";
 
+
                 skillLevel.value =
                     "intermediate";
+
 
                 projectDuration.value =
                     "3-4";
 
 
-                characterCount.textContent =
-                    `${ideaInput.value.length} characters`;
+                if (characterCount) {
+
+                    characterCount.textContent =
+                        `${ideaInput.value.length} characters`;
+
+                }
 
 
                 ideaInput.focus();
 
 
-                document.querySelector(
-                    ".idea-card"
-                ).scrollIntoView({
+                const ideaCard =
+                    document.querySelector(
+                        ".idea-card"
+                    );
 
-                    behavior: "smooth",
 
-                    block: "start"
+                if (ideaCard) {
 
-                });
+                    ideaCard.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "start"
+
+                    });
+
+                }
 
 
                 showNotification(
@@ -936,6 +1314,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
+
     }
 
 
@@ -949,20 +1328,28 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             async function () {
 
+                if (!generatedResult) {
+                    return;
+                }
+
+
                 const text =
                     generatedResult.innerText.trim();
 
 
                 if (
                     !text ||
-                    generatedResult.style.display === "none"
+                    generatedResult.style.display ===
+                    "none"
                 ) {
 
                     showNotification(
                         "There is no evaluation to copy."
                     );
 
+
                     return;
+
                 }
 
 
@@ -972,11 +1359,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         text
                     );
 
+
                     showNotification(
                         "Evaluation copied successfully."
                     );
 
+
                 } catch (error) {
+
+                    console.error(
+                        "Copy error:",
+                        error
+                    );
+
 
                     showNotification(
                         "Unable to copy the evaluation."
@@ -986,6 +1381,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
+
     }
 
 
@@ -999,77 +1395,155 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                generatedResult.style.display =
-                    "none";
+                if (generatedResult) {
 
-                emptyState.style.display =
-                    "flex";
+                    generatedResult.style.display =
+                        "none";
 
-
-                resultTitle.textContent =
-                    "Project Evaluation";
+                }
 
 
-                originalityScore.textContent =
-                    "—";
+                if (emptyState) {
 
-                difficultyScore.textContent =
-                    "—";
+                    emptyState.style.display =
+                        "flex";
 
-                feasibilityScore.textContent =
-                    "—";
-
-                bcaScore.textContent =
-                    "—";
+                }
 
 
-                originalityText.textContent =
-                    "";
+                if (resultTitle) {
 
-                difficultyText.textContent =
-                    "";
+                    resultTitle.textContent =
+                        "Project Evaluation";
 
-                feasibilityText.textContent =
-                    "";
-
-                bcaText.textContent =
-                    "";
+                }
 
 
-                technologyList.innerHTML =
-                    "";
+                if (originalityScore) {
 
-                moduleList.innerHTML =
-                    "";
+                    originalityScore.textContent =
+                        "—";
 
-                improvementList.innerHTML =
-                    "";
+                }
 
 
-                resultWordCount.textContent =
-                    "0 words";
+                if (difficultyScore) {
+
+                    difficultyScore.textContent =
+                        "—";
+
+                }
+
+
+                if (feasibilityScore) {
+
+                    feasibilityScore.textContent =
+                        "—";
+
+                }
+
+
+                if (bcaScore) {
+
+                    bcaScore.textContent =
+                        "—";
+
+                }
+
+
+                if (originalityText) {
+
+                    originalityText.textContent =
+                        "";
+
+                }
+
+
+                if (difficultyText) {
+
+                    difficultyText.textContent =
+                        "";
+
+                }
+
+
+                if (feasibilityText) {
+
+                    feasibilityText.textContent =
+                        "";
+
+                }
+
+
+                if (bcaText) {
+
+                    bcaText.textContent =
+                        "";
+
+                }
+
+
+                if (technologyList) {
+
+                    technologyList.innerHTML =
+                        "";
+
+                }
+
+
+                if (moduleList) {
+
+                    moduleList.innerHTML =
+                        "";
+
+                }
+
+
+                if (improvementList) {
+
+                    improvementList.innerHTML =
+                        "";
+
+                }
+
+
+                if (resultWordCount) {
+
+                    resultWordCount.textContent =
+                        "0 words";
+
+                }
 
             }
         );
+
     }
 
 
     /* =====================================================
-       NOTIFICATION
+       NOTIFICATION BUTTON
     ===================================================== */
 
     if (notificationBtn) {
 
         notificationBtn.addEventListener(
             "click",
-            function () {
+            function (event) {
 
-                notificationPopup.classList.toggle(
-                    "show"
-                );
+                event.stopPropagation();
+
+
+                if (notificationPopup) {
+
+                    notificationPopup.classList.toggle(
+                        "show"
+                    );
+
+                }
 
             }
         );
+
     }
 
 
@@ -1119,13 +1593,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const paragraph =
-            notificationPopup.querySelector("p");
+            notificationPopup.querySelector(
+                "p"
+            );
 
 
         if (paragraph) {
 
             paragraph.textContent =
                 message;
+
         }
 
 
@@ -1144,11 +1621,12 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             3000
         );
+
     }
 
 
     /* =====================================================
-       ENTER / CTRL + ENTER SUPPORT
+       CTRL + ENTER SUPPORT
     ===================================================== */
 
     if (ideaInput) {
@@ -1164,12 +1642,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     event.preventDefault();
 
-                    evaluateBtn.click();
+
+                    if (evaluateBtn) {
+
+                        evaluateBtn.click();
+
+                    }
 
                 }
 
             }
         );
+
     }
 
 });

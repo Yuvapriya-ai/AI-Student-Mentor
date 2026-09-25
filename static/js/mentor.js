@@ -7,6 +7,138 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
+       STUDENT IDENTITY
+    ====================================================== */
+
+    function getInitial(name) {
+
+        if (!name || name.trim() === "") {
+            return "Y";
+        }
+
+        return name.trim().charAt(0).toUpperCase();
+    }
+
+
+    /* =====================================================
+       LOAD STUDENT PROFILE FROM MYSQL
+    ====================================================== */
+
+    async function loadStudentProfile() {
+
+        try {
+
+            const response =
+                await fetch("/api/profile");
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success ||
+                !data.profile
+            ) {
+
+                console.error(
+                    "Could not load student profile."
+                );
+
+                return;
+            }
+
+
+            const profile =
+                data.profile;
+
+
+            const name =
+                profile.name &&
+                profile.name.trim()
+                    ? profile.name.trim()
+                    : "Student";
+
+
+            const initial =
+                getInitial(name);
+
+
+            /* -------------------------------------------------
+               TOP RIGHT PROFILE
+            ------------------------------------------------- */
+
+            const topAvatar =
+                document.querySelector(".top-avatar");
+
+            if (topAvatar) {
+
+                topAvatar.textContent =
+                    initial;
+
+            }
+
+
+            const topProfileName =
+                document.querySelector(
+                    ".top-profile strong"
+                );
+
+            if (topProfileName) {
+
+                topProfileName.textContent =
+                    name;
+
+            }
+
+
+            /* -------------------------------------------------
+               SIDEBAR PROFILE
+            ------------------------------------------------- */
+
+            const sidebarAvatar =
+                document.querySelector(".user-avatar");
+
+            if (sidebarAvatar) {
+
+                sidebarAvatar.textContent =
+                    initial;
+
+            }
+
+
+            const sidebarName =
+                document.querySelector(
+                    ".user-details strong"
+                );
+
+            if (sidebarName) {
+
+                sidebarName.textContent =
+                    name;
+
+            }
+
+
+            console.log(
+                "Mentor profile loaded from MySQL:",
+                profile
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Mentor profile loading error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
        ELEMENTS
     ====================================================== */
 
@@ -34,72 +166,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function sendMessage(message) {
 
-    message = message.trim();
-
-    if (message === "") {
-        return;
-    }
-
-    addUserMessage(message);
-
-    chatInput.value = "";
-
-    resizeTextarea();
-
-    try {
-
-        const response = await fetch("/api/mentor", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                message: message
-            })
-
-        });
+        message = message.trim();
 
 
-        const data = await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.error || "Something went wrong."
-            );
-
+        if (message === "") {
+            return;
         }
 
 
-        addAIMessage(
-            escapeHTML(data.response).replace(
-                /\n/g,
-                "<br>"
-            )
-        );
+        addUserMessage(message);
 
 
-    } catch (error) {
-
-        console.error(
-            "Mentor API Error:",
-            error
-        );
+        chatInput.value = "";
 
 
-        addAIMessage(`
-            Sorry, I couldn't connect to the AI Mentor right now.
-            <br><br>
-            Please try again in a moment.
-        `);
+        resizeTextarea();
+
+
+        try {
+
+            const response =
+                await fetch("/api/mentor", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        message: message
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Something went wrong."
+                );
+
+            }
+
+
+            addAIMessage(
+                escapeHTML(data.response).replace(
+                    /\n/g,
+                    "<br>"
+                )
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Mentor API Error:",
+                error
+            );
+
+
+            addAIMessage(`
+                Sorry, I couldn't connect to the AI Mentor right now.
+                <br><br>
+                Please try again in a moment.
+            `);
+
+        }
 
     }
 
-}
 
     /* =====================================================
        USER MESSAGE
@@ -110,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const wrapper =
             document.createElement("div");
 
+
         wrapper.className =
             "message user-message";
 
@@ -117,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.innerHTML = `
 
             <div class="message-avatar">
-                Y
+                ${getCurrentUserInitial()}
             </div>
 
             <div class="message-content">
@@ -144,6 +286,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
+       CURRENT USER INITIAL
+    ====================================================== */
+
+    function getCurrentUserInitial() {
+
+        const sidebarName =
+            document.querySelector(
+                ".user-details strong"
+            );
+
+
+        if (
+            sidebarName &&
+            sidebarName.textContent.trim()
+        ) {
+
+            return getInitial(
+                sidebarName.textContent
+            );
+
+        }
+
+
+        return "Y";
+
+    }
+
+
+    /* =====================================================
        AI MESSAGE
     ====================================================== */
 
@@ -151,6 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const wrapper =
             document.createElement("div");
+
 
         wrapper.className =
             "message ai-message";
@@ -186,12 +358,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       BASIC AI RESPONSE
-    ====================================================== */
-
-    
-
-    /* =====================================================
        QUICK QUESTIONS
     ====================================================== */
 
@@ -201,6 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const question =
                 button.dataset.question;
+
 
             sendMessage(question);
 
@@ -213,53 +380,72 @@ document.addEventListener("DOMContentLoaded", () => {
        SEND BUTTON
     ====================================================== */
 
-    sendBtn.addEventListener("click", () => {
+    if (sendBtn && chatInput) {
 
-        sendMessage(
-            chatInput.value
-        );
+        sendBtn.addEventListener("click", () => {
 
-    });
+            sendMessage(
+                chatInput.value
+            );
+
+        });
+
+    }
 
 
     /* =====================================================
        ENTER TO SEND
     ====================================================== */
 
-    chatInput.addEventListener(
-        "keydown",
-        event => {
+    if (chatInput) {
 
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
+        chatInput.addEventListener(
+            "keydown",
+            event => {
 
-                event.preventDefault();
+                if (
+                    event.key === "Enter" &&
+                    !event.shiftKey
+                ) {
 
-                sendMessage(
-                    chatInput.value
-                );
+                    event.preventDefault();
+
+                    sendMessage(
+                        chatInput.value
+                    );
+
+                }
 
             }
+        );
 
-        }
-    );
+    }
 
 
     /* =====================================================
        AUTO RESIZE TEXTAREA
     ====================================================== */
 
-    chatInput.addEventListener(
-        "input",
-        resizeTextarea
-    );
+    if (chatInput) {
+
+        chatInput.addEventListener(
+            "input",
+            resizeTextarea
+        );
+
+    }
 
 
     function resizeTextarea() {
 
-        chatInput.style.height = "auto";
+        if (!chatInput) {
+            return;
+        }
+
+
+        chatInput.style.height =
+            "auto";
+
 
         chatInput.style.height =
             Math.min(
@@ -274,42 +460,46 @@ document.addEventListener("DOMContentLoaded", () => {
        CLEAR CHAT
     ====================================================== */
 
-    clearChatBtn.addEventListener(
-        "click",
-        () => {
+    if (clearChatBtn && chatBody) {
 
-            chatBody.innerHTML = `
+        clearChatBtn.addEventListener(
+            "click",
+            () => {
 
-                <div class="message ai-message">
+                chatBody.innerHTML = `
 
-                    <div class="message-avatar">
-                        ✦
-                    </div>
+                    <div class="message ai-message">
 
-                    <div class="message-content">
+                        <div class="message-avatar">
+                            ✦
+                        </div>
 
-                        <span class="message-name">
-                            AI Mentor
-                        </span>
+                        <div class="message-content">
 
-                        <div class="message-bubble">
+                            <span class="message-name">
+                                AI Mentor
+                            </span>
 
-                            Hello! I'm your AI Project Mentor.
+                            <div class="message-bubble">
 
-                            <br><br>
+                                Hello! I'm your AI Project Mentor.
 
-                            What would you like to work on today?
+                                <br><br>
+
+                                What would you like to work on today?
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                `;
 
-            `;
+            }
+        );
 
-        }
-    );
+    }
 
 
     /* =====================================================
@@ -317,25 +507,45 @@ document.addEventListener("DOMContentLoaded", () => {
     ====================================================== */
 
     const toolItems =
-        document.querySelectorAll(".tool-item");
+        document.querySelectorAll(
+            ".tool-item"
+        );
+
 
     const toolModal =
-        document.getElementById("toolModal");
+        document.getElementById(
+            "toolModal"
+        );
+
 
     const closeToolModal =
-        document.getElementById("closeToolModal");
+        document.getElementById(
+            "closeToolModal"
+        );
+
 
     const modalTitle =
-        document.getElementById("modalTitle");
+        document.getElementById(
+            "modalTitle"
+        );
+
 
     const modalDescription =
-        document.getElementById("modalDescription");
+        document.getElementById(
+            "modalDescription"
+        );
+
 
     const modalInput =
-        document.getElementById("modalInput");
+        document.getElementById(
+            "modalInput"
+        );
+
 
     const modalActionBtn =
-        document.getElementById("modalActionBtn");
+        document.getElementById(
+            "modalActionBtn"
+        );
 
 
     const toolData = {
@@ -349,6 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         },
 
+
         architecture: {
 
             title: "System Architecture",
@@ -358,6 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         },
 
+
         technology: {
 
             title: "Technology Selection",
@@ -366,6 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Tell me what you want to build and I will help you select suitable frontend, backend, database and AI technologies."
 
         },
+
 
         debug: {
 
@@ -381,38 +594,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     toolItems.forEach(tool => {
 
-        tool.addEventListener("click", () => {
+        tool.addEventListener(
+            "click",
+            () => {
 
-            const type =
-                tool.dataset.tool;
-
-            const data =
-                toolData[type];
-
-
-            modalTitle.textContent =
-                data.title;
-
-            modalDescription.textContent =
-                data.description;
-
-            modalInput.value = "";
-
-            modalInput.placeholder =
-                getPlaceholder(type);
+                const type =
+                    tool.dataset.tool;
 
 
-            toolModal.classList.add(
-                "show"
-            );
+                const data =
+                    toolData[type];
 
-            setTimeout(() => {
 
-                modalInput.focus();
+                if (!data) {
+                    return;
+                }
 
-            }, 200);
 
-        });
+                modalTitle.textContent =
+                    data.title;
+
+
+                modalDescription.textContent =
+                    data.description;
+
+
+                modalInput.value = "";
+
+
+                modalInput.placeholder =
+                    getPlaceholder(type);
+
+
+                toolModal.classList.add(
+                    "show"
+                );
+
+
+                setTimeout(() => {
+
+                    modalInput.focus();
+
+                }, 200);
+
+            }
+        );
 
     });
 
@@ -425,11 +651,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
         if (type === "architecture") {
 
             return "Describe your project and its main features...";
 
         }
+
 
         if (type === "technology") {
 
@@ -437,11 +665,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
         if (type === "debug") {
 
             return "Paste the error message or describe the problem...";
 
         }
+
 
         return "Tell me what you need help with...";
 
@@ -452,68 +682,81 @@ document.addEventListener("DOMContentLoaded", () => {
        MODAL ACTION
     ====================================================== */
 
-    modalActionBtn.addEventListener(
-        "click",
-        () => {
+    if (modalActionBtn) {
 
-            const input =
-                modalInput.value.trim();
+        modalActionBtn.addEventListener(
+            "click",
+            () => {
+
+                const input =
+                    modalInput.value.trim();
 
 
-            if (input === "") {
+                if (input === "") {
 
-                modalInput.focus();
+                    modalInput.focus();
 
-                return;
+                    return;
+
+                }
+
+
+                toolModal.classList.remove(
+                    "show"
+                );
+
+
+                sendMessage(input);
+
+
+                chatInput.focus();
 
             }
+        );
 
-
-            toolModal.classList.remove(
-                "show"
-            );
-
-
-            sendMessage(input);
-
-            chatInput.focus();
-
-        }
-    );
+    }
 
 
     /* =====================================================
        CLOSE MODAL
     ====================================================== */
 
-    closeToolModal.addEventListener(
-        "click",
-        () => {
+    if (closeToolModal) {
 
-            toolModal.classList.remove(
-                "show"
-            );
-
-        }
-    );
-
-
-    toolModal.addEventListener(
-        "click",
-        event => {
-
-            if (
-                event.target === toolModal
-            ) {
+        closeToolModal.addEventListener(
+            "click",
+            () => {
 
                 toolModal.classList.remove(
                     "show"
                 );
 
             }
+        );
 
-        }
-    );
+    }
+
+
+    if (toolModal) {
+
+        toolModal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === toolModal
+                ) {
+
+                    toolModal.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+    }
 
 
     /* =====================================================
@@ -526,15 +769,19 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    viewRoadmapBtn.addEventListener(
-        "click",
-        () => {
+    if (viewRoadmapBtn) {
 
-            window.location.href =
-                "/roadmap";
+        viewRoadmapBtn.addEventListener(
+            "click",
+            () => {
 
-        }
-    );
+                window.location.href =
+                    "/roadmap";
+
+            }
+        );
+
+    }
 
 
     /* =====================================================
@@ -547,16 +794,20 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    suggestionBtn.addEventListener(
-        "click",
-        () => {
+    if (suggestionBtn) {
 
-            sendMessage(
-                "Review my current project architecture and tell me what I should improve."
-            );
+        suggestionBtn.addEventListener(
+            "click",
+            () => {
 
-        }
-    );
+                sendMessage(
+                    "Review my current project architecture and tell me what I should improve."
+                );
+
+            }
+        );
+
+    }
 
 
     /* =====================================================
@@ -568,47 +819,56 @@ document.addEventListener("DOMContentLoaded", () => {
             "notificationBtn"
         );
 
+
     const notificationPopup =
         document.getElementById(
             "notificationPopup"
         );
 
 
-    notificationBtn.addEventListener(
-        "click",
-        event => {
+    if (
+        notificationBtn &&
+        notificationPopup
+    ) {
 
-            event.stopPropagation();
+        notificationBtn.addEventListener(
+            "click",
+            event => {
 
-            notificationPopup.classList.toggle(
-                "show"
-            );
-
-        }
-    );
+                event.stopPropagation();
 
 
-    document.addEventListener(
-        "click",
-        event => {
-
-            if (
-                !notificationPopup.contains(
-                    event.target
-                ) &&
-                !notificationBtn.contains(
-                    event.target
-                )
-            ) {
-
-                notificationPopup.classList.remove(
+                notificationPopup.classList.toggle(
                     "show"
                 );
 
             }
+        );
 
-        }
-    );
+
+        document.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    !notificationPopup.contains(
+                        event.target
+                    ) &&
+                    !notificationBtn.contains(
+                        event.target
+                    )
+                ) {
+
+                    notificationPopup.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+    }
 
 
     /* =====================================================
@@ -616,6 +876,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ====================================================== */
 
     function scrollChatToBottom() {
+
+        if (!chatBody) {
+            return;
+        }
+
 
         chatBody.scrollTo({
 
@@ -637,7 +902,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const div =
             document.createElement("div");
 
-        div.textContent = text;
+
+        div.textContent =
+            text;
+
 
         return div.innerHTML;
 
@@ -647,6 +915,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
        INITIAL LOAD
     ====================================================== */
+
+    loadStudentProfile();
+
 
     console.log(
         "AI Student Mentor - Project Mentor loaded."

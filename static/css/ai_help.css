@@ -1,0 +1,254 @@
+/* =====================================================
+   AI HELP CHAT
+====================================================== */
+
+.ai-help-chat {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+
+    width: 360px;
+    height: 500px;
+
+    display: none;
+    flex-direction: column;
+
+    background: #0b1433;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    border-radius: 16px;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+
+    overflow: hidden;
+
+    z-index: 9999;
+}
+
+
+/* SHOW CHAT */
+
+.ai-help-chat.show {
+    display: flex;
+}
+
+
+/* =====================================================
+   HEADER
+====================================================== */
+
+.ai-help-header {
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 16px;
+
+    background: linear-gradient(
+        135deg,
+        #142653,
+        #111d43
+    );
+
+    border-bottom: 1px solid rgba(120, 160, 255, 0.12);
+}
+
+
+.ai-help-header div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.ai-help-header strong {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+
+.ai-help-header span {
+    color: #9fb3d9;
+    font-size: 11px;
+}
+
+
+.ai-help-header button {
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: #dbeafe;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.ai-help-header button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =====================================================
+   MESSAGES
+====================================================== */
+
+.ai-help-messages {
+    flex: 1;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    overflow-y: auto;
+
+    background: #08122e;
+}
+
+
+/* AI MESSAGE */
+
+.ai-message {
+    align-self: flex-start;
+
+    max-width: 85%;
+
+    padding: 11px 13px;
+
+    border-radius: 12px 12px 12px 4px;
+
+    background: #142653;
+
+    color: #e5edff;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* USER MESSAGE */
+
+.user-message {
+    align-self: flex-end;
+
+    max-width: 85%;
+
+    padding: 11px 13px;
+
+    border-radius: 12px 12px 4px 12px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   INPUT AREA
+====================================================== */
+
+.ai-help-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px;
+
+    background: #0b1433;
+
+    border-top: 1px solid rgba(120, 160, 255, 0.12);
+}
+
+
+.ai-help-input input {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid rgba(120, 160, 255, 0.16);
+    border-radius: 10px;
+
+    background: rgba(6, 18, 47, 0.75);
+
+    color: #ffffff;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+
+    outline: none;
+}
+
+
+.ai-help-input input::placeholder {
+    color: #7183a8;
+}
+
+
+.ai-help-input input:focus {
+    border-color: #3b82f6;
+}
+
+
+.ai-help-input button {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.ai-help-input button:hover {
+    background: #3b82f6;
+}
+
+
+.ai-help-input button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 600px) {
+
+    .ai-help-chat {
+        right: 15px;
+        bottom: 15px;
+
+        width: calc(100% - 30px);
+        height: 480px;
+    }
+
+}

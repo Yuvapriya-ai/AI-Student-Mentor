@@ -1,854 +1,564 @@
 /* =========================================================
-   AI STUDENT MENTOR
-   STUDY ASSISTANT JAVASCRIPT
+   AI STUDY ASSISTANT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        ELEMENTS
     ===================================================== */
 
     const questionInput =
-        document.getElementById("questionInput");
+        document.getElementById("studyQuestion");
 
-    const questionCategory =
-        document.getElementById("questionCategory");
+    const askButton =
+        document.getElementById("askStudyBtn");
 
-    const difficultyLevel =
-        document.getElementById("difficultyLevel");
+    const clearButton =
+        document.getElementById("clearStudyBtn");
 
-    const answerStyle =
-        document.getElementById("answerStyle");
+    const responseArea =
+        document.getElementById("studyResponse");
 
-    const explanationType =
-        document.getElementById("explanationType");
+    const responseContent =
+        document.getElementById("studyResponseContent");
 
-    const characterCount =
-        document.getElementById("characterCount");
+    const responseLevel =
+        document.getElementById("responseLevel");
 
-    const askQuestionBtn =
-        document.getElementById("askQuestionBtn");
+    const levelButtons =
+        document.querySelectorAll(".level-btn");
 
-    const questionCount =
-        document.getElementById("questionCount");
+    const quickQuestions =
+        document.querySelectorAll(".quick-card");
 
-    const emptyState =
-        document.getElementById("emptyState");
-
-    const generatedAnswer =
-        document.getElementById("generatedAnswer");
-
-    const answerTitle =
-        document.getElementById("answerTitle");
-
-    const answerContent =
-        document.getElementById("answerContent");
-
-    const answerWordCount =
-        document.getElementById("answerWordCount");
-
-    const copyAnswerBtn =
-        document.getElementById("copyAnswerBtn");
-
-    const clearAnswerBtn =
-        document.getElementById("clearAnswerBtn");
-
-    const notificationBtn =
+    const notificationButton =
         document.getElementById("notificationBtn");
 
     const notificationPopup =
         document.getElementById("notificationPopup");
 
-    const studyTipButton =
-        document.getElementById("studyTipButton");
+
+    /* =====================================================
+       CURRENT LEVEL
+    ===================================================== */
+
+    let selectedLevel = "basic";
 
 
     /* =====================================================
-       LOAD LOGGED-IN STUDENT PROFILE
+       LEVEL BUTTONS
     ===================================================== */
 
-    function getInitial(name) {
+    levelButtons.forEach(button => {
 
-        if (!name || name.trim() === "") {
-            return "Y";
-        }
+        button.addEventListener("click", () => {
 
-        return name.trim().charAt(0).toUpperCase();
-    }
+            levelButtons.forEach(btn => {
+                btn.classList.remove("active");
+            });
 
+            button.classList.add("active");
 
-    async function loadStudentProfile() {
-
-        try {
-
-            const response =
-                await fetch("/api/profile");
-
-            const data =
-                await response.json();
-
-
-            if (
-                !response.ok ||
-                !data.success ||
-                !data.profile
-            ) {
-
-                console.error(
-                    "Could not load student profile."
-                );
-
-                return;
-            }
-
-
-            const profile =
-                data.profile;
-
-
-            const name =
-                profile.name &&
-                profile.name.trim()
-                    ? profile.name.trim()
-                    : "Student";
-
-
-            const initial =
-                getInitial(name);
-
-
-            /* TOP AVATAR */
-
-            const topAvatar =
-                document.querySelector(".top-avatar");
-
-            if (topAvatar) {
-                topAvatar.textContent =
-                    initial;
-            }
-
-
-            /* TOP PROFILE NAME */
-
-            const topProfileName =
-                document.querySelector(
-                    ".top-profile strong"
-                );
-
-            if (topProfileName) {
-                topProfileName.textContent =
-                    name;
-            }
-
-
-            /* SIDEBAR AVATAR */
-
-            const sidebarAvatar =
-                document.querySelector(".user-avatar");
-
-            if (sidebarAvatar) {
-                sidebarAvatar.textContent =
-                    initial;
-            }
-
-
-            /* SIDEBAR PROFILE NAME */
-
-            const sidebarName =
-                document.querySelector(
-                    ".user-details strong"
-                );
-
-            if (sidebarName) {
-                sidebarName.textContent =
-                    name;
-            }
-
+            selectedLevel =
+                button.dataset.level || "basic";
 
             console.log(
-                "Study Assistant profile loaded from MySQL:",
-                profile
+                "Selected study level:",
+                selectedLevel
             );
 
-        } catch (error) {
+            updateResponseLevel();
+        });
 
-            console.error(
-                "Study Assistant profile loading error:",
-                error
-            );
+    });
+
+
+    /* =====================================================
+       UPDATE RESPONSE LEVEL TEXT
+    ===================================================== */
+
+    function updateResponseLevel() {
+
+        if (!responseLevel) {
+            return;
+        }
+
+        if (selectedLevel === "basic") {
+
+            responseLevel.textContent =
+                "Basic explanation";
+
+        } else if (selectedLevel === "intermediate") {
+
+            responseLevel.textContent =
+                "Intermediate explanation";
+
+        } else if (selectedLevel === "advanced") {
+
+            responseLevel.textContent =
+                "Advanced explanation";
         }
     }
 
 
     /* =====================================================
-       STATE
+       MARKDOWN FORMATTER
     ===================================================== */
 
-    let totalQuestions = 0;
+    function formatMarkdown(text) {
+
+        if (!text) {
+            return "";
+        }
+
+        let html = text;
+
+        /* Escape HTML */
+
+        html = html
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
 
 
-    /* =====================================================
-       CHARACTER COUNTER
-    ===================================================== */
+        /* Code blocks */
 
-    if (questionInput) {
-
-        questionInput.addEventListener(
-            "input",
-            function () {
-
-                const count =
-                    questionInput.value.length;
-
-                characterCount.textContent =
-                    `${count} characters`;
-            }
+        html = html.replace(
+            /```([\s\S]*?)```/g,
+            "<pre><code>$1</code></pre>"
         );
-    }
 
 
-    /* =====================================================
-       ASK QUESTION
-    ===================================================== */
+        /* Inline code */
 
-    if (askQuestionBtn) {
-
-        askQuestionBtn.addEventListener(
-            "click",
-            async function () {
-
-                const question =
-                    questionInput.value.trim();
+        html = html.replace(
+            /`([^`]+)`/g,
+            "<code>$1</code>"
+        );
 
 
-                if (!question) {
+        /* Bold + italic */
 
-                    showNotification(
-                        "Please enter a question first."
-                    );
+        html = html.replace(
+            /\*\*\*(.+?)\*\*\*/g,
+            "<strong><em>$1</em></strong>"
+        );
 
-                    questionInput.focus();
 
-                    return;
+        /* Bold */
+
+        html = html.replace(
+            /\*\*(.+?)\*\*/g,
+            "<strong>$1</strong>"
+        );
+
+
+        /* Italic */
+
+        html = html.replace(
+            /\*(.+?)\*/g,
+            "<em>$1</em>"
+        );
+
+
+        /* Headings */
+
+        html = html.replace(
+            /^### (.+)$/gm,
+            "<h4>$1</h4>"
+        );
+
+        html = html.replace(
+            /^## (.+)$/gm,
+            "<h3>$1</h3>"
+        );
+
+        html = html.replace(
+            /^# (.+)$/gm,
+            "<h2>$1</h2>"
+        );
+
+
+        /* Numbered lists */
+
+        html = html.replace(
+            /^\d+\.\s+(.+)$/gm,
+            "<li>$1</li>"
+        );
+
+
+        /* Bullet lists */
+
+        html = html.replace(
+            /^[-*]\s+(.+)$/gm,
+            "<li>$1</li>"
+        );
+
+
+        /* Wrap list items */
+
+        html = html.replace(
+            /(<li>.*?<\/li>\n?)+/gs,
+            "<ul>$&</ul>"
+        );
+
+
+        /* Horizontal rule */
+
+        html = html.replace(
+            /^(-{3,}|\*{3,}|_{3,})$/gm,
+            "<hr>"
+        );
+
+
+        /* Paragraphs */
+
+        html = html
+            .split(/\n{2,}/)
+            .map(block => {
+
+                const trimmed =
+                    block.trim();
+
+                if (!trimmed) {
+                    return "";
                 }
 
-
-                /* Increase question count */
-
-                totalQuestions++;
-
-                questionCount.textContent =
-                    totalQuestions;
-
-
-                /* Loading state */
-
-                askQuestionBtn.disabled =
-                    true;
-
-                askQuestionBtn.innerHTML = `
-                    <span class="ask-icon">⟳</span>
-                    Thinking...
-                `;
-
-
-                try {
-
-                    /*
-                     * Send question to Flask backend.
-                     */
-
-                    const response =
-                        await fetch(
-                            "/api/study-assistant",
-                            {
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body: JSON.stringify({
-
-                                    question:
-                                        question,
-
-                                    category:
-                                        questionCategory.value,
-
-                                    difficulty:
-                                        difficultyLevel.value,
-
-                                    answer_style:
-                                        answerStyle.value,
-
-                                    explanation_type:
-                                        explanationType.value
-                                })
-                            }
-                        );
-
-
-                    if (response.ok) {
-
-                        const data =
-                            await response.json();
-
-
-                        if (data.answer) {
-
-                            displayAnswer(
-                                question,
-                                data.answer
-                            );
-
-                        } else {
-
-                            displayAnswer(
-                                question,
-                                generateLocalAnswer(
-                                    question
-                                )
-                            );
-                        }
-
-                    } else {
-
-                        displayAnswer(
-                            question,
-                            generateLocalAnswer(
-                                question
-                            )
-                        );
-                    }
-
-                } catch (error) {
-
-                    /*
-                     * Backend unavailable.
-                     * Use local fallback.
-                     */
-
-                    console.error(
-                        "Study Assistant API error:",
-                        error
-                    );
-
-                    displayAnswer(
-                        question,
-                        generateLocalAnswer(
-                            question
-                        )
-                    );
+                if (
+                    trimmed.startsWith("<h2>") ||
+                    trimmed.startsWith("<h3>") ||
+                    trimmed.startsWith("<h4>") ||
+                    trimmed.startsWith("<ul>") ||
+                    trimmed.startsWith("<pre>") ||
+                    trimmed.startsWith("<hr>")
+                ) {
+                    return trimmed;
                 }
 
-
-                /* Restore button */
-
-                askQuestionBtn.disabled =
-                    false;
-
-                askQuestionBtn.innerHTML = `
-                    <span class="ask-icon">✦</span>
-                    Ask AI Assistant
-                    <span class="arrow">→</span>
+                return `
+                    <p>
+                        ${trimmed.replace(
+                            /\n/g,
+                            "<br>"
+                        )}
+                    </p>
                 `;
+            })
+            .join("");
+
+        return html;
+    }
+
+
+    /* =====================================================
+       ASK AI
+    ===================================================== */
+
+    async function askAI(questionOverride = null) {
+
+        const question =
+            questionOverride ||
+            (
+                questionInput
+                    ? questionInput.value.trim()
+                    : ""
+            );
+
+
+        /* -----------------------------------------------
+           VALIDATE QUESTION
+        ----------------------------------------------- */
+
+        if (!question) {
+
+            showNotification(
+                "Please enter a study question.",
+                "error"
+            );
+
+            if (questionInput) {
+                questionInput.focus();
             }
-        );
-    }
-
-
-    /* =====================================================
-       DISPLAY ANSWER
-    ===================================================== */
-
-    function displayAnswer(question, answer) {
-
-        emptyState.style.display =
-            "none";
-
-        generatedAnswer.style.display =
-            "block";
-
-
-        answerTitle.textContent =
-            createAnswerTitle(question);
-
-
-        answerContent.innerHTML =
-            formatAnswer(answer);
-
-
-        updateWordCount(answer);
-
-
-        const preview =
-            document.getElementById(
-                "answerPreview"
-            );
-
-
-        if (preview) {
-
-            preview.scrollTop =
-                0;
-        }
-    }
-
-
-    /* =====================================================
-       ANSWER TITLE
-    ===================================================== */
-
-    function createAnswerTitle(question) {
-
-        const category =
-            questionCategory.value;
-
-
-        const titles = {
-
-            general:
-                "Project Explanation",
-
-            module:
-                "Project Module Explanation",
-
-            technology:
-                "Technology Explanation",
-
-            database:
-                "Database Explanation",
-
-            ai:
-                "AI / LLM Explanation",
-
-            implementation:
-                "Implementation Explanation",
-
-            architecture:
-                "Project Architecture",
-
-            learning:
-                "Learning Explanation"
-        };
-
-
-        return titles[category] ||
-            "Project Explanation";
-    }
-
-
-    /* =====================================================
-       FORMAT ANSWER
-    ===================================================== */
-
-    function formatAnswer(text) {
-
-        /*
-         * Escape HTML first.
-         */
-
-        const escaped =
-            escapeHTML(text);
-
-
-        /*
-         * Convert bold markdown.
-         */
-
-        let formatted =
-            escaped.replace(
-                /\*\*(.*?)\*\*/g,
-                "<strong>$1</strong>"
-            );
-
-
-        /*
-         * Convert numbered lines.
-         */
-
-        formatted =
-            formatted.replace(
-                /^(\d+)\.\s+(.*)$/gm,
-                "<p><strong>$1.</strong> $2</p>"
-            );
-
-
-        /*
-         * Convert headings.
-         */
-
-        formatted =
-            formatted.replace(
-                /^###\s+(.*)$/gm,
-                "<h3>$1</h3>"
-            );
-
-
-        /*
-         * Convert remaining paragraphs.
-         */
-
-        formatted =
-            formatted
-                .split(/\n\s*\n/)
-                .map(function (paragraph) {
-
-                    if (
-                        paragraph.trim().startsWith("<h3>") ||
-                        paragraph.trim().startsWith("<p>")
-                    ) {
-                        return paragraph;
-                    }
-
-
-                    return `
-                        <p>
-                            ${paragraph.replace(
-                                /\n/g,
-                                "<br>"
-                            )}
-                        </p>
-                    `;
-                })
-                .join("");
-
-
-        return formatted;
-    }
-
-
-    /* =====================================================
-       LOCAL ANSWER GENERATOR
-    ===================================================== */
-
-    function generateLocalAnswer(question) {
-
-        const category =
-            questionCategory.value;
-
-        const difficulty =
-            difficultyLevel.value;
-
-        const style =
-            answerStyle.value;
-
-        const explanation =
-            explanationType.value;
-
-
-        let answer = "";
-
-
-        if (category === "module") {
-
-            answer = `
-
-The AI Student Mentor project contains eight core modules.
-
-1. Student Profile Management – manages student academic details, skills and interests.
-
-2. Learning Roadmap – provides a personalized learning path based on the student's goals.
-
-3. AI Project Mentor – helps students select or create projects and provides technology stack, project structure, database requirements and development guidance.
-
-4. Documentation Assistant – generates synopsis, abstract, introduction, problem statement, objectives, methodology, module descriptions, conclusion and future enhancements.
-
-5. Project Viva Assistant – generates project-specific viva questions and model answers, including basic, technical, module, AI/LLM, database and implementation questions.
-
-6. AI Project Question Assistant – allows students to ask questions about project modules, technologies, database, AI concepts, implementation and architecture.
-
-7. Project Progress Tracker – manages tasks and milestones and calculates project completion percentage.
-
-8. AI Project Idea Evaluator – evaluates originality, difficulty, technologies, complexity, AI feasibility and suitability for a BCA project.
-
-`;
-
-        } else if (category === "technology") {
-
-            answer = `
-
-The AI Student Mentor uses HTML, CSS and JavaScript for the frontend.
-
-Python and Flask are used for backend development.
-
-MySQL is used as the database for storing student information, project-related data and progress.
-
-For artificial intelligence, the system uses a Large Language Model through the OpenAI API.
-
-Visual Studio Code is used as the development environment.
-
-`;
-
-        } else if (category === "database") {
-
-            answer = `
-
-MySQL is used as the database of the AI Student Mentor system.
-
-Student information, academic details, technical skills and project progress can be stored in MySQL.
-
-The Flask backend communicates with MySQL to store and retrieve structured application data.
-
-The database provides persistent storage so that information does not disappear when the application is restarted.
-
-For a project explanation, the important concept to remember is:
-
-Frontend → Flask Backend → MySQL Database
-
-The AI-related request flow can be represented as:
-
-Frontend → Flask → OpenAI API → AI Response → Frontend
-
-`;
-
-        } else if (category === "ai") {
-
-            answer = `
-
-The AI functionality of the AI Student Mentor is based on a Large Language Model and the OpenAI API.
-
-The student enters a question or request through the frontend.
-
-The Flask backend receives the request and prepares a structured prompt.
-
-The request is sent to the OpenAI API.
-
-The LLM processes the prompt and generates a response.
-
-The response is then returned to the Flask backend and displayed on the frontend.
-
-The simplified flow is:
-
-Student → Frontend → Flask → OpenAI API → LLM Processing → Flask → Frontend
-
-`;
-
-        } else if (category === "implementation") {
-
-            answer = `
-
-The implementation uses a three-layer structure.
-
-Frontend:
-
-HTML, CSS and JavaScript are responsible for the user interface and interaction.
-
-Backend:
-
-Python and Flask handle application logic, routing and communication with external AI services.
-
-Database:
-
-MySQL stores persistent student and project-related information.
-
-The OpenAI API is integrated with the Flask backend so that AI-generated responses can be processed and displayed in the frontend.
-
-`;
-
-        } else if (category === "architecture") {
-
-            answer = `
-
-The AI Student Mentor follows a frontend-backend-database architecture with AI integration.
-
-The frontend is developed using HTML, CSS and JavaScript.
-
-The backend is developed using Python and Flask.
-
-MySQL is used for persistent data storage.
-
-The OpenAI API provides access to the Large Language Model.
-
-The general architecture is:
-
-Student
-
-↓
-
-Frontend Interface
-
-↓
-
-Flask Backend
-
-↓
-
-MySQL Database / OpenAI API
-
-↓
-
-AI Processing
-
-↓
-
-Personalized Response
-
-↓
-
-Frontend
-
-`;
-
-        } else if (category === "learning") {
-
-            answer = `
-
-The best way to study a project concept is to understand its purpose, implementation and relationship with the other components.
-
-For every concept, try to understand:
-
-1. What it is.
-
-2. Why it is used.
-
-3. How it is implemented.
-
-4. Where it is used in the project.
-
-5. How it communicates with other components.
-
-For example, if you study Flask, understand that it is the Python backend framework used to handle routes, application logic and communication between the frontend, database and AI services.
-
-`;
-
-        } else {
-
-            answer = `
-
-The AI Student Mentor is an integrated platform designed to provide students with learning and academic project guidance.
-
-It combines learning guidance, project development, documentation, viva preparation, project-related question answering, progress tracking and project idea evaluation.
-
-The main technologies are HTML, CSS, JavaScript, Python, Flask, MySQL, a Large Language Model and the OpenAI API.
-
-The purpose of the system is to provide personalized AI-based assistance throughout the student's project development process.
-
-`;
-        }
-
-
-        /*
-         * Modify response based on selected style.
-         */
-
-        if (style === "brief") {
-
-            answer =
-                answer.substring(
-                    0,
-                    Math.min(
-                        answer.length,
-                        950
-                    )
-                );
-        }
-
-
-        /*
-         * Add difficulty guidance.
-         */
-
-        if (difficulty === "advanced") {
-
-            answer += `
-
-For an advanced understanding, focus on the interaction between the Flask backend, MySQL database and OpenAI API, including request processing, data flow, API communication and system integration.
-
-`;
-        }
-
-
-        /*
-         * Academic style note.
-         */
-
-        if (explanation === "academic") {
-
-            answer += `
-
-From an academic perspective, this concept should be explained by clearly identifying its purpose, implementation, role within the system and contribution to the overall functionality of the AI Student Mentor.
-
-`;
-        }
-
-
-        /*
-         * Simple style note.
-         */
-
-        if (explanation === "simple") {
-
-            answer += `
-
-In simple terms, remember what the component does, why the project needs it and how it connects with the other parts of the system.
-
-`;
-        }
-
-
-        /*
-         * Technical style note.
-         */
-
-        if (explanation === "technical") {
-
-            answer += `
-
-Technically, the component should be understood in terms of its data flow, API interaction, backend processing, database communication and frontend response handling.
-
-`;
-        }
-
-
-        return answer.trim();
-    }
-
-
-    /* =====================================================
-       ESCAPE HTML
-    ===================================================== */
-
-    function escapeHTML(text) {
-
-        const div =
-            document.createElement("div");
-
-        div.textContent =
-            text;
-
-        return div.innerHTML;
-    }
-
-
-    /* =====================================================
-       WORD COUNT
-    ===================================================== */
-
-    function updateWordCount(text) {
-
-        const cleanText =
-            text.trim();
-
-
-        if (!cleanText) {
-
-            answerWordCount.textContent =
-                "0 words";
 
             return;
         }
 
 
-        const words =
-            cleanText.split(/\s+/).length;
+        /* -----------------------------------------------
+           UPDATE RESPONSE LEVEL
+        ----------------------------------------------- */
+
+        updateResponseLevel();
 
 
-        answerWordCount.textContent =
-            `${words} words`;
+        /* -----------------------------------------------
+           SHOW RESPONSE AREA
+        ----------------------------------------------- */
+
+        if (responseArea) {
+            responseArea.classList.add("show");
+        }
+
+
+        /* -----------------------------------------------
+           SHOW LOADING
+        ----------------------------------------------- */
+
+        if (askButton) {
+
+            askButton.disabled = true;
+
+            askButton.innerHTML =
+                "<span>⏳</span> Thinking...";
+        }
+
+
+        if (responseContent) {
+
+            responseContent.innerHTML = `
+                <div class="study-loading">
+
+                    <div class="loading-spinner"></div>
+
+                    <p>
+                        Preparing a
+                        <strong>${selectedLevel}</strong>
+                        level explanation...
+                    </p>
+
+                </div>
+            `;
+        }
+
+
+        /* -----------------------------------------------
+           SEND TO FLASK
+        ----------------------------------------------- */
+
+        try {
+
+            const response = await fetch(
+                "/api/study-assist",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        question: question,
+
+                        /* Flask expects "difficulty" */
+
+                        difficulty:
+                            selectedLevel,
+
+                        category:
+                            "general",
+
+                        answer_style:
+                            "brief",
+
+                        explanation_type:
+                            "simple"
+                    })
+                }
+            );
+
+
+            /* -------------------------------------------
+               READ JSON RESPONSE
+            ------------------------------------------- */
+
+            const data =
+                await response.json();
+
+            console.log(
+                "Study Assistant API response:",
+                data
+            );
+
+
+            /* -------------------------------------------
+               SUCCESS
+            ------------------------------------------- */
+
+            if (
+                response.ok &&
+                data.success &&
+                data.answer
+            ) {
+
+                if (responseContent) {
+
+                    responseContent.innerHTML =
+                        formatMarkdown(
+                            data.answer
+                        );
+                }
+
+
+                /*
+                   IMPORTANT:
+                   .study-response is hidden by default.
+                   Add .show so the complete response
+                   container becomes visible.
+                */
+
+                if (responseArea) {
+
+                    responseArea.classList.add(
+                        "show"
+                    );
+                }
+
+
+                updateResponseLevel();
+
+                console.log(
+                    "Answer generated at level:",
+                    selectedLevel
+                );
+            }
+
+
+            /* -------------------------------------------
+               ERROR FROM FLASK
+            ------------------------------------------- */
+
+            else {
+
+                const errorMessage =
+                    data.error ||
+                    "Unable to get a response from the AI Study Assistant.";
+
+
+                if (responseContent) {
+
+                    responseContent.innerHTML = `
+                        <div class="study-error">
+
+                            <strong>
+                                AI Study Assistant
+                            </strong>
+
+                            <p>
+                                ${errorMessage}
+                            </p>
+
+                        </div>
+                    `;
+                }
+
+
+                if (responseArea) {
+
+                    responseArea.classList.add(
+                        "show"
+                    );
+                }
+
+
+                showNotification(
+                    errorMessage,
+                    "error"
+                );
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Study Assistant error:",
+                error
+            );
+
+
+            if (responseContent) {
+
+                responseContent.innerHTML = `
+                    <div class="study-error">
+
+                        <strong>
+                            Unable to connect
+                        </strong>
+
+                        <p>
+                            Please check your connection
+                            and try again.
+                        </p>
+
+                    </div>
+                `;
+            }
+
+
+            if (responseArea) {
+
+                responseArea.classList.add(
+                    "show"
+                );
+            }
+
+
+            showNotification(
+                "Unable to connect to the AI Study Assistant.",
+                "error"
+            );
+
+        } finally {
+
+            if (askButton) {
+
+                askButton.disabled = false;
+
+                askButton.innerHTML =
+                    "<span>✦</span> Ask AI";
+            }
+        }
+    }
+
+
+    /* =====================================================
+       ASK BUTTON
+    ===================================================== */
+
+    if (askButton) {
+
+        askButton.addEventListener(
+            "click",
+            () => {
+                askAI();
+            }
+        );
+    }
+
+
+    /* =====================================================
+       ENTER KEY
+    ===================================================== */
+
+    if (questionInput) {
+
+        questionInput.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Enter" &&
+                    !event.shiftKey
+                ) {
+
+                    event.preventDefault();
+
+                    askAI();
+                }
+            }
+        );
     }
 
 
@@ -856,89 +566,25 @@ Technically, the component should be understood in terms of its data flow, API i
        QUICK QUESTIONS
     ===================================================== */
 
-    const quickCards =
-        document.querySelectorAll(
-            ".quick-card"
-        );
-
-
-    quickCards.forEach(function (card) {
+    quickQuestions.forEach(card => {
 
         card.addEventListener(
             "click",
-            function () {
+            () => {
 
                 const question =
                     card.dataset.question;
 
-
-                questionInput.value =
-                    question;
-
-
-                characterCount.textContent =
-                    `${question.length} characters`;
-
-
-                /*
-                 * Automatically select suitable category.
-                 */
-
-                const text =
-                    question.toLowerCase();
-
-
-                if (text.includes("module")) {
-
-                    questionCategory.value =
-                        "module";
-
-                } else if (
-                    text.includes("mysql") ||
-                    text.includes("database")
-                ) {
-
-                    questionCategory.value =
-                        "database";
-
-                } else if (
-                    text.includes("openai") ||
-                    text.includes("llm") ||
-                    text.includes("ai")
-                ) {
-
-                    questionCategory.value =
-                        "ai";
-
-                } else if (
-                    text.includes("architecture") ||
-                    text.includes("workflow")
-                ) {
-
-                    questionCategory.value =
-                        "architecture";
+                if (!question) {
+                    return;
                 }
 
+                if (questionInput) {
 
-                questionInput.focus();
+                    questionInput.value =
+                        question;
 
-
-                /*
-                 * Scroll to question panel.
-                 */
-
-                const questionCard =
-                    document.querySelector(
-                        ".question-card"
-                    );
-
-
-                if (questionCard) {
-
-                    questionCard.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+                    questionInput.focus();
                 }
             }
         );
@@ -946,75 +592,108 @@ Technically, the component should be understood in terms of its data flow, API i
 
 
     /* =====================================================
-       COPY ANSWER
+       NEW QUESTION
     ===================================================== */
 
-    if (copyAnswerBtn) {
+    if (clearButton) {
 
-        copyAnswerBtn.addEventListener(
+        clearButton.addEventListener(
             "click",
-            async function () {
+            () => {
 
-                const text =
-                    answerContent.innerText.trim();
+                if (questionInput) {
 
+                    questionInput.value = "";
 
-                if (!text) {
-
-                    showNotification(
-                        "There is no answer to copy."
-                    );
-
-                    return;
+                    questionInput.focus();
                 }
 
 
-                try {
+                if (responseContent) {
 
-                    await navigator.clipboard.writeText(
-                        text
-                    );
+                    responseContent.innerHTML = "";
+                }
 
 
-                    showNotification(
-                        "Answer copied successfully."
-                    );
+                /*
+                   Hide the complete response container
+                   again when starting a new question.
+                */
 
-                } catch (error) {
+                if (responseArea) {
 
-                    showNotification(
-                        "Unable to copy the answer."
+                    responseArea.classList.remove(
+                        "show"
                     );
                 }
+
+
+                selectedLevel = "basic";
+
+
+                levelButtons.forEach(button => {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                    if (
+                        button.dataset.level ===
+                        "basic"
+                    ) {
+
+                        button.classList.add(
+                            "active"
+                        );
+                    }
+                });
+
+
+                updateResponseLevel();
             }
         );
     }
 
 
     /* =====================================================
-       CLEAR ANSWER
+       NOTIFICATION BUTTON
     ===================================================== */
 
-    if (clearAnswerBtn) {
+    if (
+        notificationButton &&
+        notificationPopup
+    ) {
 
-        clearAnswerBtn.addEventListener(
+        notificationButton.addEventListener(
             "click",
-            function () {
+            event => {
 
-                generatedAnswer.style.display =
-                    "none";
+                event.stopPropagation();
 
-                emptyState.style.display =
-                    "flex";
+                notificationPopup.classList.toggle(
+                    "show"
+                );
+            }
+        );
 
-                answerContent.innerHTML =
-                    "";
 
-                answerTitle.textContent =
-                    "Project Explanation";
+        document.addEventListener(
+            "click",
+            event => {
 
-                answerWordCount.textContent =
-                    "0 words";
+                if (
+                    !notificationPopup.contains(
+                        event.target
+                    ) &&
+                    !notificationButton.contains(
+                        event.target
+                    )
+                ) {
+
+                    notificationPopup.classList.remove(
+                        "show"
+                    );
+                }
             }
         );
     }
@@ -1024,181 +703,72 @@ Technically, the component should be understood in terms of its data flow, API i
        NOTIFICATION
     ===================================================== */
 
-    if (notificationBtn) {
+    function showNotification(
+        message,
+        type = "info"
+    ) {
 
-        notificationBtn.addEventListener(
-            "click",
-            function () {
+        const existing =
+            document.querySelector(
+                ".study-notification"
+            );
 
-                notificationPopup.classList.toggle(
-                    "show"
-                );
-            }
-        );
-    }
-
-
-    /* =====================================================
-       CLOSE NOTIFICATION
-    ===================================================== */
-
-    document.addEventListener(
-        "click",
-        function (event) {
-
-            if (
-                notificationPopup &&
-                notificationBtn &&
-                !notificationPopup.contains(
-                    event.target
-                ) &&
-                !notificationBtn.contains(
-                    event.target
-                )
-            ) {
-
-                notificationPopup.classList.remove(
-                    "show"
-                );
-            }
-        }
-    );
-
-
-    /* =====================================================
-       SHOW NOTIFICATION
-    ===================================================== */
-
-    function showNotification(message) {
-
-        if (!notificationPopup) {
-            return;
+        if (existing) {
+            existing.remove();
         }
 
 
-        const paragraph =
-            notificationPopup.querySelector("p");
+        const notification =
+            document.createElement("div");
+
+        notification.className =
+            `study-notification ${type}`;
 
 
-        if (paragraph) {
-
-            paragraph.textContent =
-                message;
-        }
+        notification.innerHTML = `
+            <span>${message}</span>
+        `;
 
 
-        notificationPopup.classList.add(
-            "show"
+        document.body.appendChild(
+            notification
         );
 
 
-        setTimeout(
-            function () {
+        setTimeout(() => {
 
-                notificationPopup.classList.remove(
-                    "show"
-                );
+            notification.classList.add(
+                "show"
+            );
 
-            },
-            3000
-        );
+        }, 50);
+
+
+        setTimeout(() => {
+
+            notification.classList.remove(
+                "show"
+            );
+
+
+            setTimeout(() => {
+
+                notification.remove();
+
+            }, 300);
+
+        }, 3000);
     }
 
 
     /* =====================================================
-       STUDY TIP BUTTON
+       INITIALIZE
     ===================================================== */
 
-    if (studyTipButton) {
-
-        studyTipButton.addEventListener(
-            "click",
-            function () {
-
-                questionInput.value =
-                    "Explain the overall architecture and workflow of the AI Student Mentor project.";
-
-
-                characterCount.textContent =
-                    `${questionInput.value.length} characters`;
-
-
-                questionCategory.value =
-                    "architecture";
-
-
-                difficultyLevel.value =
-                    "intermediate";
-
-
-                answerStyle.value =
-                    "detailed";
-
-
-                explanationType.value =
-                    "academic";
-
-
-                questionInput.focus();
-
-
-                const questionCard =
-                    document.querySelector(
-                        ".question-card"
-                    );
-
-
-                if (questionCard) {
-
-                    questionCard.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                }
-            }
-        );
-    }
-
-
-    /* =====================================================
-       ENTER KEY SUPPORT
-    ===================================================== */
-
-    if (questionInput) {
-
-        questionInput.addEventListener(
-            "keydown",
-            function (event) {
-
-                /*
-                 * Ctrl + Enter or
-                 * Shift + Enter sends question.
-                 */
-
-                if (
-                    event.key === "Enter" &&
-                    (event.ctrlKey ||
-                        event.shiftKey)
-                ) {
-
-                    event.preventDefault();
-
-                    askQuestionBtn.click();
-                }
-            }
-        );
-    }
-
-
-    /* =====================================================
-       INITIALIZE STUDY ASSISTANT
-    ===================================================== */
-
-    loadStudentProfile();
-
+    updateResponseLevel();
 
     console.log(
-        "AI Student Mentor - Study Assistant loaded."
+        "AI Study Assistant initialized."
     );
 
 });

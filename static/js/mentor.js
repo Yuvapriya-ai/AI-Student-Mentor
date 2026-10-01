@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
 
-            if (!response.ok) {
+            if (!response.ok || !data.success) {
 
                 throw new Error(
                     data.error ||
@@ -215,11 +215,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
+            /*
+             * Gemini is instructed to return plain text.
+             * We escape the response first for safety,
+             * then convert only line breaks into <br>.
+             */
+
+            const cleanResponse =
+                cleanAIResponse(
+                    data.response || ""
+                );
+
+
             addAIMessage(
-                escapeHTML(data.response).replace(
-                    /\n/g,
-                    "<br>"
-                )
+                cleanResponse
             );
 
 
@@ -238,6 +247,83 @@ document.addEventListener("DOMContentLoaded", () => {
             `);
 
         }
+
+    }
+
+
+    /* =====================================================
+       CLEAN AI RESPONSE
+    ====================================================== */
+
+    function cleanAIResponse(text) {
+
+        if (!text) {
+            return "";
+        }
+
+
+        let cleaned =
+            String(text).trim();
+
+
+        /*
+         * Remove accidental Markdown bold markers.
+         */
+
+        cleaned =
+            cleaned.replace(/\*\*/g, "");
+
+
+        /*
+         * Remove accidental Markdown inline code markers.
+         */
+
+        cleaned =
+            cleaned.replace(/`/g, "");
+
+
+        /*
+         * Remove escaped Markdown code fence characters.
+         */
+
+        cleaned =
+            cleaned.replace(/\\```/g, "");
+
+
+        /*
+         * Remove unnecessary backslashes before
+         * punctuation that sometimes appear in AI output.
+         */
+
+        cleaned =
+            cleaned.replace(/\\([.,!?])/g, "$1");
+
+
+        /*
+         * Convert Windows line endings to normal line endings.
+         */
+
+        cleaned =
+            cleaned.replace(/\r\n/g, "\n");
+
+
+        /*
+         * Escape HTML so AI output cannot inject HTML.
+         */
+
+        cleaned =
+            escapeHTML(cleaned);
+
+
+        /*
+         * Convert line breaks into chat-friendly HTML.
+         */
+
+        cleaned =
+            cleaned.replace(/\n/g, "<br>");
+
+
+        return cleaned;
 
     }
 
@@ -494,7 +580,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     </div>
 
+                    <div class="quick-questions">
+
+                        <button
+                            type="button"
+                            data-question="How should I structure my project?"
+                        >
+                            How should I structure my project?
+                        </button>
+
+                        <button
+                            type="button"
+                            data-question="Which technologies should I use?"
+                        >
+                            Which technologies should I use?
+                        </button>
+
+                        <button
+                            type="button"
+                            data-question="How can I improve my project?"
+                        >
+                            How can I improve my project?
+                        </button>
+
+                        <button
+                            type="button"
+                            data-question="Give me project implementation steps"
+                        >
+                            Give me project implementation steps
+                        </button>
+
+                    </div>
+
                 `;
+
+
+                /*
+                 * Reconnect quick-question buttons
+                 * after clearing the chat.
+                 */
+
+                const newQuickQuestions =
+                    chatBody.querySelectorAll(
+                        ".quick-questions button"
+                    );
+
+
+                newQuickQuestions.forEach(button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            sendMessage(
+                                button.dataset.question
+                            );
+
+                        }
+                    );
+
+                });
+
+
+                scrollChatToBottom();
 
             }
         );

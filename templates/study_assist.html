@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,6 +10,9 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/study_assist.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/ai_help.css') }}">
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -19,11 +23,14 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
 </head>
+
 
 <body>
 
 <div class="app-layout">
+
 
     <!-- =====================================================
          SIDEBAR
@@ -33,9 +40,7 @@
 
         <div class="brand">
 
-            <div class="brand-icon">
-                ✦
-            </div>
+            <div class="brand-icon">✦</div>
 
             <div class="brand-text">
                 <h2>AI Student</h2>
@@ -47,140 +52,137 @@
 
         <div class="nav-section">
 
-            <p class="nav-title">
-                MAIN MENU
-            </p>
-
+            <p class="nav-title">MAIN MENU</p>
 
             <a href="/" class="nav-item">
-
                 <span class="nav-icon">⌂</span>
-
                 <span>Dashboard</span>
-
             </a>
-
 
             <a href="/profile" class="nav-item">
-
                 <span class="nav-icon">♙</span>
-
                 <span>Student Profile</span>
-
             </a>
-
 
             <a href="/roadmap" class="nav-item">
-
                 <span class="nav-icon">◈</span>
-
                 <span>Learning Roadmap</span>
-
             </a>
-
 
             <a href="/mentor" class="nav-item">
-
                 <span class="nav-icon">✦</span>
-
                 <span>AI Project Mentor</span>
-
             </a>
-
 
             <a href="/documentation" class="nav-item">
-
                 <span class="nav-icon">▤</span>
-
                 <span>Documentation</span>
-
             </a>
-
 
             <a href="/viva" class="nav-item">
-
                 <span class="nav-icon">◉</span>
-
                 <span>Viva Assistant</span>
-
             </a>
-
 
             <a href="/study_assist" class="nav-item active">
-
                 <span class="nav-icon">✎</span>
-
                 <span>Study Assistant</span>
-
             </a>
-
 
             <a href="/progress" class="nav-item">
-
                 <span class="nav-icon">◒</span>
-
                 <span>Progress Tracker</span>
-
             </a>
 
-
             <a href="/evaluator" class="nav-item">
-
                 <span class="nav-icon">◇</span>
-
                 <span>Idea Evaluator</span>
-
             </a>
 
         </div>
 
 
-        <!-- SIDEBAR BOTTOM -->
-
         <div class="sidebar-bottom">
+
+            <!-- GLOBAL AI HELP -->
 
             <div class="help-card">
 
-                <div class="help-icon">
-                    ?
-                </div>
+                <div class="help-icon">?</div>
 
                 <div>
+                    <strong>Need help?</strong>
+                    <p>Ask your AI Mentor</p>
+                </div>
 
-                    <strong>
-                        Need help?
-                    </strong>
+            </div>
 
-                    <p>
-                        Ask your AI Mentor
-                    </p>
+
+            <!-- AI HELP CHAT -->
+
+            <div class="ai-help-chat"
+                 id="aiHelpChat">
+
+                <div class="ai-help-header">
+
+                    <div>
+                        <strong>✦ AI Student Mentor</strong>
+                        <span>Ask me anything about your project</span>
+                    </div>
+
+                    <button id="closeAiHelp"
+                            type="button"
+                            aria-label="Close AI Help">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="ai-help-messages"
+                     id="aiHelpMessages">
+
+                    <div class="ai-message">
+                        Hi! 👋 I'm your AI Mentor.
+                        How can I help you with your project?
+                    </div>
+
+                </div>
+
+
+                <div class="ai-help-input">
+
+                    <input
+                        type="text"
+                        id="aiHelpInput"
+                        placeholder="Ask your AI Mentor..."
+                        autocomplete="off"
+                    >
+
+                    <button id="sendAiHelp"
+                            type="button"
+                            aria-label="Send message">
+                        ➤
+                    </button>
 
                 </div>
 
             </div>
 
 
-            <a href="/profile" class="user-mini">
+            <a href="/profile"
+               class="user-mini">
 
                 <div class="user-avatar">
                     Y
                 </div>
 
                 <div class="user-details">
-
-                    <strong>
-                        Student
-                    </strong>
-
-                    <span>
-                        View Profile
-                    </span>
-
+                    <strong>Student</strong>
+                    <span>View Profile</span>
                 </div>
 
-                <span class="user-arrow">
-                    ›
-                </span>
+                <span class="user-arrow">›</span>
 
             </a>
 
@@ -201,21 +203,18 @@
         <header class="topbar">
 
             <div class="mobile-brand">
-
                 <span>✦</span>
-
                 AI Student Mentor
-
             </div>
-
 
             <div class="topbar-actions">
 
                 <button class="notification-btn"
-                        id="notificationBtn">
+                        id="notificationBtn"
+                        type="button"
+                        aria-label="Notifications">
 
                     <span>♧</span>
-
                     <i></i>
 
                 </button>
@@ -228,15 +227,8 @@
                     </div>
 
                     <div>
-
-                        <strong>
-                            Student
-                        </strong>
-
-                        <span>
-                            BCA Student
-                        </span>
-
+                        <strong>Student</strong>
+                        <span>BCA Student</span>
                     </div>
 
                 </div>
@@ -246,9 +238,9 @@
         </header>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              STUDY ASSISTANT PAGE
-        ====================================================== -->
+        ================================================== -->
 
         <section class="study-page">
 
@@ -260,27 +252,91 @@
                 <div>
 
                     <span class="eyebrow">
-                        AI POWERED PROJECT LEARNING
+                        YOUR AI-POWERED LEARNING COMPANION
                     </span>
 
-                    <h1>
-                        Study Assistant
-                    </h1>
+                    <h1>Study Assistant</h1>
 
                     <p>
-                        Ask questions about your project and get
-                        clear AI-powered explanations for learning
-                        and revision.
+                        Ask questions, understand difficult concepts,
+                        and learn your project topics from basic to advanced.
                     </p>
 
                 </div>
 
 
-                <div class="assistant-status">
+                <button class="ai-study-btn"
+                        id="clearStudyBtn"
+                        type="button">
 
-                    <span class="status-dot"></span>
+                    <span>↻</span>
+                    New Question
 
-                    AI Assistant Ready
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 STUDY SUMMARY
+            ================================================== -->
+
+            <div class="study-summary">
+
+                <div class="summary-main">
+
+                    <div class="summary-icon">
+                        ✎
+                    </div>
+
+                    <div>
+
+                        <span class="summary-label">
+                            AI STUDY ASSISTANT
+                        </span>
+
+                        <div class="summary-number">
+
+                            <strong>
+                                Learn Smarter
+                            </strong>
+
+                            <span>with AI</span>
+
+                        </div>
+
+                        <div class="summary-progress">
+
+                            <div></div>
+
+                        </div>
+
+                        <p>
+                            Ask your project-related questions and
+                            get clear explanations at your level.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-stats">
+
+                    <div>
+                        <strong>Basic</strong>
+                        <span>Start Level</span>
+                    </div>
+
+                    <div>
+                        <strong>AI</strong>
+                        <span>Powered Help</span>
+                    </div>
+
+                    <div>
+                        <strong>24/7</strong>
+                        <span>Available</span>
+                    </div>
 
                 </div>
 
@@ -288,57 +344,43 @@
 
 
             <!-- =================================================
-                 PROJECT BANNER
+                 STUDY CONTROLS
             ================================================== -->
 
-            <div class="project-banner">
+            <div class="study-controls">
 
-                <div class="project-icon">
-                    ✎
-                </div>
+                <div>
 
-
-                <div class="project-details">
-
-                    <span>
-                        PROJECT STUDY ASSISTANT
+                    <span class="section-label">
+                        ASK YOUR AI STUDY ASSISTANT
                     </span>
 
                     <h2>
-                        AI Student Mentor
+                        What would you like to learn?
                     </h2>
 
-                    <p>
-                        Ask questions about project modules,
-                        technologies, database, AI concepts,
-                        implementation and architecture.
-                    </p>
-
                 </div>
 
 
-                <div class="study-stat">
+                <div class="level-buttons">
 
-                    <strong id="questionCount">
-                        0
-                    </strong>
+                    <button class="level-btn active"
+                            data-level="basic"
+                            type="button">
+                        Basic
+                    </button>
 
-                    <span>
-                        Questions Asked
-                    </span>
+                    <button class="level-btn"
+                            data-level="intermediate"
+                            type="button">
+                        Intermediate
+                    </button>
 
-                </div>
-
-
-                <div class="study-stat">
-
-                    <strong>
-                        AI
-                    </strong>
-
-                    <span>
-                        Powered Assistant
-                    </span>
+                    <button class="level-btn"
+                            data-level="advanced"
+                            type="button">
+                        Advanced
+                    </button>
 
                 </div>
 
@@ -346,327 +388,98 @@
 
 
             <!-- =================================================
-                 STUDY GRID
+                 QUESTION AREA
             ================================================== -->
 
-            <div class="study-grid">
+            <div class="study-card">
+
+                <div class="study-card-top">
+
+                    <div class="study-card-heading">
+
+                        <span class="module-number">
+                            STUDY QUESTION
+                        </span>
+
+                        <h3>
+                            Ask anything about your project
+                        </h3>
+
+                        <p>
+                            Ask a question about Python, SQL, Machine
+                            Learning, AI, Flask, APIs, databases, or any
+                            other topic related to your project.
+                        </p>
+
+                    </div>
+
+                    <span class="status study-status">
+                        AI ASSISTANT
+                    </span>
+
+                </div>
+
+
+                <div class="question-box">
+
+                    <textarea
+                        id="studyQuestion"
+                        rows="4"
+                        placeholder="Example: What is supervised learning? Explain it in simple words."
+                    ></textarea>
+
+                    <div class="question-footer">
+
+                        <span id="questionHint">
+                            Ask your question in simple words.
+                        </span>
+
+                        <button class="ask-study-btn"
+                                id="askStudyBtn"
+                                type="button">
+
+                            <span>✦</span>
+                            Ask AI
+
+                        </button>
+
+                    </div>
+
+                </div>
 
 
                 <!-- =================================================
-                     LEFT : QUESTION PANEL
+                     AI RESPONSE
                 ================================================== -->
 
-                <section class="question-card">
+                <div class="study-response"
+                     id="studyResponse"
+                     aria-live="polite">
 
-                    <div class="card-header">
+                    <div class="study-response-header">
 
-                        <div>
-
-                            <span>
-                                ASK YOUR QUESTION
-                            </span>
-
-                            <h3>
-                                Project Question Assistant
-                            </h3>
-
-                        </div>
-
-                        <div class="step-badge">
-                            STEP 1
-                        </div>
-
-                    </div>
-
-
-                    <!-- QUESTION TYPE -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Question Category
-                        </label>
-
-                        <select id="questionCategory">
-
-                            <option value="general">
-                                General Project Question
-                            </option>
-
-                            <option value="module">
-                                Project Modules
-                            </option>
-
-                            <option value="technology">
-                                Technologies Used
-                            </option>
-
-                            <option value="database">
-                                Database / MySQL
-                            </option>
-
-                            <option value="ai">
-                                AI / LLM / OpenAI
-                            </option>
-
-                            <option value="implementation">
-                                Implementation
-                            </option>
-
-                            <option value="architecture">
-                                Project Architecture
-                            </option>
-
-                            <option value="learning">
-                                Learning Concept
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- DIFFICULTY -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Difficulty Level
-                        </label>
-
-                        <select id="difficultyLevel">
-
-                            <option value="basic">
-                                Basic
-                            </option>
-
-                            <option value="intermediate"
-                                    selected>
-                                Intermediate
-                            </option>
-
-                            <option value="advanced">
-                                Advanced
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- QUESTION -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Your Question
-                        </label>
-
-                        <textarea
-                            id="questionInput"
-                            placeholder="Ask anything about your project, technology, database, AI, modules or implementation..."></textarea>
-
-                        <div class="textarea-footer">
-
-                            <span id="characterCount">
-                                0 characters
-                            </span>
-
-                            <span>
-                                Ask follow-up questions anytime
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ANSWER LENGTH -->
-
-                    <div class="options-row">
-
-                        <div class="form-group small-group">
-
-                            <label>
-                                Answer Style
-                            </label>
-
-                            <select id="answerStyle">
-
-                                <option value="brief">
-                                    Brief
-                                </option>
-
-                                <option value="detailed"
-                                        selected>
-                                    Detailed
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group small-group">
-
-                            <label>
-                                Explanation Type
-                            </label>
-
-                            <select id="explanationType">
-
-                                <option value="simple">
-                                    Simple
-                                </option>
-
-                                <option value="academic"
-                                        selected>
-                                    Academic
-                                </option>
-
-                                <option value="technical">
-                                    Technical
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ASK BUTTON -->
-
-                    <button class="ask-btn"
-                            id="askQuestionBtn">
-
-                        <span class="ask-icon">
+                        <div class="ai-response-avatar">
                             ✦
-                        </span>
+                        </div>
 
-                        Ask AI Assistant
+                        <div class="ai-response-title">
 
-                        <span class="arrow">
-                            →
-                        </span>
+                            <strong>AI Study Assistant</strong>
 
-                    </button>
-
-
-                    <p class="question-note">
-
-                        AI-generated explanations should be
-                        reviewed with your project implementation.
-
-                    </p>
-
-                </section>
-
-
-                <!-- =================================================
-                     RIGHT : ANSWER PANEL
-                ================================================== -->
-
-                <section class="answer-card">
-
-
-                    <div class="answer-header">
-
-                        <div>
-
-                            <span>
-                                AI RESPONSE
+                            <span id="responseLevel">
+                                Basic explanation
                             </span>
 
-                            <h3>
-                                Study Explanation
-                            </h3>
-
-                        </div>
-
-
-                        <div class="answer-actions">
-
-                            <button id="copyAnswerBtn"
-                                    title="Copy Answer">
-
-                                ⧉
-
-                            </button>
-
-                            <button id="clearAnswerBtn"
-                                    title="Clear">
-
-                                ×
-
-                            </button>
-
                         </div>
 
                     </div>
 
 
-                    <!-- ANSWER AREA -->
-
-                    <div class="answer-preview"
-                         id="answerPreview">
-
-
-                        <!-- EMPTY STATE -->
-
-                        <div class="empty-state"
-                             id="emptyState">
-
-                            <div class="empty-icon">
-                                ✦
-                            </div>
-
-                            <h3>
-                                Your AI explanation will appear here
-                            </h3>
-
-                            <p>
-                                Select a category, enter your question
-                                and click <strong>Ask AI Assistant</strong>
-                                to receive a project-focused explanation.
-                            </p>
-
-                        </div>
-
-
-                        <!-- GENERATED ANSWER -->
-
-                        <article class="generated-answer"
-                                 id="generatedAnswer">
-
-                            <div class="answer-label">
-                                AI RESPONSE
-                            </div>
-
-                            <h2 id="answerTitle">
-                                Project Explanation
-                            </h2>
-
-                            <div id="answerContent"></div>
-
-                        </article>
-
+                    <div class="study-response-content"
+                         id="studyResponseContent">
                     </div>
 
-
-                    <div class="answer-footer">
-
-                        <span id="answerWordCount">
-                            0 words
-                        </span>
-
-                        <span>
-                            AI Generated Explanation
-                        </span>
-
-                    </div>
-
-                </section>
+                </div>
 
             </div>
 
@@ -677,130 +490,129 @@
 
             <div class="quick-section">
 
-                <div class="section-heading">
+                <div class="quick-heading">
 
                     <div>
 
-                        <span>
-                            QUICK QUESTIONS
+                        <span class="section-label">
+                            QUICK STUDY QUESTIONS
                         </span>
 
                         <h2>
-                            Ask About Your Project
+                            Start with a topic
                         </h2>
 
                     </div>
-
-                    <p>
-                        Choose a topic to start learning quickly.
-                    </p>
 
                 </div>
 
 
                 <div class="quick-grid">
 
-
                     <button class="quick-card"
-                            data-question="What are the eight modules of the AI Student Mentor project?">
+                            type="button"
+                            data-question="Explain Python functions in simple words with an example.">
 
-                        <div class="quick-icon purple">
-                            ◈
+                        <div class="quick-icon">
+                            Py
                         </div>
 
                         <div>
-
-                            <strong>
-                                Project Modules
-                            </strong>
-
-                            <p>
-                                Understand all eight project modules
-                            </p>
-
+                            <strong>Python Functions</strong>
+                            <span>Learn the basics with an example</span>
                         </div>
 
-                        <span>
-                            →
-                        </span>
+                        <b>›</b>
 
                     </button>
 
 
                     <button class="quick-card"
-                            data-question="Why is MySQL used in the AI Student Mentor project?">
+                            type="button"
+                            data-question="Explain SQL joins in simple words and give a simple example.">
 
-                        <div class="quick-icon blue">
-                            ▤
+                        <div class="quick-icon">
+                            DB
                         </div>
 
                         <div>
-
-                            <strong>
-                                MySQL Database
-                            </strong>
-
-                            <p>
-                                Learn how the database is used
-                            </p>
-
+                            <strong>SQL Joins</strong>
+                            <span>Understand how tables are combined</span>
                         </div>
 
-                        <span>
-                            →
-                        </span>
+                        <b>›</b>
 
                     </button>
 
 
                     <button class="quick-card"
-                            data-question="How does the OpenAI API and LLM work in the AI Student Mentor project?">
+                            type="button"
+                            data-question="Explain supervised and unsupervised machine learning with simple examples.">
 
-                        <div class="quick-icon orange">
-                            ✦
+                        <div class="quick-icon">
+                            ML
                         </div>
 
                         <div>
-
-                            <strong>
-                                AI & LLM
-                            </strong>
-
-                            <p>
-                                Understand the AI processing flow
-                            </p>
-
+                            <strong>Machine Learning</strong>
+                            <span>Understand the main ML concepts</span>
                         </div>
 
-                        <span>
-                            →
-                        </span>
+                        <b>›</b>
 
                     </button>
 
 
                     <button class="quick-card"
-                            data-question="Explain the overall architecture and workflow of the AI Student Mentor project.">
+                            type="button"
+                            data-question="Explain what an API is and how Flask can be used to create an API.">
 
-                        <div class="quick-icon green">
-                            ◇
+                        <div class="quick-icon">
+                            API
                         </div>
 
                         <div>
-
-                            <strong>
-                                Architecture
-                            </strong>
-
-                            <p>
-                                Understand the project workflow
-                            </p>
-
+                            <strong>APIs & Flask</strong>
+                            <span>Learn how your project backend works</span>
                         </div>
 
-                        <span>
-                            →
-                        </span>
+                        <b>›</b>
+
+                    </button>
+
+
+                    <button class="quick-card"
+                            type="button"
+                            data-question="Explain how artificial intelligence and machine learning are related.">
+
+                        <div class="quick-icon">
+                            AI
+                        </div>
+
+                        <div>
+                            <strong>AI Concepts</strong>
+                            <span>Understand AI and ML fundamentals</span>
+                        </div>
+
+                        <b>›</b>
+
+                    </button>
+
+
+                    <button class="quick-card"
+                            type="button"
+                            data-question="Explain how MySQL works with a Flask application in a simple way.">
+
+                        <div class="quick-icon">
+                            SQL
+                        </div>
+
+                        <div>
+                            <strong>Flask + MySQL</strong>
+                            <span>Understand your project database flow</span>
+                        </div>
+
+                        <b>›</b>
 
                     </button>
 
@@ -810,203 +622,34 @@
 
 
             <!-- =================================================
-                 BOTTOM GRID
+                 STUDY TIPS
             ================================================== -->
 
-            <div class="bottom-grid">
+            <div class="study-tip-card">
 
-
-                <!-- STUDY TOPICS -->
-
-                <div class="topics-card">
-
-                    <div class="card-heading">
-
-                        <div>
-
-                            <span>
-                                REVISION TOPICS
-                            </span>
-
-                            <h3>
-                                Important Concepts
-                            </h3>
-
-                        </div>
-
-                        <span class="topic-count">
-                            6 Topics
-                        </span>
-
-                    </div>
-
-
-                    <div class="topic-item">
-
-                        <span class="topic-number">
-                            1
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Frontend Technologies
-                            </strong>
-
-                            <p>
-                                HTML, CSS and JavaScript
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="topic-item">
-
-                        <span class="topic-number">
-                            2
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Backend Development
-                            </strong>
-
-                            <p>
-                                Python and Flask
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="topic-item">
-
-                        <span class="topic-number">
-                            3
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Database
-                            </strong>
-
-                            <p>
-                                MySQL and project data storage
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="topic-item">
-
-                        <span class="topic-number">
-                            4
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Artificial Intelligence
-                            </strong>
-
-                            <p>
-                                LLM and OpenAI API
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="topic-item">
-
-                        <span class="topic-number">
-                            5
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Project Architecture
-                            </strong>
-
-                            <p>
-                                Frontend, backend and AI workflow
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="topic-item">
-
-                        <span class="topic-number">
-                            6
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Project Implementation
-                            </strong>
-
-                            <p>
-                                Development and integration
-                            </p>
-
-                        </div>
-
-                    </div>
-
+                <div class="study-tip-icon">
+                    ✦
                 </div>
 
-
-                <!-- AI STUDY TIP -->
-
-                <div class="ai-tip-card">
-
-                    <div class="tip-icon">
-                        ✦
-                    </div>
+                <div class="study-tip-text">
 
                     <span>
-                        AI STUDY TIP
+                        STUDY TIP
                     </span>
 
                     <h3>
-                        Understand the concept before memorizing it.
+                        Ask follow-up questions when something is unclear
                     </h3>
 
                     <p>
-                        Ask the AI Study Assistant to explain your
-                        project concepts in simple language first.
-                        Then use detailed and technical explanations
-                        for deeper revision.
+                        You can ask the AI to explain a concept more
+                        simply, give an example, compare two concepts,
+                        or explain it step by step.
                     </p>
-
-
-                    <button id="studyTipButton">
-
-                        Start Learning
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
 
                 </div>
 
             </div>
-
 
         </section>
 
@@ -1022,18 +665,25 @@
 <div class="notification-popup"
      id="notificationPopup">
 
-    <strong>
-        Notifications
-    </strong>
+    <strong>Notifications</strong>
 
     <p>
-        Your AI Study Assistant is ready.
+        You have 4 learning tasks scheduled for today.
     </p>
 
 </div>
 
 
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
 <script src="{{ url_for('static', filename='js/study_assist.js') }}"></script>
 
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+
 </body>
+
 </html>

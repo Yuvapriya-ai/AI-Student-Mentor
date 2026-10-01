@@ -7,12 +7,10 @@
 :root {
     --bg-main: #0b1433;
     --bg-dark: #08122e;
-
     --blue-dark: #172b63;
     --blue: #2563eb;
     --blue-light: #3b82f6;
     --sky-blue: #60a5fa;
-
     --indigo: #4f46e5;
     --purple: #6366f1;
 
@@ -27,13 +25,13 @@
     --border: rgba(120, 160, 255, 0.15);
 }
 
+
 /* =========================================================
    BODY
 ========================================================= */
 
 body {
     font-family: "Inter", sans-serif;
-
     min-height: 100vh;
 
     background:
@@ -50,9 +48,9 @@ body {
         );
 
     color: var(--text-main);
-
     font-size: 16px;
 }
+
 
 /* =========================================================
    MAIN LAYOUT
@@ -60,11 +58,10 @@ body {
 
 .app-layout {
     display: flex;
-
     min-height: 100vh;
-
     width: 100%;
 }
+
 
 /* =========================================================
    SIDEBAR
@@ -72,11 +69,9 @@ body {
 
 .sidebar {
     width: 275px;
-
     height: 100vh;
 
     position: fixed;
-
     top: 0;
     left: 0;
     bottom: 0;
@@ -84,7 +79,6 @@ body {
     padding: 30px 18px;
 
     display: flex;
-
     flex-direction: column;
 
     background:
@@ -100,15 +94,14 @@ body {
     z-index: 100;
 
     overflow-y: auto;
-
     overflow-x: hidden;
 
     scroll-behavior: smooth;
 
     scrollbar-width: thin;
-
     scrollbar-color: #315db5 transparent;
 }
+
 
 /* =========================================================
    SIDEBAR SCROLLBAR
@@ -142,19 +135,17 @@ body {
         );
 }
 
+
 /* =========================================================
    BRAND
 ========================================================= */
 
 .brand {
     display: flex;
-
     align-items: center;
-
     gap: 13px;
 
     padding: 0 10px;
-
     margin-bottom: 42px;
 
     flex-shrink: 0;
@@ -165,9 +156,7 @@ body {
     height: 47px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 14px;
@@ -180,9 +169,7 @@ body {
         );
 
     color: #ffffff;
-
     font-size: 24px;
-
     font-weight: 800;
 
     box-shadow:
@@ -191,27 +178,21 @@ body {
 
 .brand-text h2 {
     color: #ffffff;
-
     font-size: 20px;
-
     font-weight: 800;
-
     line-height: 1.1;
 }
 
 .brand-text span {
     display: block;
-
     margin-top: 4px;
 
     color: #6ea8ff;
-
     font-size: 11px;
-
     font-weight: 800;
-
     letter-spacing: 3px;
 }
+
 
 /* =========================================================
    NAVIGATION
@@ -219,21 +200,16 @@ body {
 
 .nav-section {
     width: 100%;
-
     flex-shrink: 0;
 }
 
 .nav-title {
     color: #7184b8;
-
     font-size: 12px;
-
     font-weight: 800;
-
     letter-spacing: 1.8px;
 
     padding: 0 13px;
-
     margin-bottom: 13px;
 }
 
@@ -241,23 +217,18 @@ body {
     width: 100%;
 
     display: flex;
-
     align-items: center;
-
     gap: 15px;
 
     padding: 14px;
-
     margin-bottom: 6px;
 
     border-radius: 12px;
 
     color: #aebde2;
-
     text-decoration: none;
 
     font-size: 16px;
-
     font-weight: 600;
 
     transition:
@@ -268,9 +239,7 @@ body {
 
 .nav-item:hover {
     background: rgba(59, 130, 246, 0.13);
-
     color: #ffffff;
-
     transform: translateX(3px);
 }
 
@@ -292,13 +261,10 @@ body {
     width: 25px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     color: #8eb8ff;
-
     font-size: 20px;
 }
 
@@ -306,15 +272,16 @@ body {
     color: #ffffff;
 }
 
+
 /* =========================================================
    SIDEBAR BOTTOM
 ========================================================= */
 
 .sidebar-bottom {
     margin-top: 25px;
-
     flex-shrink: 0;
 }
+
 
 /* =========================================================
    HELP CARD
@@ -322,13 +289,10 @@ body {
 
 .help-card {
     display: flex;
-
     align-items: center;
-
     gap: 12px;
 
     padding: 15px;
-
     margin-bottom: 13px;
 
     border-radius: 15px;
@@ -350,9 +314,7 @@ body {
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 11px;
@@ -360,9 +322,7 @@ body {
     background: #2563eb;
 
     color: #ffffff;
-
     font-size: 20px;
-
     font-weight: 700;
 }
 
@@ -370,9 +330,7 @@ body {
     display: block;
 
     color: #ffffff;
-
     font-size: 14px;
-
     font-weight: 700;
 
     margin-bottom: 4px;
@@ -380,9 +338,9 @@ body {
 
 .help-card p {
     color: #8fa3d2;
-
     font-size: 12px;
 }
+
 
 /* =========================================================
    USER MINI
@@ -390,9 +348,7 @@ body {
 
 .user-mini {
     display: flex;
-
     align-items: center;
-
     gap: 11px;
 
     padding: 12px;
@@ -415,9 +371,7 @@ body {
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
@@ -430,39 +384,32 @@ body {
         );
 
     color: #ffffff;
-
     font-size: 17px;
-
     font-weight: 800;
 }
 
 .user-details {
     display: flex;
-
     flex-direction: column;
-
     flex: 1;
 }
 
 .user-details strong {
     color: #ffffff;
-
     font-size: 14px;
 }
 
 .user-details span {
     color: #8195c5;
-
     font-size: 12px;
-
     margin-top: 3px;
 }
 
 .user-arrow {
     color: #7992c9;
-
     font-size: 24px;
 }
+
 
 /* =========================================================
    MAIN CONTENT
@@ -470,7 +417,6 @@ body {
 
 .main-content {
     width: calc(100% - 275px);
-
     margin-left: 275px;
 
     min-height: 100vh;
@@ -491,6 +437,7 @@ body {
         );
 }
 
+
 /* =========================================================
    TOPBAR
 ========================================================= */
@@ -499,9 +446,7 @@ body {
     min-height: 58px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: flex-end;
 
     margin-bottom: 38px;
@@ -513,11 +458,10 @@ body {
 
 .topbar-actions {
     display: flex;
-
     align-items: center;
-
     gap: 20px;
 }
+
 
 /* =========================================================
    NOTIFICATION
@@ -530,13 +474,11 @@ body {
     height: 46px;
 
     border: 1px solid rgba(96, 165, 250, 0.15);
-
     border-radius: 13px;
 
     background: rgba(59, 130, 246, 0.09);
 
     color: #bcd2ff;
-
     font-size: 22px;
 
     cursor: pointer;
@@ -546,7 +488,6 @@ body {
 
 .notification-btn:hover {
     background: rgba(59, 130, 246, 0.18);
-
     border-color: rgba(96, 165, 250, 0.3);
 }
 
@@ -554,7 +495,6 @@ body {
     position: absolute;
 
     top: 8px;
-
     right: 9px;
 
     width: 7px;
@@ -565,15 +505,14 @@ body {
     background: #60a5fa;
 }
 
+
 /* =========================================================
    TOP PROFILE
 ========================================================= */
 
 .top-profile {
     display: flex;
-
     align-items: center;
-
     gap: 12px;
 }
 
@@ -582,9 +521,7 @@ body {
     height: 45px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
@@ -599,7 +536,6 @@ body {
     color: #ffffff;
 
     font-size: 18px;
-
     font-weight: 800;
 }
 
@@ -607,7 +543,6 @@ body {
     display: block;
 
     color: #ffffff;
-
     font-size: 15px;
 }
 
@@ -615,11 +550,11 @@ body {
     display: block;
 
     color: #91a4d1;
-
     font-size: 12px;
 
     margin-top: 3px;
 }
+
 
 /* =========================================================
    ROADMAP PAGE
@@ -627,11 +562,11 @@ body {
 
 .roadmap-page {
     width: 100%;
-
     max-width: 1450px;
 
     margin: 0 auto;
 }
+
 
 /* =========================================================
    PAGE HEADER
@@ -639,13 +574,10 @@ body {
 
 .page-header {
     display: flex;
-
     align-items: flex-end;
-
     justify-content: space-between;
 
     gap: 25px;
-
     margin-bottom: 30px;
 }
 
@@ -655,9 +587,7 @@ body {
     color: #60a5fa;
 
     font-size: 13px;
-
     font-weight: 800;
-
     letter-spacing: 2px;
 
     margin-bottom: 9px;
@@ -667,9 +597,7 @@ body {
     color: #ffffff;
 
     font-size: 38px;
-
     font-weight: 800;
-
     line-height: 1.2;
 
     margin-bottom: 9px;
@@ -679,9 +607,9 @@ body {
     color: #a9b8dc;
 
     font-size: 17px;
-
     line-height: 1.6;
 }
+
 
 /* =========================================================
    AI ROADMAP BUTTON
@@ -689,15 +617,12 @@ body {
 
 .ai-roadmap-btn {
     display: flex;
-
     align-items: center;
-
     gap: 9px;
 
     padding: 14px 21px;
 
     border: none;
-
     border-radius: 11px;
 
     background:
@@ -710,9 +635,7 @@ body {
     color: #ffffff;
 
     font-family: "Inter", sans-serif;
-
     font-size: 14px;
-
     font-weight: 700;
 
     cursor: pointer;
@@ -734,21 +657,19 @@ body {
         0 12px 28px rgba(37, 99, 235, 0.38);
 }
 
+
 /* =========================================================
    ROADMAP SUMMARY
 ========================================================= */
 
 .roadmap-summary {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 30px;
 
     padding: 28px 31px;
-
     margin-bottom: 32px;
 
     border-radius: 20px;
@@ -767,17 +688,11 @@ body {
         0 17px 38px rgba(0, 0, 0, 0.2);
 }
 
-/* =========================================================
-   SUMMARY MAIN
-========================================================= */
-
 .summary-main {
     display: flex;
-
     align-items: center;
 
     gap: 19px;
-
     flex: 1;
 }
 
@@ -788,9 +703,7 @@ body {
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 15px;
@@ -809,9 +722,7 @@ body {
     color: #b9c9e8;
 
     font-size: 11px;
-
     font-weight: 800;
-
     letter-spacing: 1.5px;
 
     margin-bottom: 4px;
@@ -819,11 +730,9 @@ body {
 
 .summary-number {
     display: flex;
-
     align-items: baseline;
 
     gap: 8px;
-
     margin-bottom: 10px;
 }
 
@@ -831,19 +740,16 @@ body {
     color: #ffffff;
 
     font-size: 30px;
-
     font-weight: 800;
 }
 
 .summary-number span {
     color: #c3d3f0;
-
     font-size: 13px;
 }
 
 .summary-progress {
     width: 100%;
-
     max-width: 500px;
 
     height: 8px;
@@ -860,7 +766,6 @@ body {
 
 .summary-progress > div {
     width: 68%;
-
     height: 100%;
 
     border-radius: 20px;
@@ -871,15 +776,17 @@ body {
             #60a5fa,
             #a5b4fc
         );
+
+    transition: width 0.6s ease;
 }
 
 .summary-main p {
     color: #afc1e3;
 
     font-size: 12px;
-
     line-height: 1.5;
 }
+
 
 /* =========================================================
    SUMMARY STATS
@@ -892,17 +799,18 @@ body {
 
     min-width: 380px;
 
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-left:
+        1px solid rgba(255, 255, 255, 0.12);
 }
 
 .summary-stats > div {
     text-align: center;
-
     padding: 5px 20px;
 }
 
 .summary-stats > div + div {
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-left:
+        1px solid rgba(255, 255, 255, 0.12);
 }
 
 .summary-stats strong {
@@ -911,7 +819,6 @@ body {
     color: #ffffff;
 
     font-size: 26px;
-
     font-weight: 800;
 
     margin-bottom: 5px;
@@ -919,9 +826,9 @@ body {
 
 .summary-stats span {
     color: #b6c8e7;
-
     font-size: 12px;
 }
+
 
 /* =========================================================
    ROADMAP CONTROLS
@@ -929,13 +836,10 @@ body {
 
 .roadmap-controls {
     display: flex;
-
     align-items: flex-end;
-
     justify-content: space-between;
 
     gap: 25px;
-
     margin-bottom: 25px;
 }
 
@@ -945,9 +849,7 @@ body {
     color: #659fff;
 
     font-size: 11px;
-
     font-weight: 800;
-
     letter-spacing: 1.5px;
 
     margin-bottom: 6px;
@@ -957,9 +859,9 @@ body {
     color: #ffffff;
 
     font-size: 25px;
-
     font-weight: 800;
 }
+
 
 /* =========================================================
    FILTER BUTTONS
@@ -967,18 +869,17 @@ body {
 
 .filter-buttons {
     display: flex;
-
     align-items: center;
 
     gap: 7px;
-
     flex-wrap: wrap;
 }
 
 .filter-btn {
     padding: 9px 14px;
 
-    border: 1px solid rgba(120, 160, 255, 0.13);
+    border:
+        1px solid rgba(120, 160, 255, 0.13);
 
     border-radius: 9px;
 
@@ -988,9 +889,7 @@ body {
     color: #9fb1d5;
 
     font-family: "Inter", sans-serif;
-
     font-size: 13px;
-
     font-weight: 600;
 
     cursor: pointer;
@@ -1021,6 +920,16 @@ body {
         0 5px 14px rgba(37, 99, 235, 0.22);
 }
 
+
+/* =========================================================
+   HIDDEN MODULES
+========================================================= */
+
+.roadmap-module.hidden {
+    display: none;
+}
+
+
 /* =========================================================
    ROADMAP CONTAINER
 ========================================================= */
@@ -1033,6 +942,7 @@ body {
     padding: 8px 0 10px;
 }
 
+
 /* =========================================================
    TIMELINE LINE
 ========================================================= */
@@ -1041,9 +951,7 @@ body {
     position: absolute;
 
     top: 35px;
-
     bottom: 35px;
-
     left: 31px;
 
     width: 3px;
@@ -1061,6 +969,7 @@ body {
 
     opacity: 0.8;
 }
+
 
 /* =========================================================
    ROADMAP MODULE
@@ -1080,13 +989,13 @@ body {
     margin-bottom: 0;
 }
 
+
 /* =========================================================
    TIMELINE MARKER
 ========================================================= */
 
 .timeline-marker {
     position: relative;
-
     z-index: 5;
 
     width: 64px;
@@ -1095,9 +1004,7 @@ body {
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     margin-top: 18px;
@@ -1105,7 +1012,6 @@ body {
     border-radius: 50%;
 
     font-size: 18px;
-
     font-weight: 800;
 }
 
@@ -1144,8 +1050,7 @@ body {
 }
 
 .timeline-marker.upcoming {
-    background:
-        #172b55;
+    background: #172b55;
 
     border: 5px solid #101f48;
 
@@ -1155,6 +1060,7 @@ body {
         0 0 0 2px rgba(120, 160, 255, 0.12);
 }
 
+
 /* =========================================================
    MODULE CARD
 ========================================================= */
@@ -1163,7 +1069,6 @@ body {
     position: relative;
 
     flex: 1;
-
     min-width: 0;
 
     padding: 25px 27px;
@@ -1177,7 +1082,8 @@ body {
             rgba(17, 34, 75, 0.94)
         );
 
-    border: 1px solid rgba(120, 160, 255, 0.13);
+    border:
+        1px solid rgba(120, 160, 255, 0.13);
 
     box-shadow:
         0 13px 30px rgba(0, 0, 0, 0.17);
@@ -1198,6 +1104,7 @@ body {
         0 17px 36px rgba(0, 0, 0, 0.22);
 }
 
+
 /* =========================================================
    CURRENT CARD
 ========================================================= */
@@ -1217,6 +1124,7 @@ body {
         0 16px 38px rgba(24, 77, 170, 0.18);
 }
 
+
 /* =========================================================
    CURRENT RIBBON
 ========================================================= */
@@ -1225,7 +1133,6 @@ body {
     position: absolute;
 
     top: 0;
-
     right: 27px;
 
     padding: 7px 12px;
@@ -1243,11 +1150,10 @@ body {
     color: #ffffff;
 
     font-size: 9px;
-
     font-weight: 800;
-
     letter-spacing: 1.1px;
 }
+
 
 /* =========================================================
    MODULE TOP
@@ -1255,9 +1161,7 @@ body {
 
 .module-top {
     display: flex;
-
     align-items: flex-start;
-
     justify-content: space-between;
 
     gap: 25px;
@@ -1267,7 +1171,6 @@ body {
 
 .module-heading {
     min-width: 0;
-
     flex: 1;
 }
 
@@ -1277,9 +1180,7 @@ body {
     color: #619ffb;
 
     font-size: 11px;
-
     font-weight: 800;
-
     letter-spacing: 1.4px;
 
     margin-bottom: 6px;
@@ -1289,9 +1190,7 @@ body {
     color: #ffffff;
 
     font-size: 23px;
-
     font-weight: 800;
-
     line-height: 1.3;
 
     margin-bottom: 7px;
@@ -1301,11 +1200,11 @@ body {
     color: #a6b8dc;
 
     font-size: 14px;
-
     line-height: 1.6;
 
     max-width: 760px;
 }
+
 
 /* =========================================================
    STATUS
@@ -1319,9 +1218,7 @@ body {
     border-radius: 20px;
 
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 0.9px;
 }
 
@@ -1331,7 +1228,8 @@ body {
 
     color: #8fbcff;
 
-    border: 1px solid rgba(96, 165, 250, 0.12);
+    border:
+        1px solid rgba(96, 165, 250, 0.12);
 }
 
 .current-status {
@@ -1340,7 +1238,8 @@ body {
 
     color: #9dcbff;
 
-    border: 1px solid rgba(96, 165, 250, 0.2);
+    border:
+        1px solid rgba(96, 165, 250, 0.2);
 }
 
 .upcoming-status {
@@ -1349,8 +1248,10 @@ body {
 
     color: #8298c2;
 
-    border: 1px solid rgba(120, 145, 190, 0.1);
+    border:
+        1px solid rgba(120, 145, 190, 0.1);
 }
+
 
 /* =========================================================
    MODULE PROGRESS
@@ -1362,9 +1263,7 @@ body {
 
 .progress-info {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     margin-bottom: 8px;
@@ -1374,7 +1273,6 @@ body {
     color: #91a5ce;
 
     font-size: 12px;
-
     font-weight: 600;
 }
 
@@ -1382,7 +1280,6 @@ body {
     color: #dbe8ff;
 
     font-size: 13px;
-
     font-weight: 800;
 }
 
@@ -1413,7 +1310,10 @@ body {
 
     box-shadow:
         0 0 12px rgba(59, 130, 246, 0.25);
+
+    transition: width 0.5s ease;
 }
+
 
 /* =========================================================
    MODULE FOOTER
@@ -1421,13 +1321,12 @@ body {
 
 .module-footer {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 20px;
 }
+
 
 /* =========================================================
    TOPIC LIST
@@ -1435,7 +1334,6 @@ body {
 
 .topic-list {
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 7px;
@@ -1457,9 +1355,9 @@ body {
     color: #a7c4ef;
 
     font-size: 11px;
-
     font-weight: 600;
 }
+
 
 /* =========================================================
    MODULE BUTTON
@@ -1470,7 +1368,8 @@ body {
 
     padding: 10px 17px;
 
-    border: 1px solid rgba(96, 165, 250, 0.16);
+    border:
+        1px solid rgba(96, 165, 250, 0.16);
 
     border-radius: 9px;
 
@@ -1482,7 +1381,6 @@ body {
     font-family: "Inter", sans-serif;
 
     font-size: 12px;
-
     font-weight: 700;
 
     cursor: pointer;
@@ -1552,6 +1450,7 @@ body {
         rgba(100, 120, 160, 0.1);
 }
 
+
 /* =========================================================
    CURRENT TOPICS
 ========================================================= */
@@ -1567,9 +1466,7 @@ body {
 
 .topic-heading {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 15px;
@@ -1581,19 +1478,16 @@ body {
     color: #e7f0ff;
 
     font-size: 14px;
-
     font-weight: 700;
 }
 
 .topic-heading span {
     color: #7897c7;
-
     font-size: 11px;
 }
 
 .topic-row {
     display: flex;
-
     align-items: center;
 
     gap: 11px;
@@ -1603,6 +1497,12 @@ body {
     color: #aebfdf;
 
     font-size: 13px;
+
+    border-radius: 7px;
+
+    transition:
+        background 0.25s ease,
+        padding-left 0.25s ease;
 }
 
 .topic-check {
@@ -1612,18 +1512,22 @@ body {
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    border: 1px solid rgba(120, 160, 255, 0.22);
+    border:
+        1px solid rgba(120, 160, 255, 0.22);
 
     border-radius: 6px;
 
     color: #ffffff;
-
     font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .topic-check.done {
@@ -1637,13 +1541,22 @@ body {
         );
 }
 
+.highlight-topic {
+    background: rgba(96, 165, 250, 0.1);
+
+    padding-left: 8px;
+
+    box-shadow:
+        inset 3px 0 0 #60a5fa;
+}
+
+
 /* =========================================================
    NEXT STEP CARD
 ========================================================= */
 
 .next-step-card {
     display: flex;
-
     align-items: center;
 
     gap: 18px;
@@ -1672,9 +1585,7 @@ body {
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 13px;
@@ -1689,7 +1600,6 @@ body {
     color: #ffffff;
 
     font-size: 23px;
-
     font-weight: 700;
 }
 
@@ -1703,9 +1613,7 @@ body {
     color: #67a5ff;
 
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 1.4px;
 
     margin-bottom: 5px;
@@ -1715,7 +1623,6 @@ body {
     color: #ffffff;
 
     font-size: 18px;
-
     font-weight: 800;
 
     margin-bottom: 4px;
@@ -1725,7 +1632,6 @@ body {
     color: #9fb2d7;
 
     font-size: 12px;
-
     line-height: 1.5;
 }
 
@@ -1735,7 +1641,6 @@ body {
     padding: 12px 18px;
 
     border: none;
-
     border-radius: 9px;
 
     background:
@@ -1750,7 +1655,6 @@ body {
     font-family: "Inter", sans-serif;
 
     font-size: 13px;
-
     font-weight: 700;
 
     cursor: pointer;
@@ -1765,6 +1669,7 @@ body {
         0 8px 18px rgba(37, 99, 235, 0.3);
 }
 
+
 /* =========================================================
    AI MODAL OVERLAY
 ========================================================= */
@@ -1777,20 +1682,17 @@ body {
     z-index: 1000;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding: 20px;
 
     background:
-        rgba(3, 9, 25, 0.78);
+        rgba(3, 9, 25, 0.82);
 
-    backdrop-filter: blur(7px);
+    backdrop-filter: blur(8px);
 
     opacity: 0;
-
     visibility: hidden;
 
     transition:
@@ -1800,9 +1702,15 @@ body {
 
 .modal-overlay.show {
     opacity: 1;
-
     visibility: visible;
 }
+
+.modal-overlay.show .ai-modal {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
 
 /* =========================================================
    AI MODAL
@@ -1812,8 +1720,10 @@ body {
     position: relative;
 
     width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
 
-    max-width: 500px;
+    overflow-y: auto;
 
     padding: 35px;
 
@@ -1834,14 +1744,27 @@ body {
     box-shadow:
         0 25px 70px rgba(0, 0, 0, 0.5);
 
-    transform: translateY(15px) scale(0.98);
+    transform:
+        translateY(15px)
+        scale(0.98);
 
-    transition: transform 0.25s ease;
+    transition:
+        transform 0.25s ease;
 }
 
-.modal-overlay.show .ai-modal {
-    transform: translateY(0) scale(1);
+.ai-modal::-webkit-scrollbar {
+    width: 5px;
 }
+
+.ai-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ai-modal::-webkit-scrollbar-thumb {
+    background: rgba(96, 165, 250, 0.3);
+    border-radius: 10px;
+}
+
 
 /* =========================================================
    CLOSE MODAL
@@ -1851,13 +1774,13 @@ body {
     position: absolute;
 
     top: 17px;
-
     right: 17px;
 
     width: 36px;
     height: 36px;
 
-    border: 1px solid rgba(120, 160, 255, 0.15);
+    border:
+        1px solid rgba(120, 160, 255, 0.15);
 
     border-radius: 9px;
 
@@ -1867,7 +1790,6 @@ body {
     color: #b6c8e8;
 
     font-size: 24px;
-
     line-height: 1;
 
     cursor: pointer;
@@ -1882,6 +1804,7 @@ body {
     color: #ffffff;
 }
 
+
 /* =========================================================
    AI MODAL ICON
 ========================================================= */
@@ -1893,9 +1816,7 @@ body {
     margin: 0 auto 16px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 18px;
@@ -1921,9 +1842,7 @@ body {
     color: #60a5fa;
 
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 1.6px;
 
     margin-bottom: 8px;
@@ -1933,9 +1852,7 @@ body {
     color: #ffffff;
 
     font-size: 25px;
-
     font-weight: 800;
-
     line-height: 1.3;
 
     margin-bottom: 10px;
@@ -1945,11 +1862,11 @@ body {
     color: #9fb2d7;
 
     font-size: 14px;
-
     line-height: 1.7;
 
     margin-bottom: 22px;
 }
+
 
 /* =========================================================
    AI OPTIONS
@@ -1957,7 +1874,6 @@ body {
 
 .ai-options {
     display: flex;
-
     flex-direction: column;
 
     gap: 9px;
@@ -1970,7 +1886,8 @@ body {
 
     text-align: left;
 
-    border: 1px solid rgba(96, 165, 250, 0.12);
+    border:
+        1px solid rgba(96, 165, 250, 0.12);
 
     border-radius: 10px;
 
@@ -1982,7 +1899,6 @@ body {
     font-family: "Inter", sans-serif;
 
     font-size: 13px;
-
     font-weight: 600;
 
     cursor: pointer;
@@ -2006,6 +1922,306 @@ body {
     transform: translateX(3px);
 }
 
+.ai-options button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* =========================================================
+   AI ROADMAP RESPONSE
+========================================================= */
+
+.ai-roadmap-response {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    text-align: left;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7, 20, 49, 0.96),
+            rgba(13, 30, 67, 0.98)
+        );
+
+    border:
+        1px solid rgba(96, 165, 250, 0.22);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.2);
+
+    animation:
+        aiResponseAppear 0.25s ease;
+}
+
+.ai-roadmap-response.show {
+    display: block;
+}
+
+@keyframes aiResponseAppear {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   AI RESPONSE HEADER
+========================================================= */
+
+.ai-roadmap-response-header {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding-bottom: 13px;
+    margin-bottom: 15px;
+
+    border-bottom:
+        1px solid rgba(120, 160, 255, 0.13);
+}
+
+.ai-response-avatar {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37, 99, 235, 0.35),
+            rgba(99, 102, 241, 0.28)
+        );
+
+    color: #72b2ff;
+
+    font-size: 16px;
+}
+
+.ai-response-title {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.ai-response-title strong {
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.ai-response-title span {
+    color: #7189b8;
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   AI RESPONSE CONTENT
+========================================================= */
+
+.ai-roadmap-response-content {
+    color: #dbe7ff;
+
+    font-size: 13px;
+    line-height: 1.72;
+
+    max-height: 330px;
+
+    overflow-y: auto;
+
+    padding-right: 8px;
+
+    word-break: break-word;
+}
+
+.ai-roadmap-response-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ai-roadmap-response-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ai-roadmap-response-content::-webkit-scrollbar-thumb {
+    background:
+        rgba(96, 165, 250, 0.32);
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   AI RESPONSE PARAGRAPHS
+========================================================= */
+
+.ai-roadmap-response-content .ai-paragraph {
+    margin: 0 0 12px;
+}
+
+.ai-roadmap-response-content .ai-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   AI RESPONSE HEADINGS
+========================================================= */
+
+.ai-roadmap-response-content h4 {
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    line-height: 1.4;
+
+    margin: 17px 0 8px;
+}
+
+.ai-roadmap-response-content h4:first-child {
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   AI RESPONSE BOLD
+========================================================= */
+
+.ai-roadmap-response-content strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   AI RESPONSE LIST
+========================================================= */
+
+.ai-response-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin: 8px 0 14px;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+.ai-response-list li {
+    position: relative;
+
+    padding-left: 18px;
+
+    color: #c9d9f5;
+
+    line-height: 1.65;
+}
+
+.ai-response-list li::before {
+    content: "•";
+
+    position: absolute;
+
+    left: 2px;
+    top: 0;
+
+    color: #60a5fa;
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   AI RESPONSE DIVIDER
+========================================================= */
+
+.ai-roadmap-response-content hr {
+    border: none;
+
+    border-top:
+        1px solid rgba(120, 160, 255, 0.15);
+
+    margin: 15px 0;
+}
+
+
+/* =========================================================
+   AI THINKING STATE
+========================================================= */
+
+.ai-roadmap-response-content.ai-thinking {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    min-height: 42px;
+
+    color: #9db5df;
+}
+
+.ai-roadmap-response-content.ai-thinking::before {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #60a5fa;
+
+    box-shadow:
+        13px 0 0 #60a5fa,
+        26px 0 0 #60a5fa;
+
+    animation:
+        thinkingDots 1s infinite ease-in-out;
+}
+
+@keyframes thinkingDots {
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: translateX(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(2px);
+    }
+}
+
+
 /* =========================================================
    NOTIFICATION POPUP
 ========================================================= */
@@ -2014,7 +2230,6 @@ body {
     position: fixed;
 
     top: 85px;
-
     right: 35px;
 
     width: 310px;
@@ -2039,7 +2254,6 @@ body {
     z-index: 900;
 
     opacity: 0;
-
     visibility: hidden;
 
     transform: translateY(-10px);
@@ -2052,7 +2266,6 @@ body {
 
 .notification-popup.show {
     opacity: 1;
-
     visibility: visible;
 
     transform: translateY(0);
@@ -2072,9 +2285,62 @@ body {
     color: #a9b9dd;
 
     font-size: 13px;
-
     line-height: 1.6;
 }
+
+
+/* =========================================================
+   ROADMAP TOAST
+========================================================= */
+
+.roadmap-toast {
+    position: fixed;
+
+    right: 25px;
+    bottom: 25px;
+
+    max-width: 340px;
+
+    padding: 13px 16px;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #182c62,
+            #101f48
+        );
+
+    border:
+        1px solid rgba(96, 165, 250, 0.2);
+
+    color: #ffffff;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.28);
+
+    z-index: 2000;
+
+    opacity: 0;
+
+    transform: translateY(10px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.roadmap-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 /* =========================================================
    RESPONSIVE - 1200px
@@ -2084,7 +2350,6 @@ body {
 
     .main-content {
         padding-left: 30px;
-
         padding-right: 30px;
     }
 
@@ -2092,6 +2357,7 @@ body {
         min-width: 330px;
     }
 }
+
 
 /* =========================================================
    RESPONSIVE - 1050px
@@ -2105,19 +2371,16 @@ body {
 
     .main-content {
         width: calc(100% - 250px);
-
         margin-left: 250px;
     }
 
     .roadmap-summary {
         align-items: flex-start;
-
         flex-direction: column;
     }
 
     .summary-stats {
         width: 100%;
-
         min-width: 0;
 
         border-left: none;
@@ -2128,6 +2391,7 @@ body {
         padding-top: 18px;
     }
 }
+
 
 /* =========================================================
    RESPONSIVE - 850px
@@ -2141,7 +2405,6 @@ body {
 
     .main-content {
         width: calc(100% - 230px);
-
         margin-left: 230px;
 
         padding: 25px 20px 45px;
@@ -2149,7 +2412,6 @@ body {
 
     .page-header {
         align-items: flex-start;
-
         flex-direction: column;
     }
 
@@ -2159,7 +2421,6 @@ body {
 
     .roadmap-controls {
         align-items: flex-start;
-
         flex-direction: column;
     }
 
@@ -2172,6 +2433,7 @@ body {
     }
 }
 
+
 /* =========================================================
    RESPONSIVE - 650px
 ========================================================= */
@@ -2182,9 +2444,7 @@ body {
         position: relative;
 
         width: 100%;
-
         height: auto;
-
         max-height: none;
 
         padding: 20px 15px;
@@ -2194,7 +2454,6 @@ body {
 
     .main-content {
         width: 100%;
-
         margin-left: 0;
 
         padding: 20px 15px 40px;
@@ -2215,7 +2474,6 @@ body {
         color: #dce9ff;
 
         font-size: 15px;
-
         font-weight: 700;
     }
 
@@ -2311,7 +2569,6 @@ body {
 
     .module-footer {
         align-items: flex-start;
-
         flex-direction: column;
     }
 
@@ -2321,7 +2578,6 @@ body {
 
     .next-step-card {
         align-items: flex-start;
-
         flex-direction: column;
     }
 
@@ -2331,12 +2587,31 @@ body {
 
     .notification-popup {
         left: 15px;
-
         right: 15px;
 
         width: auto;
     }
+
+    .ai-modal {
+        max-height: 90vh;
+
+        padding: 28px 20px;
+    }
+
+    .ai-roadmap-response-content {
+        max-height: 280px;
+
+        font-size: 12.5px;
+    }
+
+    .roadmap-toast {
+        left: 15px;
+        right: 15px;
+
+        max-width: none;
+    }
 }
+
 
 /* =========================================================
    RESPONSIVE - 450px
@@ -2430,4 +2705,13 @@ body {
     .ai-modal h2 {
         font-size: 21px;
     }
+
+    .ai-roadmap-response {
+        padding: 15px;
+    }
+
+    .ai-roadmap-response-content {
+        max-height: 230px;
+    }
 }
+

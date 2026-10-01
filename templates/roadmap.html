@@ -1,6 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,16 +12,26 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/roadmap.css') }}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/ai_help.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
 </head>
+
 
 <body>
 
 <div class="app-layout">
+
 
     <!-- =====================================================
          SIDEBAR
@@ -92,6 +105,8 @@
 
         <div class="sidebar-bottom">
 
+            <!-- GLOBAL AI HELP -->
+
             <div class="help-card">
 
                 <div class="help-icon">?</div>
@@ -104,7 +119,60 @@
             </div>
 
 
-            <a href="/profile" class="user-mini">
+            <!-- AI HELP CHAT -->
+
+            <div class="ai-help-chat"
+                 id="aiHelpChat">
+
+                <div class="ai-help-header">
+
+                    <div>
+                        <strong>✦ AI Student Mentor</strong>
+                        <span>Ask me anything about your project</span>
+                    </div>
+
+                    <button id="closeAiHelp"
+                            type="button"
+                            aria-label="Close AI Help">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="ai-help-messages"
+                     id="aiHelpMessages">
+
+                    <div class="ai-message">
+                        Hi! 👋 I'm your AI Mentor.
+                        How can I help you with your project?
+                    </div>
+
+                </div>
+
+
+                <div class="ai-help-input">
+
+                    <input
+                        type="text"
+                        id="aiHelpInput"
+                        placeholder="Ask your AI Mentor..."
+                        autocomplete="off"
+                    >
+
+                    <button id="sendAiHelp"
+                            type="button"
+                            aria-label="Send message">
+                        ➤
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <a href="/profile"
+               class="user-mini">
 
                 <div class="user-avatar">
                     Y
@@ -143,7 +211,9 @@
             <div class="topbar-actions">
 
                 <button class="notification-btn"
-                        id="notificationBtn">
+                        id="notificationBtn"
+                        type="button"
+                        aria-label="Notifications">
 
                     <span>♧</span>
                     <i></i>
@@ -197,7 +267,8 @@
 
 
                 <button class="ai-roadmap-btn"
-                        id="aiRoadmapBtn">
+                        id="aiRoadmapBtn"
+                        type="button">
 
                     <span>✦</span>
                     Ask AI Mentor
@@ -212,9 +283,6 @@
             ================================================== -->
 
             <div class="roadmap-summary">
-
-
-                <!-- OVERALL PROGRESS -->
 
                 <div class="summary-main">
 
@@ -240,8 +308,7 @@
 
                         <div class="summary-progress">
 
-                            <div id="overallProgressBar">
-                            </div>
+                            <div id="overallProgressBar"></div>
 
                         </div>
 
@@ -255,15 +322,12 @@
                 </div>
 
 
-                <!-- SUMMARY STATS -->
-
                 <div class="summary-stats">
 
                     <div>
                         <strong id="completedModules">
                             2
                         </strong>
-
                         <span>Modules Done</span>
                     </div>
 
@@ -304,22 +368,26 @@
                 <div class="filter-buttons">
 
                     <button class="filter-btn active"
-                            data-filter="all">
+                            data-filter="all"
+                            type="button">
                         All
                     </button>
 
                     <button class="filter-btn"
-                            data-filter="completed">
+                            data-filter="completed"
+                            type="button">
                         Completed
                     </button>
 
                     <button class="filter-btn"
-                            data-filter="current">
+                            data-filter="current"
+                            type="button">
                         Current
                     </button>
 
                     <button class="filter-btn"
-                            data-filter="upcoming">
+                            data-filter="upcoming"
+                            type="button">
                         Upcoming
                     </button>
 
@@ -334,15 +402,10 @@
 
             <div class="roadmap-container">
 
-
-                <!-- CONNECTING LINE -->
-
                 <div class="timeline-line"></div>
 
 
-                <!-- =================================================
-                     MODULE 1
-                ================================================== -->
+                <!-- MODULE 1 -->
 
                 <div class="roadmap-module completed-module"
                      data-status="completed">
@@ -350,7 +413,6 @@
                     <div class="timeline-marker completed">
                         ✓
                     </div>
-
 
                     <div class="module-card">
 
@@ -383,23 +445,13 @@
                         <div class="module-progress">
 
                             <div class="progress-info">
-
-                                <span>
-                                    Progress
-                                </span>
-
-                                <strong>
-                                    100%
-                                </strong>
-
+                                <span>Progress</span>
+                                <strong>100%</strong>
                             </div>
 
                             <div class="progress-track">
-
                                 <div class="progress-bar"
-                                     style="width: 100%;">
-                                </div>
-
+                                     style="width: 100%;"></div>
                             </div>
 
                         </div>
@@ -408,16 +460,15 @@
                         <div class="module-footer">
 
                             <div class="topic-list">
-
                                 <span>Variables</span>
                                 <span>Functions</span>
                                 <span>OOP</span>
                                 <span>File Handling</span>
-
                             </div>
 
                             <button class="module-btn"
-                                    data-module="1">
+                                    data-module="1"
+                                    type="button">
                                 Review
                             </button>
 
@@ -428,9 +479,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     MODULE 2
-                ================================================== -->
+                <!-- MODULE 2 -->
 
                 <div class="roadmap-module completed-module"
                      data-status="completed">
@@ -438,7 +487,6 @@
                     <div class="timeline-marker completed">
                         ✓
                     </div>
-
 
                     <div class="module-card">
 
@@ -471,23 +519,13 @@
                         <div class="module-progress">
 
                             <div class="progress-info">
-
-                                <span>
-                                    Progress
-                                </span>
-
-                                <strong>
-                                    100%
-                                </strong>
-
+                                <span>Progress</span>
+                                <strong>100%</strong>
                             </div>
 
                             <div class="progress-track">
-
                                 <div class="progress-bar"
-                                     style="width: 100%;">
-                                </div>
-
+                                     style="width: 100%;"></div>
                             </div>
 
                         </div>
@@ -496,16 +534,15 @@
                         <div class="module-footer">
 
                             <div class="topic-list">
-
                                 <span>SQL</span>
                                 <span>Databases</span>
                                 <span>Data Cleaning</span>
                                 <span>Data Handling</span>
-
                             </div>
 
                             <button class="module-btn"
-                                    data-module="2">
+                                    data-module="2"
+                                    type="button">
                                 Review
                             </button>
 
@@ -516,9 +553,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     MODULE 3 - CURRENT
-                ================================================== -->
+                <!-- MODULE 3 -->
 
                 <div class="roadmap-module current-module"
                      data-status="current">
@@ -526,7 +561,6 @@
                     <div class="timeline-marker current">
                         3
                     </div>
-
 
                     <div class="module-card current-card">
 
@@ -564,22 +598,14 @@
                         <div class="module-progress">
 
                             <div class="progress-info">
-
-                                <span>
-                                    Progress
-                                </span>
-
-                                <strong>
-                                    68%
-                                </strong>
-
+                                <span>Progress</span>
+                                <strong>68%</strong>
                             </div>
 
                             <div class="progress-track">
 
                                 <div class="progress-bar"
-                                     style="width: 68%;">
-                                </div>
+                                     style="width: 68%;"></div>
 
                             </div>
 
@@ -589,16 +615,15 @@
                         <div class="module-footer">
 
                             <div class="topic-list">
-
                                 <span>ML Concepts</span>
                                 <span>Supervised Learning</span>
                                 <span>Unsupervised Learning</span>
                                 <span>Model Training</span>
-
                             </div>
 
                             <button class="module-btn primary-btn"
-                                    data-module="3">
+                                    data-module="3"
+                                    type="button">
                                 Continue
                             </button>
 
@@ -691,9 +716,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     MODULE 4
-                ================================================== -->
+                <!-- MODULE 4 -->
 
                 <div class="roadmap-module upcoming-module"
                      data-status="upcoming">
@@ -701,7 +724,6 @@
                     <div class="timeline-marker upcoming">
                         4
                     </div>
-
 
                     <div class="module-card">
 
@@ -734,16 +756,15 @@
                         <div class="module-footer">
 
                             <div class="topic-list">
-
                                 <span>Neural Networks</span>
                                 <span>Deep Learning</span>
                                 <span>TensorFlow</span>
                                 <span>Model Optimization</span>
-
                             </div>
 
                             <button class="module-btn locked-btn"
-                                    data-module="4">
+                                    data-module="4"
+                                    type="button">
                                 Locked
                             </button>
 
@@ -754,9 +775,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     MODULE 5
-                ================================================== -->
+                <!-- MODULE 5 -->
 
                 <div class="roadmap-module upcoming-module"
                      data-status="upcoming">
@@ -764,7 +783,6 @@
                     <div class="timeline-marker upcoming">
                         5
                     </div>
-
 
                     <div class="module-card">
 
@@ -798,16 +816,15 @@
                         <div class="module-footer">
 
                             <div class="topic-list">
-
                                 <span>AI Projects</span>
                                 <span>APIs</span>
                                 <span>Flask</span>
                                 <span>Deployment</span>
-
                             </div>
 
                             <button class="module-btn locked-btn"
-                                    data-module="5">
+                                    data-module="5"
+                                    type="button">
                                 Locked
                             </button>
 
@@ -848,12 +865,12 @@
                 </div>
 
                 <button class="next-step-btn"
-                        id="nextStepBtn">
+                        id="nextStepBtn"
+                        type="button">
                     Start Learning
                 </button>
 
             </div>
-
 
         </section>
 
@@ -872,8 +889,12 @@
     <div class="ai-modal">
 
         <button class="close-modal"
-                id="closeAiModal">
+                id="closeAiModal"
+                type="button"
+                aria-label="Close AI Mentor">
+
             ×
+
         </button>
 
 
@@ -897,17 +918,51 @@
 
         <div class="ai-options">
 
-            <button>
+            <button type="button">
                 Explain my current topic
             </button>
 
-            <button>
+            <button type="button">
                 What should I learn next?
             </button>
 
-            <button>
+            <button type="button">
                 Create a study plan
             </button>
+
+        </div>
+
+
+        <!-- =================================================
+             AI RESPONSE
+        ================================================== -->
+
+        <div class="ai-roadmap-response"
+             id="aiRoadmapResponse"
+             aria-live="polite">
+
+            <div class="ai-roadmap-response-header">
+
+                <div class="ai-response-avatar">
+                    ✦
+                </div>
+
+                <div class="ai-response-title">
+
+                    <strong>AI Mentor</strong>
+
+                    <span>
+                        Roadmap guidance
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-roadmap-response-content"
+                 id="aiRoadmapResponseContent">
+            </div>
 
         </div>
 
@@ -930,7 +985,17 @@
 </div>
 
 
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
 <script src="{{ url_for('static', filename='js/roadmap.js') }}"></script>
 
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+
 </body>
+
 </html>
+

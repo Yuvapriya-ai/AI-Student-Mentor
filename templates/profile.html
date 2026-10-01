@@ -22,7 +22,10 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
-
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/ai_help.css') }}"
+>
 </head>
 
 
@@ -1031,14 +1034,10 @@
 
 
 <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-<link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/ai_help.css') }}"
->
-
 <script
     src="{{ url_for('static', filename='js/ai_help.js') }}">
 </script>
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 
 </body>
 

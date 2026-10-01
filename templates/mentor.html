@@ -19,6 +19,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/ai_help.css') }}">
 </head>
 
 <body>
@@ -154,6 +157,58 @@
                     <p>
                         Ask your AI Mentor
                     </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AI HELP CHAT
+            ================================================== -->
+
+            <div class="ai-help-chat"
+                 id="aiHelpChat">
+
+                <div class="ai-help-header">
+
+                    <div>
+                        <strong>✦ AI Student Mentor</strong>
+                        <span>Ask me anything about your project</span>
+                    </div>
+
+                    <button id="closeAiHelp"
+                            type="button"
+                            aria-label="Close AI Help">
+                        ×
+                    </button>
+
+                </div>
+
+                <div class="ai-help-messages"
+                     id="aiHelpMessages">
+
+                    <div class="ai-message">
+                        Hi! 👋 I'm your AI Mentor.
+                        How can I help you with your project?
+                    </div>
+
+                </div>
+
+                <div class="ai-help-input">
+
+                    <input
+                        type="text"
+                        id="aiHelpInput"
+                        placeholder="Ask your AI Mentor..."
+                        autocomplete="off"
+                    >
+
+                    <button id="sendAiHelp"
+                            type="button"
+                            aria-label="Send message">
+                        ➤
+                    </button>
 
                 </div>
 
@@ -888,7 +943,12 @@
 </div>
 
 
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+
 <script src="{{ url_for('static', filename='js/mentor.js') }}"></script>
 
 </body>
 </html>
+

@@ -9,6 +9,7 @@
 ========================================================= */
 
 function getInitial(name) {
+
     if (!name || name.trim() === "") {
         return "Y";
     }
@@ -18,12 +19,18 @@ function getInitial(name) {
 
 
 async function loadStudentProfile() {
+
     try {
+
         const response = await fetch("/api/profile");
         const data = await response.json();
 
         if (!response.ok || !data.success || !data.profile) {
-            console.error("Could not load student profile.");
+
+            console.error(
+                "Could not load student profile."
+            );
+
             return;
         }
 
@@ -93,6 +100,318 @@ async function loadStudentProfile() {
     }
 }
 
+
+/* =========================================================
+   AI RESPONSE MARKDOWN FORMATTER
+========================================================= */
+
+function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+function formatAiResponse(markdown) {
+
+    if (!markdown) {
+        return "";
+    }
+
+
+    const normalizedText =
+        String(markdown)
+            .replace(/\r\n/g, "\n")
+            .replace(/\r/g, "\n")
+            .trim();
+
+
+    const lines =
+        normalizedText.split("\n");
+
+
+    let html = "";
+    let paragraphLines = [];
+    let listItems = [];
+
+
+    function flushParagraph() {
+
+        if (paragraphLines.length === 0) {
+            return;
+        }
+
+        const paragraph =
+            paragraphLines
+                .join(" ")
+                .trim();
+
+
+        if (paragraph) {
+
+            html += `
+                <p class="ai-paragraph">
+                    ${formatInlineMarkdown(paragraph)}
+                </p>
+            `;
+
+        }
+
+        paragraphLines = [];
+
+    }
+
+
+    function flushList() {
+
+        if (listItems.length === 0) {
+            return;
+        }
+
+        html += `
+            <ul class="ai-response-list">
+                ${listItems
+                    .map(item => `
+                        <li>
+                            ${formatInlineMarkdown(item)}
+                        </li>
+                    `)
+                    .join("")}
+            </ul>
+        `;
+
+        listItems = [];
+
+    }
+
+
+    lines.forEach(line => {
+
+        const trimmed =
+            line.trim();
+
+
+        /* EMPTY LINE */
+
+        if (!trimmed) {
+
+            flushParagraph();
+            flushList();
+
+            return;
+        }
+
+
+        /* HORIZONTAL RULE */
+
+        if (
+            /^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)
+        ) {
+
+            flushParagraph();
+            flushList();
+
+            html += "<hr>";
+
+            return;
+        }
+
+
+        /* HEADINGS */
+
+        const headingMatch =
+            trimmed.match(/^#{1,6}\s+(.+)$/);
+
+
+        if (headingMatch) {
+
+            flushParagraph();
+            flushList();
+
+            const headingText =
+                headingMatch[1].trim();
+
+            html += `
+                <h4>
+                    ${formatInlineMarkdown(headingText)}
+                </h4>
+            `;
+
+            return;
+        }
+
+
+        /* BULLET LIST */
+
+        const bulletMatch =
+            trimmed.match(/^[-*+]\s+(.+)$/);
+
+
+        if (bulletMatch) {
+
+            flushParagraph();
+
+            listItems.push(
+                bulletMatch[1].trim()
+            );
+
+            return;
+        }
+
+
+        /* NUMBERED LIST */
+
+        const numberedMatch =
+            trimmed.match(/^\d+\.\s+(.+)$/);
+
+
+        if (numberedMatch) {
+
+            flushParagraph();
+
+            listItems.push(
+                numberedMatch[1].trim()
+            );
+
+            return;
+        }
+
+
+        /* NORMAL TEXT */
+
+        flushList();
+
+        paragraphLines.push(trimmed);
+
+    });
+
+
+    flushParagraph();
+    flushList();
+
+
+    return html;
+}
+
+
+/* =========================================================
+   INLINE MARKDOWN FORMATTER
+========================================================= */
+
+function formatInlineMarkdown(text) {
+
+    let safeText =
+        escapeHtml(text);
+
+
+    /* BOLD + ITALIC */
+
+    safeText =
+        safeText.replace(
+            /\*\*\*(.+?)\*\*\*/g,
+            "<strong><em>$1</em></strong>"
+        );
+
+
+    /* BOLD */
+
+    safeText =
+        safeText.replace(
+            /\*\*(.+?)\*\*/g,
+            "<strong>$1</strong>"
+        );
+
+
+    safeText =
+        safeText.replace(
+            /__(.+?)__/g,
+            "<strong>$1</strong>"
+        );
+
+
+    /* ITALIC */
+
+    safeText =
+        safeText.replace(
+            /\*(.+?)\*/g,
+            "<em>$1</em>"
+        );
+
+
+    safeText =
+        safeText.replace(
+            /_(.+?)_/g,
+            "<em>$1</em>"
+        );
+
+
+    /* INLINE CODE */
+
+    safeText =
+        safeText.replace(
+            /`([^`]+)`/g,
+            "<code>$1</code>"
+        );
+
+
+    return safeText;
+}
+
+
+/* =========================================================
+   AI RESPONSE HELPERS
+========================================================= */
+
+function showAiThinking(element) {
+
+    if (!element) {
+        return;
+    }
+
+    element.classList.add("ai-thinking");
+
+    element.textContent =
+        "Thinking...";
+}
+
+
+function showAiResponse(element, response) {
+
+    if (!element) {
+        return;
+    }
+
+    element.classList.remove("ai-thinking");
+
+    element.innerHTML =
+        formatAiResponse(response);
+
+    element.scrollTop = 0;
+}
+
+
+function showAiError(element, message) {
+
+    if (!element) {
+        return;
+    }
+
+    element.classList.remove("ai-thinking");
+
+    element.innerHTML = `
+        <p class="ai-paragraph">
+            ${escapeHtml(message)}
+        </p>
+    `;
+}
+
+
+/* =========================================================
+   PAGE INITIALIZATION
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -166,9 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             if (
-                button.classList.contains(
-                    "locked-btn"
-                )
+                button.classList.contains("locked-btn")
             ) {
 
                 showNotification(
@@ -185,6 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.querySelector(
                         ".current-topics"
                     );
+
 
                 if (currentTopics) {
 
@@ -247,18 +565,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function saveTopicState(index) {
 
-        const topicChecks =
+        const currentTopicChecks =
             document.querySelectorAll(
                 ".current-topics .topic-check"
             );
 
 
         const topicCheck =
-            topicChecks[index];
+            currentTopicChecks[index];
+
+
+        if (!topicCheck) {
+            return;
+        }
 
 
         const topicRow =
             topicCheck.closest(".topic-row");
+
+
+        if (!topicRow) {
+            return;
+        }
 
 
         const topicName =
@@ -272,6 +600,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const response =
                 await fetch("/api/roadmap", {
+
                     method: "POST",
 
                     headers: {
@@ -283,6 +612,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         module_number: 3,
                         topic_name: topicName
                     })
+
                 });
 
 
@@ -352,10 +682,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            topicChecks.forEach((check) => {
+            topicChecks.forEach(check => {
 
                 const topicRow =
                     check.closest(".topic-row");
+
+
+                if (!topicRow) {
+                    return;
+                }
 
 
                 const topicName =
@@ -367,7 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const completed =
                     data.completed_topics.some(
-                        (topic) =>
+                        topic =>
                             topic.module_number === 3 &&
                             topic.topic_name === topicName &&
                             topic.completed === 1
@@ -423,11 +758,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* =========================================
-           CURRENT MODULE PROGRESS
-
-           Designed progress value = 68%
-        ========================================== */
+        /*
+         * Keep the existing roadmap percentage logic.
+         * The 68% represents the current overall roadmap
+         * progress already defined for the project.
+         */
 
         const percentage = 68;
 
@@ -476,8 +811,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* =========================================
            OVERALL ROADMAP PROGRESS
-
-           Designed progress value = 68%
         ========================================== */
 
         const overallPercentage = 68;
@@ -596,7 +929,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       AI OPTIONS
+       AI ROADMAP OPTIONS
     ====================================================== */
 
     const aiOptions =
@@ -609,24 +942,159 @@ document.addEventListener("DOMContentLoaded", () => {
 
         option.addEventListener(
             "click",
-            () => {
+            async () => {
 
                 const message =
                     option.textContent.trim();
 
 
+                const aiRoadmapResponse =
+                    document.getElementById(
+                        "aiRoadmapResponse"
+                    );
+
+
+                const aiRoadmapResponseContent =
+                    document.getElementById(
+                        "aiRoadmapResponseContent"
+                    );
+
+
+                /* =========================================
+                   SHOW RESPONSE AREA
+                ========================================== */
+
                 if (aiModal) {
 
-                    aiModal.classList.remove(
+                    aiModal.classList.add("show");
+
+                }
+
+
+                if (
+                    aiRoadmapResponse &&
+                    aiRoadmapResponseContent
+                ) {
+
+                    aiRoadmapResponse.classList.add(
                         "show"
+                    );
+
+                    showAiThinking(
+                        aiRoadmapResponseContent
                     );
 
                 }
 
 
+                /* =========================================
+                   DISABLE OPTIONS WHILE LOADING
+                ========================================== */
+
+                aiOptions.forEach(button => {
+                    button.disabled = true;
+                });
+
+
                 showNotification(
-                    `"${message}" will be handled by your AI Mentor.`
+                    "Your AI Mentor is preparing your roadmap guidance..."
                 );
+
+
+                /* =========================================
+                   SEND REQUEST TO BACKEND
+                ========================================== */
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/roadmap-ai",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    message: message
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    /* =====================================
+                       SUCCESS
+                    ====================================== */
+
+                    if (
+                        response.ok &&
+                        data.success &&
+                        data.response
+                    ) {
+
+                        showNotification(
+                            "AI Roadmap guidance received."
+                        );
+
+
+                        showAiResponse(
+                            aiRoadmapResponseContent,
+                            data.response
+                        );
+
+
+                    } else {
+
+                        const errorMessage =
+                            data.error ||
+                            "Unable to get AI roadmap guidance.";
+
+
+                        showAiError(
+                            aiRoadmapResponseContent,
+                            errorMessage
+                        );
+
+
+                        showNotification(
+                            errorMessage
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Roadmap AI Error:",
+                        error
+                    );
+
+
+                    showAiError(
+                        aiRoadmapResponseContent,
+                        "Unable to connect to the AI Roadmap Mentor."
+                    );
+
+
+                    showNotification(
+                        "Unable to connect to the AI Roadmap Mentor."
+                    );
+
+                } finally {
+
+                    aiOptions.forEach(button => {
+                        button.disabled = false;
+                    });
+
+                }
 
             }
         );
@@ -712,7 +1180,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 event.stopPropagation();
 
-
                 notificationPopup.classList.toggle(
                     "show"
                 );
@@ -797,85 +1264,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       ADD TOAST STYLE
-    ====================================================== */
-
-    const toastStyle =
-        document.createElement("style");
-
-
-    toastStyle.textContent = `
-
-        .roadmap-toast {
-
-            position: fixed;
-
-            right: 25px;
-
-            bottom: 25px;
-
-            max-width: 320px;
-
-            padding: 13px 16px;
-
-            border-radius: 10px;
-
-            background: #10152b;
-
-            color: white;
-
-            font-family: "Inter", sans-serif;
-
-            font-size: 8px;
-
-            line-height: 1.5;
-
-            box-shadow:
-                0 12px 30px rgba(0,0,0,0.18);
-
-            z-index: 500;
-
-            opacity: 0;
-
-            transform: translateY(10px);
-
-            transition: 0.3s ease;
-
-        }
-
-
-        .roadmap-toast.show {
-
-            opacity: 1;
-
-            transform: translateY(0);
-
-        }
-
-
-        .highlight-topic {
-
-            background: #f0efff;
-
-            border-radius: 7px;
-
-            padding-left: 8px;
-
-            transition: 0.3s;
-
-        }
-
-    `;
-
-
-    document.head.appendChild(
-        toastStyle
-    );
-
-
-    /* =====================================================
        ANIMATE SUMMARY PROGRESS
-    ====================================================== */
+    ===================================================== */
 
     const overallProgress =
         document.getElementById(
@@ -906,7 +1296,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        INITIALIZE
-    ====================================================== */
+    ===================================================== */
 
     loadStudentProfile();
 

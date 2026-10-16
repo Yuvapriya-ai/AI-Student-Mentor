@@ -19,6 +19,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_help.css') }}">
 </head>
 
 
@@ -191,6 +192,11 @@
                 </span>
 
             </a>
+            <!-- LOGOUT BUTTON: ADD HERE -->
+        <a href="/logout" class="logout-btn">
+            <span>↪</span>
+            <span>Logout</span>
+        </a>
 
         </div>
 
@@ -311,22 +317,24 @@
                 </div>
 
 
-                <div class="project-details">
+                
+<div class="project-details">
+    <span>PREPARING FOR VIVA</span>
 
-                    <span>
-                        PREPARING FOR VIVA
-                    </span>
+    <h2 id="vivaProjectTitle">AI Student Mentor</h2>
 
-                    <h2>
-                        AI Student Mentor
-                    </h2>
+    <p id="vivaProjectDescription">
+        Practice basic, technical, module, AI/LLM,
+        database and implementation questions.
+    </p>
 
-                    <p>
-                        Practice basic, technical, module,
-                        AI/LLM, database and implementation questions.
-                    </p>
-
-                </div>
+    <div class="viva-project-selector">
+        <label for="vivaProjectSelect">Select Project</label>
+        <select id="vivaProjectSelect">
+            <option value="main">AI Student Mentor — Main Project</option>
+        </select>
+    </div>
+</div>
 
 
                 <div class="document-stat">
@@ -481,17 +489,17 @@
                                 5 Questions
                             </option>
 
-                            <option value="10"
+                            <option value="15"
                                     selected>
-                                10 Questions
-                            </option>
-
-                            <option value="15">
                                 15 Questions
                             </option>
 
-                            <option value="20">
-                                20 Questions
+                            <option value="25">
+                                25 Questions
+                            </option>
+
+                            <option value="35">
+                                35 Questions
                             </option>
 
                         </select>
@@ -1089,6 +1097,7 @@
 
 
 <script src="{{ url_for('static', filename='js/viva.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 </body>
 </html>

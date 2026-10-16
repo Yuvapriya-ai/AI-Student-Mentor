@@ -19,6 +19,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_help.css') }}">
 </head>
 
 <body>
@@ -183,6 +184,11 @@
                 </span>
 
             </a>
+            <!-- LOGOUT BUTTON: ADD HERE -->
+        <a href="/logout" class="logout-btn">
+            <span>↪</span>
+            <span>Logout</span>
+        </a>
 
         </div>
 
@@ -298,22 +304,28 @@
                 </div>
 
 
-                <div class="project-details">
+                
+<div class="project-details">
 
-                    <span>
-                        PROJECT PROGRESS
-                    </span>
+    <span>PROJECT PROGRESS</span>
 
-                    <h2>
-                        AI Student Mentor
-                    </h2>
+    <h2 id="progressProjectTitle">AI Student Mentor</h2>
 
-                    <p>
-                        Monitor milestones, tasks, pending work and
-                        overall project completion from one place.
-                    </p>
+    <p id="progressProjectDescription">
+        Monitor milestones, tasks, pending work and
+        overall project completion from one place.
+    </p>
 
-                </div>
+    <div class="progress-project-selector">
+        <label for="progressProjectSelect">Select Project</label>
+
+        <select id="progressProjectSelect">
+            <option value="main">AI Student Mentor — Main Project</option>
+        </select>
+    </div>
+
+</div>
+
 
 
                 <div class="project-stat">
@@ -1099,7 +1111,8 @@
 
 
 <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 </body>
 
 </html>

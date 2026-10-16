@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,1013 +7,678 @@
     <title>AI Student Mentor | Documentation Assistant</title>
 
     <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/roadmap.css') }}">
+    <link rel="stylesheet"
           href="{{ url_for('static', filename='css/documentation.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/ai_help.css') }}">
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
 </head>
 
 <body>
-
 <div class="app-layout">
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
-
+    <!-- SIDEBAR: SHARED ROADMAP STRUCTURE -->
     <aside class="sidebar">
 
         <div class="brand">
-
-            <div class="brand-icon">
-                ✦
-            </div>
-
+            <div class="brand-icon">✦</div>
             <div class="brand-text">
                 <h2>AI Student</h2>
                 <span>MENTOR</span>
             </div>
-
         </div>
-
 
         <div class="nav-section">
-
-            <p class="nav-title">
-                MAIN MENU
-            </p>
-
+            <p class="nav-title">MAIN MENU</p>
 
             <a href="/" class="nav-item">
-
                 <span class="nav-icon">⌂</span>
-
                 <span>Dashboard</span>
-
             </a>
-
 
             <a href="/profile" class="nav-item">
-
                 <span class="nav-icon">♙</span>
-
                 <span>Student Profile</span>
-
             </a>
-
 
             <a href="/roadmap" class="nav-item">
-
                 <span class="nav-icon">◈</span>
-
                 <span>Learning Roadmap</span>
-
             </a>
-
 
             <a href="/mentor" class="nav-item">
-
                 <span class="nav-icon">✦</span>
-
                 <span>AI Project Mentor</span>
-
             </a>
 
-
-            <a href="/documentation" class="nav-item active">
-
+            <a href="/documentation" class="nav-item active" aria-current="page">
                 <span class="nav-icon">▤</span>
-
                 <span>Documentation</span>
-
             </a>
-
 
             <a href="/viva" class="nav-item">
-
                 <span class="nav-icon">◉</span>
-
                 <span>Viva Assistant</span>
-
             </a>
-
 
             <a href="/study_assist" class="nav-item">
-
                 <span class="nav-icon">✎</span>
-
                 <span>Study Assistant</span>
-
             </a>
-
 
             <a href="/progress" class="nav-item">
-
                 <span class="nav-icon">◒</span>
-
                 <span>Progress Tracker</span>
-
             </a>
-
 
             <a href="/evaluator" class="nav-item">
-
                 <span class="nav-icon">◇</span>
-
                 <span>Idea Evaluator</span>
-
             </a>
-
         </div>
-
-
-        <!-- SIDEBAR BOTTOM -->
 
         <div class="sidebar-bottom">
 
-            <div class="help-card">
-
-                <div class="help-icon">
-                    ?
-                </div>
-
+            <div class="help-card" id="aiHelpTrigger"
+                 role="button" tabindex="0"
+                 aria-label="Open AI Mentor help">
+                <div class="help-icon">?</div>
                 <div>
-
-                    <strong>
-                        Need help?
-                    </strong>
-
-                    <p>
-                        Ask your AI Mentor
-                    </p>
-
+                    <strong>Need help?</strong>
+                    <p>Ask your AI Mentor</p>
                 </div>
-
             </div>
 
-
             <a href="/profile" class="user-mini">
-
-                <div class="user-avatar">
-                    Y
-                </div>
-
+                <div class="user-avatar">S</div>
                 <div class="user-details">
-
-                    <strong>
-                        Student
-                    </strong>
-
-                    <span>
-                        View Profile
-                    </span>
-
+                    <strong>Student</strong>
+                    <span>View Profile</span>
                 </div>
+                <span class="user-arrow">›</span>
+            </a>
 
-                <span class="user-arrow">
-                    ›
-                </span>
-
+            <a href="/logout" class="logout-btn">
+                <span>↪</span>
+                <span>Logout</span>
             </a>
 
         </div>
-
     </aside>
 
-
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
-
+    <!-- MAIN CONTENT -->
     <main class="main-content">
 
-
-        <!-- TOPBAR -->
-
+        <!-- TOPBAR: SHARED ROADMAP STRUCTURE -->
         <header class="topbar">
 
             <div class="mobile-brand">
-
                 <span>✦</span>
-
                 AI Student Mentor
-
             </div>
-
 
             <div class="topbar-actions">
 
-                <button class="notification-btn"
-                        id="notificationBtn">
-
+                <button class="notification-btn" id="notificationBtn"
+                        type="button" aria-label="Notifications">
                     <span>♧</span>
-
                     <i></i>
-
                 </button>
 
-
                 <div class="top-profile">
-
-                    <div class="top-avatar">
-                        Y
-                    </div>
-
+                    <div class="top-avatar">S</div>
                     <div>
-
-                        <strong>
-                            Student
-                        </strong>
-
-                        <span>
-                            BCA Student
-                        </span>
-
+                        <strong>Student</strong>
+                        <span>BCA Student</span>
                     </div>
-
                 </div>
 
             </div>
-
         </header>
 
-
-        <!-- =====================================================
-             DOCUMENTATION PAGE
-        ====================================================== -->
-
+        <!-- DOCUMENTATION PAGE -->
         <section class="documentation-page">
 
-
             <!-- PAGE HEADER -->
-
             <div class="page-header">
-
                 <div>
-
-                    <span class="eyebrow">
-                        AI POWERED PROJECT WRITING
-                    </span>
-
-                    <h1>
-                        Documentation Assistant
-                    </h1>
-
+                    <span class="eyebrow">AI POWERED PROJECT WRITING</span>
+                    <h1>Documentation Assistant</h1>
                     <p>
-                        Create clear and professional project
-                        documentation with the help of AI.
+                        Create professional project documentation, diagrams,
+                        and illustrated reports with AI assistance.
                     </p>
-
                 </div>
-
 
                 <div class="document-status">
-
                     <span class="status-dot"></span>
-
                     AI Assistant Ready
-
                 </div>
-
             </div>
 
-
-            <!-- =================================================
-                 PROJECT INFO
-            ================================================== -->
-
+            <!-- PROJECT SUMMARY -->
             <div class="project-banner">
 
-                <div class="project-icon">
-                    ▤
-                </div>
+                <div class="project-icon">▤</div>
 
+                
+<div class="project-details">
+    <span>DOCUMENTING PROJECT</span>
 
-                <div class="project-details">
+    <h2 id="documentationProjectTitle">AI Student Mentor</h2>
 
-                    <span>
-                        DOCUMENTING PROJECT
-                    </span>
-
-                    <h2>
-                        AI Student Mentor
-                    </h2>
-
-                    <p>
-                        Generate structured documentation for
-                        your academic project.
-                    </p>
-
-                </div>
-
-
-                <div class="document-stat">
-
-                    <strong id="sectionCount">
-                        0
-                    </strong>
-
-                    <span>
-                        Sections Generated
-                    </span>
-
-                </div>
-
-
-                <div class="document-stat">
-
-                    <strong>
-                        AI
-                    </strong>
-
-                    <span>
-                        Powered Assistant
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 MAIN GRID
-            ================================================== -->
-
-            <div class="documentation-grid">
-
-
-                <!-- =================================================
-                     LEFT WORKSPACE
-                ================================================== -->
-
-                <div class="generator-card">
-
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <span>
-                                DOCUMENT GENERATOR
-                            </span>
-
-                            <h3>
-                                Create Documentation
-                            </h3>
-
-                        </div>
-
-                        <div class="step-badge">
-                            STEP 1
-                        </div>
-
-                    </div>
-
-
-                    <!-- DOCUMENT TYPE -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Documentation Type
-                        </label>
-
-                        <select id="documentType">
-
-                            <option value="synopsis">
-                                Project Synopsis
-                            </option>
-
-                            <option value="introduction">
-                                Introduction
-                            </option>
-
-                            <option value="problem">
-                                Problem Statement
-                            </option>
-
-                            <option value="objectives">
-                                Objectives
-                            </option>
-
-                            <option value="methodology">
-                                Methodology
-                            </option>
-
-                            <option value="modules">
-                                Module Description
-                            </option>
-
-                            <option value="technology">
-                                Technology Stack
-                            </option>
-
-                            <option value="future">
-                                Future Enhancements
-                            </option>
-
-                            <option value="conclusion">
-                                Conclusion
-                            </option>
-
-                            <option value="custom">
-                                Custom Documentation
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- PROJECT DESCRIPTION -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Project Information
-                        </label>
-
-                        <textarea
-                            id="projectInput"
-                            placeholder="Describe your project, features, modules or the topic you want to document..."></textarea>
-
-                        <div class="textarea-footer">
-
-                            <span id="characterCount">
-                                0 characters
-                            </span>
-
-                            <span>
-                                AI will structure your content
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- OPTIONS -->
-
-                    <div class="options-row">
-
-
-                        <div class="form-group small-group">
-
-                            <label>
-                                Writing Style
-                            </label>
-
-                            <select id="writingStyle">
-
-                                <option value="academic">
-                                    Academic
-                                </option>
-
-                                <option value="simple">
-                                    Simple
-                                </option>
-
-                                <option value="professional">
-                                    Professional
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group small-group">
-
-                            <label>
-                                Length
-                            </label>
-
-                            <select id="documentLength">
-
-                                <option value="short">
-                                    Short
-                                </option>
-
-                                <option value="medium"
-                                        selected>
-                                    Medium
-                                </option>
-
-                                <option value="detailed">
-                                    Detailed
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- GENERATE -->
-
-                    <button class="generate-btn"
-                            id="generateBtn">
-
-                        <span class="generate-icon">
-                            ✦
-                        </span>
-
-                        Generate Documentation
-
-                        <span class="arrow">
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <p class="generator-note">
-
-                        AI-generated content should be reviewed
-                        and customized before submission.
-
-                    </p>
-
-                </div>
-
-
-                <!-- =================================================
-                     RIGHT PREVIEW
-                ================================================== -->
-
-                <div class="preview-card">
-
-
-                    <div class="preview-header">
-
-                        <div>
-
-                            <span>
-                                DOCUMENT PREVIEW
-                            </span>
-
-                            <h3>
-                                Generated Content
-                            </h3>
-
-                        </div>
-
-
-                        <div class="preview-actions">
-
-                            <button id="copyBtn"
-                                    title="Copy">
-
-                                ⧉
-
-                            </button>
-
-
-                            <button id="downloadBtn"
-                                    title="Download">
-
-                                ↓
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- PREVIEW -->
-
-                    <div class="document-preview"
-                         id="documentPreview">
-
-
-                        <!-- EMPTY STATE -->
-
-                        <div class="empty-state"
-                             id="emptyState">
-
-                            <div class="empty-icon">
-                                ▤
-                            </div>
-
-                            <h3>
-                                Your document will appear here
-                            </h3>
-
-                            <p>
-                                Select a documentation type,
-                                describe your project and click
-                                <strong>Generate Documentation</strong>.
-                            </p>
-
-                        </div>
-
-
-                        <!-- GENERATED DOCUMENT -->
-
-                        <article class="generated-document"
-                                 id="generatedDocument">
-
-                            <div class="document-label">
-                                AI GENERATED
-                            </div>
-
-                            <h2 id="generatedTitle">
-                                Project Documentation
-                            </h2>
-
-                            <div id="generatedContent"></div>
-
-                        </article>
-
-                    </div>
-
-
-                    <div class="preview-footer">
-
-                        <span id="wordCount">
-                            0 words
-                        </span>
-
-                        <span>
-                            AI Generated Draft
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 QUICK TEMPLATES
-            ================================================== -->
-
-            <div class="templates-section">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span>
-                            QUICK START
-                        </span>
-
-                        <h2>
-                            Documentation Templates
-                        </h2>
-
-                    </div>
-
-                    <p>
-                        Start with a predefined project section.
-                    </p>
-
-                </div>
-
-
-                <div class="template-grid">
-
-
-                    <button class="template-card"
-                            data-template="synopsis">
-
-                        <div class="template-icon purple">
-                            ▤
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Project Synopsis
-                            </strong>
-
-                            <p>
-                                Complete overview of your project
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <button class="template-card"
-                            data-template="methodology">
-
-                        <div class="template-icon blue">
-                            ◈
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Methodology
-                            </strong>
-
-                            <p>
-                                Explain your project approach
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <button class="template-card"
-                            data-template="modules">
-
-                        <div class="template-icon orange">
-                            ◇
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Module Description
-                            </strong>
-
-                            <p>
-                                Document individual modules
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <button class="template-card"
-                            data-template="future">
-
-                        <div class="template-icon green">
-                            ✦
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Future Enhancements
-                            </strong>
-
-                            <p>
-                                Describe possible improvements
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 DOCUMENT CHECKLIST
-            ================================================== -->
-
-            <div class="bottom-grid">
-
-
-                <div class="checklist-card">
-
-                    <div class="card-heading">
-
-                        <div>
-
-                            <span>
-                                PROJECT DOCUMENTATION
-                            </span>
-
-                            <h3>
-                                Documentation Checklist
-                            </h3>
-
-                        </div>
-
-                        <span class="completion">
-                            2 / 6
-                        </span>
-
-                    </div>
-
-
-                    <div class="check-item completed">
-
-                        <span class="check">
-                            ✓
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Project Introduction
-                            </strong>
-
-                            <p>
-                                Basic project overview
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="check-item completed">
-
-                        <span class="check">
-                            ✓
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Problem Statement
-                            </strong>
-
-                            <p>
-                                Define the problem being solved
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="check-item">
-
-                        <span class="check">
-                            3
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Objectives
-                            </strong>
-
-                            <p>
-                                Goals of the project
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="check-item">
-
-                        <span class="check">
-                            4
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Methodology
-                            </strong>
-
-                            <p>
-                                Explain the project workflow
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="check-item">
-
-                        <span class="check">
-                            5
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Module Description
-                            </strong>
-
-                            <p>
-                                Explain all project modules
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="check-item">
-
-                        <span class="check">
-                            6
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Conclusion
-                            </strong>
-
-                            <p>
-                                Summarize the project
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- AI TIP -->
-
-                <div class="ai-tip-card">
-
-                    <div class="tip-icon">
-                        ✦
-                    </div>
-
-                    <span>
-                        AI DOCUMENTATION TIP
-                    </span>
-
-                    <h3>
-                        Make your documentation specific.
-                    </h3>
-
-                    <p>
-                        Instead of asking AI to write a generic
-                        introduction, provide your project's
-                        actual modules, technologies and objectives.
-                        This produces more relevant academic content.
-                    </p>
-
-
-                    <button id="tipButton">
-
-                        Use this approach
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- =========================================================
-     NOTIFICATION
-========================================================== -->
-
-<div class="notification-popup"
-     id="notificationPopup">
-
-    <strong>
-        Notifications
-    </strong>
-
-    <p>
-        Your documentation workspace is ready.
+    <p id="documentationProjectDescription">
+        Generate structured documentation for your academic project.
     </p>
 
+    <div class="documentation-project-selector">
+        <label for="documentationProjectSelect">Select Project</label>
+
+        <select id="documentationProjectSelect">
+            <option value="main">AI Student Mentor — Main Project</option>
+        </select>
+    </div>
 </div>
 
 
+                   <div class="document-stat">
+                    <strong id="sectionCount">0</strong>
+                    <span>Sections Generated</span>
+                </div>
+
+                <div class="document-stat">
+                    <strong id="figureCount">0</strong>
+                    <span>Figures Added</span>
+                </div>
+
+            </div>
+
+            <!-- GENERATOR AND PREVIEW -->
+            <div class="documentation-grid">
+
+                <!-- LEFT: DOCUMENT WORKSPACE -->
+                <div class="generator-column">
+
+                    <!-- STEP 1: DOCUMENT GENERATOR -->
+                    <div class="generator-card">
+
+                        <div class="card-header">
+                            <div>
+                                <span>DOCUMENT GENERATOR</span>
+                                <h3>Create Documentation</h3>
+                            </div>
+                            <div class="step-badge">STEP 1</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentType">Documentation Type</label>
+                            <select id="documentType">
+                                <option value="synopsis">Project Synopsis</option>
+                                <option value="introduction">Introduction</option>
+                                <option value="problem">Problem Statement</option>
+                                <option value="objectives">Objectives</option>
+                                <option value="methodology">Methodology</option>
+                                <option value="modules">Module Description</option>
+                                <option value="technology">Technology Stack</option>
+                                <option value="future">Future Enhancements</option>
+                                <option value="conclusion">Conclusion</option>
+                                <option value="custom">Custom Documentation</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectInput">Project Information</label>
+                            <textarea id="projectInput"
+                                      placeholder="Describe your project, features, modules or the topic you want to document..."></textarea>
+
+                            <div class="textarea-footer">
+                                <span id="characterCount">0 characters</span>
+                                <span>AI will structure your content</span>
+                            </div>
+                        </div>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="writingStyle">Writing Style</label>
+                                <select id="writingStyle">
+                                    <option value="academic">Academic</option>
+                                    <option value="simple">Simple</option>
+                                    <option value="professional">Professional</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="documentLength">Length</label>
+                                <select id="documentLength">
+                                    <option value="short">Short</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="detailed">Detailed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- QUICK TEMPLATES -->
+                        <div class="templates-section">
+                            <div class="section-heading">
+                                <h4>Quick Templates</h4>
+                                <p>Choose a starting point for your documentation.</p>
+                            </div>
+
+                            <div class="template-grid">
+
+                                <button type="button" class="template-card"
+                                        data-template="synopsis">
+                                    <span class="template-icon">▤</span>
+                                    <strong>Synopsis</strong>
+                                    <small>Project overview</small>
+                                </button>
+
+                                <button type="button" class="template-card"
+                                        data-template="methodology">
+                                    <span class="template-icon">⚙</span>
+                                    <strong>Methodology</strong>
+                                    <small>Development process</small>
+                                </button>
+
+                                <button type="button" class="template-card"
+                                        data-template="modules">
+                                    <span class="template-icon">▦</span>
+                                    <strong>Modules</strong>
+                                    <small>System features</small>
+                                </button>
+
+                                <button type="button" class="template-card"
+                                        data-template="future">
+                                    <span class="template-icon">↗</span>
+                                    <strong>Future Scope</strong>
+                                    <small>Possible enhancements</small>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- STEP 2: DIAGRAM GENERATOR -->
+                    <div class="formatting-card diagram-tools" id="diagramTools">
+
+                        <div class="card-header">
+                            <div>
+                                <span>VISUAL DOCUMENTATION</span>
+                                <h3>Diagram Generator</h3>
+                            </div>
+                            <div class="step-badge">STEP 2</div>
+                        </div>
+
+                        <p class="formatting-description">
+                            Create project diagrams and include them in your
+                            documentation.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="diagramType">Diagram Type</label>
+                            <select id="diagramType">
+                                <option value="er">ER Diagram</option>
+                                <option value="flowchart">Flowchart</option>
+                                <option value="architecture">System Architecture</option>
+                                <option value="usecase">UML Use Case Diagram</option>
+                                <option value="class">UML Class Diagram</option>
+                                <option value="sequence">UML Sequence Diagram</option>
+                                <option value="activity">UML Activity Diagram</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="diagramDescription">Diagram Requirements</label>
+                            <textarea id="diagramDescription"
+                                      placeholder="Describe the entities, steps, components, actors, or relationships to include..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="diagramCaption">Figure Caption</label>
+                            <input type="text" id="diagramCaption"
+                                   placeholder="Example: System Architecture of AI Student Mentor">
+                        </div>
+
+                        <button type="button" id="generateDiagramBtn"
+                                class="primary-btn">
+                            Generate Diagram
+                        </button>
+
+                        <div id="diagramStatus" class="feature-status"
+                             role="status" aria-live="polite"></div>
+                    </div>
+
+                    <!-- STEP 3: IMAGE UPLOAD -->
+                    <div class="formatting-card image-tools" id="imageTools">
+
+                        <div class="card-header">
+                            <div>
+                                <span>DOCUMENT ILLUSTRATIONS</span>
+                                <h3>Upload Images</h3>
+                            </div>
+                            <div class="step-badge">STEP 3</div>
+                        </div>
+
+                        <p class="formatting-description">
+                            Add screenshots, interface images, output images,
+                            or other project illustrations.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="imageUpload">Choose Images</label>
+                            <input type="file" id="imageUpload"
+                                   accept="image/png,image/jpeg,image/webp"
+                                   multiple>
+                            <small class="field-hint">
+                                Supported formats: PNG, JPG, and WebP.
+                                Choose only images you have permission to use.
+                            </small>
+                        </div>
+
+                        <div id="imageUploadStatus" class="feature-status"
+                             role="status" aria-live="polite"></div>
+
+                        <div id="uploadedImagesList" class="uploaded-images-list">
+                            <p class="empty-list-message">
+                                Your uploaded images will appear here.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- STEP 4: FORMATTING SETTINGS -->
+                    <div class="formatting-card" id="formattingSettings">
+
+                        <div class="card-header">
+                            <div>
+                                <span>DOCUMENT CUSTOMIZATION</span>
+                                <h3>Formatting Settings</h3>
+                            </div>
+                            <div class="step-badge">STEP 4</div>
+                        </div>
+
+                        <p class="formatting-description">
+                            Customize the formatting for your exported Word
+                            or PDF document.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="outputFormat">Download Format</label>
+                            <select id="outputFormat" name="output_format">
+                                <option value="docx">Word Document (.docx)</option>
+                                <option value="pdf">PDF Document (.pdf)</option>
+                            </select>
+                        </div>
+
+                        <h4 class="form-section-title">Font and Text</h4>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="fontFamily">Font Family</label>
+                                <select id="fontFamily">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Calibri">Calibri</option>
+                                    <option value="Inter">Inter</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="bodyFontSize">Body Font Size</label>
+                                <input type="number" id="bodyFontSize"
+                                       min="8" max="24" value="12">
+                            </div>
+                        </div>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="headingFontSize">Heading Size</label>
+                                <input type="number" id="headingFontSize"
+                                       min="12" max="36" value="16">
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="titleFontSize">Title Size</label>
+                                <input type="number" id="titleFontSize"
+                                       min="16" max="48" value="22">
+                            </div>
+                        </div>
+
+                        <h4 class="form-section-title">Page Layout</h4>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="pageSize">Page Size</label>
+                                <select id="pageSize">
+                                    <option value="A4">A4</option>
+                                    <option value="Letter">Letter</option>
+                                    <option value="Legal">Legal</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="pageOrientation">Orientation</label>
+                                <select id="pageOrientation">
+                                    <option value="portrait">Portrait</option>
+                                    <option value="landscape">Landscape</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="marginTop">Top Margin (in)</label>
+                                <input type="number" id="marginTop"
+                                       min="0" max="3" step="0.1" value="1">
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="marginBottom">Bottom Margin (in)</label>
+                                <input type="number" id="marginBottom"
+                                       min="0" max="3" step="0.1" value="1">
+                            </div>
+                        </div>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="marginLeft">Left Margin (in)</label>
+                                <input type="number" id="marginLeft"
+                                       min="0" max="3" step="0.1" value="1">
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="marginRight">Right Margin (in)</label>
+                                <input type="number" id="marginRight"
+                                       min="0" max="3" step="0.1" value="1">
+                            </div>
+                        </div>
+
+                        <h4 class="form-section-title">Paragraph Settings</h4>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="textAlignment">Alignment</label>
+                                <select id="textAlignment">
+                                    <option value="justify">Justify</option>
+                                    <option value="left">Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="right">Right</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="lineSpacing">Line Spacing</label>
+                                <select id="lineSpacing">
+                                    <option value="1">Single</option>
+                                    <option value="1.15">1.15</option>
+                                    <option value="1.5" selected>1.5</option>
+                                    <option value="2">Double</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paragraphSpacing">Paragraph Spacing (pt)</label>
+                            <input type="number" id="paragraphSpacing"
+                                   min="0" max="36" value="8">
+                        </div>
+
+                        <h4 class="form-section-title">Page Border</h4>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="pageBorder">Border Style</label>
+                                <select id="pageBorder">
+                                    <option value="none">None</option>
+                                    <option value="single">Single</option>
+                                    <option value="double">Double</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="borderWidth">Border Width</label>
+                                <input type="number" id="borderWidth"
+                                       min="0.25" max="5" step="0.25" value="1">
+                            </div>
+                        </div>
+
+                        <h4 class="form-section-title">Page Numbering</h4>
+
+                        <div class="options-row">
+                            <div class="form-group small-group">
+                                <label for="pageNumberPosition">Position</label>
+                                <select id="pageNumberPosition">
+                                    <option value="bottom-center">Bottom Center</option>
+                                    <option value="bottom-right">Bottom Right</option>
+                                    <option value="bottom-left">Bottom Left</option>
+                                    <option value="top-right">Top Right</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group small-group">
+                                <label for="pageNumberStart">Start Number</label>
+                                <input type="number" id="pageNumberStart"
+                                       min="1" max="999" value="1">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="collegeRequirements">
+                                College-Specific Requirements
+                            </label>
+                            <textarea id="collegeRequirements"
+                                      placeholder="Enter college formatting rules, required sections, margins, caption conventions, or other instructions..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- GENERATE DOCUMENT -->
+                    <div class="generate-document-area">
+                        <button type="button" id="generateBtn" class="primary-btn">
+                            Generate Documentation
+                        </button>
+
+                        <p id="generationStatus" class="feature-status"
+                           role="status" aria-live="polite"></p>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: DOCUMENT PREVIEW -->
+                <div class="preview-column">
+
+                    <div class="preview-card">
+
+                        <div class="card-header">
+                            <div>
+                                <span>LIVE DOCUMENT VIEW</span>
+                                <h3>Document Preview</h3>
+                            </div>
+                            <div class="step-badge">PREVIEW</div>
+                        </div>
+
+                        <div class="preview-toolbar">
+                            <span id="wordCount">0 words</span>
+
+                            <div class="preview-actions">
+                                <button type="button" id="copyBtn"
+                                        class="secondary-btn" disabled>
+                                    Copy Text
+                                </button>
+
+                                <button type="button" id="downloadBtn"
+                                        class="secondary-btn" disabled>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="emptyState" class="empty-state">
+                            <div class="empty-state-icon">▤</div>
+                            <h3>Your document will appear here</h3>
+                            <p>
+                                Enter project information and generate your
+                                documentation to see the result.
+                            </p>
+                        </div>
+
+                        <div id="generatedDocument" class="generated-document"
+                             hidden>
+                            <h2 id="generatedTitle">Generated Documentation</h2>
+
+                            <div id="generatedContent"
+                                 class="generated-content"></div>
+
+                            <div id="documentFigures"
+                                 class="document-figures"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- DOCUMENTATION TIP -->
+                    <div class="documentation-tip">
+                        <div class="tip-icon">✦</div>
+                        <div>
+                            <h4>Documentation Tip</h4>
+                            <p>
+                                Include clear module descriptions, diagrams,
+                                relevant screenshots, and consistent formatting
+                                in your final project report.
+                            </p>
+                            <button type="button" id="tipButton"
+                                    class="tip-action">
+                                Use My Project Details
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="notificationPopup" class="notification-popup" hidden>
+    <div class="notification-popup-header">
+        <strong>Notifications</strong>
+        <button type="button" id="closeNotificationBtn"
+                aria-label="Close notifications">×</button>
+    </div>
+    <p>You are all caught up.</p>
+</div>
+
+<!-- SHARED SCRIPTS -->
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
 <script src="{{ url_for('static', filename='js/documentation.js') }}"></script>
 
 </body>

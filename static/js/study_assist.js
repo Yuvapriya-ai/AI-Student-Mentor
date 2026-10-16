@@ -1,6 +1,83 @@
 /* =========================================================
    AI STUDY ASSISTANT
 ========================================================= */
+function getInitial(name) {
+    if (!name || name.trim() === "") {
+        return "Y";
+    }
+
+    return name.trim().charAt(0).toUpperCase();
+}
+
+async function loadStudentProfile() {
+    try {
+        const response = await fetch("/api/profile");
+        const data = await response.json();
+
+        if (!response.ok || !data.success || !data.profile) {
+            console.error("Could not load student profile.");
+            return;
+        }
+
+        const profile = data.profile;
+
+        const name =
+            profile.name && profile.name.trim()
+                ? profile.name.trim()
+                : "Student";
+
+        const initial = getInitial(name);
+
+        // Top-right profile
+        const topAvatar = document.querySelector(".top-avatar");
+        if (topAvatar) {
+            topAvatar.textContent = initial;
+        }
+
+        
+const topProfileName =
+    document.querySelector(".top-profile strong");
+
+const topProfileCourse =
+    document.querySelector(".top-profile span");
+
+if (topProfileName) {
+    topProfileName.textContent = name;
+}
+
+const course = String(profile.course || "").trim();
+
+if (topProfileCourse) {
+    topProfileCourse.textContent = course
+        ? `${course} Student`
+        : "Student";
+}
+
+
+        // Sidebar profile
+        const sidebarAvatar =
+            document.querySelector(".user-avatar");
+
+        if (sidebarAvatar) {
+            sidebarAvatar.textContent = initial;
+        }
+
+        const sidebarName =
+            document.querySelector(".user-details strong");
+
+        if (sidebarName) {
+            sidebarName.textContent = name;
+        }
+
+        console.log("Study Assistant profile loaded:", profile);
+
+    } catch (error) {
+        console.error("Study Assistant profile loading error:", error);
+    }
+}
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -766,7 +843,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ===================================================== */
 
     updateResponseLevel();
-
+    loadStudentProfile();
     console.log(
         "AI Study Assistant initialized."
     );

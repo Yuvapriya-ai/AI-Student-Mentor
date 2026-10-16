@@ -89,6 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const topProfileName =
         document.querySelector(".top-profile strong");
 
+    const topProfileCourse =
+        document.querySelector(".top-profile span");
+
     const sidebarAvatar =
         document.querySelector(".user-avatar");
 
@@ -307,17 +310,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         /* PROFILE COURSE */
 
-        if (profileCourse) {
+const course = (profile.course || "").trim();
 
-            profileCourse.textContent =
-                profile.course
-                    ? profile.course
-                    : "BCA Student";
+if (profileCourse) {
+    profileCourse.textContent = course || "Not specified";
+}
 
-        }
+/* TOP HEADER COURSE LABEL */
+
+if (topProfileCourse) {
+    topProfileCourse.textContent = course
+        ? `${course} Student`
+        : "Student";
+}
 
 
         /* TOP AVATAR */

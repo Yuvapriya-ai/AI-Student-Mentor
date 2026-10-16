@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Student Mentor | Learning Lesson</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/lesson.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+    <header class="lesson-header">
+        <a href="/roadmap" class="back-link">
+            <span aria-hidden="true">←</span>
+            Back to Roadmap
+        </a>
+
+        <span class="brand">AI Student Mentor</span>
+    </header>
+
+    <main class="lesson-container">
+
+        <section class="lesson-heading">
+            <p class="eyebrow">PERSONALIZED LEARNING</p>
+
+            <h1 id="lessonTitle">{{ topic }}</h1>
+
+            <p class="lesson-meta">
+                <span>Module {{ module_number }}</span>
+                <span aria-hidden="true">•</span>
+                <span>{{ career_goal }}</span>
+            </p>
+        </section>
+
+        <section class="lesson-card overview-card">
+            <h2>📘 Lesson Overview</h2>
+            <p id="lessonOverview">
+                {{ topic_description or "Learn the concepts, explore examples, and practise what you learn." }}
+            </p>
+        </section>
+
+        <section class="lesson-card">
+            <h2>📚 Learn the Concept</h2>
+            <div id="lessonContent">
+                <p>Your personalized lesson will appear here.</p>
+            </div>
+        </section>
+
+        <section class="lesson-card">
+            <h2>💡 Examples</h2>
+            <div id="lessonExamples">
+                <p>Practical examples will appear here.</p>
+            </div>
+        </section>
+
+        <section class="lesson-card">
+            <h2>✍️ Practice Exercises</h2>
+            <div id="lessonExercises">
+                <p>Your practice exercises will appear here.</p>
+            </div>
+        </section>
+
+        <section class="lesson-card quiz-card">
+            <h2>🧠 Quick Quiz</h2>
+
+            <p class="quiz-intro">
+                Choose the best answer for each question, then check your score.
+            </p>
+
+            <div id="lessonQuiz">
+                <p>Your quiz will appear here.</p>
+            </div>
+        </section>
+
+        <div id="lessonMessage"
+             role="status"
+             aria-live="polite"></div>
+
+        <div class="lesson-actions">
+            <button id="completeLessonBtn"
+                    type="button"
+                    disabled>
+                Mark Lesson as Complete ✓
+            </button>
+
+            <button id="nextLessonBtn"
+                    type="button"
+                    hidden>
+                Next Lesson →
+            </button>
+
+            <a id="backToRoadmapBtn"
+               href="/roadmap"
+               hidden>
+                Back to Roadmap
+            </a>
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/lesson.js') }}"></script>
+</body>
+</html>

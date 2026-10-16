@@ -2,196 +2,198 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AI Student Mentor | Project Idea Evaluator</title>
 
+    <!-- Main Evaluator Styles -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/evaluator.css') }}">
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <!-- Shared AI Help Styles -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/ai_help.css') }}">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
 </head>
+
 
 <body>
 
-<div class="app-layout">
+    
+<aside class="sidebar">
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+    <div class="brand">
+        <div class="brand-icon">✦</div>
 
-    <aside class="sidebar">
+        <div class="brand-text">
+            <h2>AI Student</h2>
+            <span>MENTOR</span>
+        </div>
+    </div>
 
-        <div class="brand">
+    <div class="nav-section">
 
-            <div class="brand-icon">
-                ✦
+        <p class="nav-title">MAIN MENU</p>
+
+        <a href="/" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/profile" class="nav-item">
+            <span class="nav-icon">♙</span>
+            <span>Student Profile</span>
+        </a>
+
+        <a href="/roadmap" class="nav-item">
+            <span class="nav-icon">◈</span>
+            <span>Learning Roadmap</span>
+        </a>
+
+        <a href="/mentor" class="nav-item">
+            <span class="nav-icon">✦</span>
+            <span>AI Project Mentor</span>
+        </a>
+
+        <a href="/documentation" class="nav-item">
+            <span class="nav-icon">▤</span>
+            <span>Documentation</span>
+        </a>
+
+        <a href="/viva" class="nav-item">
+            <span class="nav-icon">◉</span>
+            <span>Viva Assistant</span>
+        </a>
+
+        <a href="/study_assist" class="nav-item">
+            <span class="nav-icon">✎</span>
+            <span>Study Assistant</span>
+        </a>
+
+        <a href="/progress" class="nav-item">
+            <span class="nav-icon">◒</span>
+            <span>Progress Tracker</span>
+        </a>
+
+        <a href="/evaluator" class="nav-item active">
+            <span class="nav-icon">◇</span>
+            <span>Idea Evaluator</span>
+        </a>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+        <div class="help-card">
+            <div class="help-icon">?</div>
+
+            <div>
+                <strong>Need help?</strong>
+                <p>Ask your AI Mentor</p>
             </div>
-
-            <div class="brand-text">
-                <h2>AI Student</h2>
-                <span>MENTOR</span>
-            </div>
-
         </div>
 
+        <div class="ai-help-chat" id="aiHelpChat">
 
-        <div class="nav-section">
-
-            <p class="nav-title">
-                MAIN MENU
-            </p>
-
-
-            <a href="/" class="nav-item">
-                <span class="nav-icon">⌂</span>
-                <span>Dashboard</span>
-            </a>
-
-
-            <a href="/profile" class="nav-item">
-                <span class="nav-icon">♙</span>
-                <span>Student Profile</span>
-            </a>
-
-
-            <a href="/roadmap" class="nav-item">
-                <span class="nav-icon">◈</span>
-                <span>Learning Roadmap</span>
-            </a>
-
-
-            <a href="/mentor" class="nav-item">
-                <span class="nav-icon">✦</span>
-                <span>AI Project Mentor</span>
-            </a>
-
-
-            <a href="/documentation" class="nav-item">
-                <span class="nav-icon">▤</span>
-                <span>Documentation</span>
-            </a>
-
-
-            <a href="/viva" class="nav-item">
-                <span class="nav-icon">◉</span>
-                <span>Viva Assistant</span>
-            </a>
-
-
-            <a href="/study_assist" class="nav-item">
-                <span class="nav-icon">✎</span>
-                <span>Study Assistant</span>
-            </a>
-
-
-            <a href="/progress" class="nav-item">
-                <span class="nav-icon">◒</span>
-                <span>Progress Tracker</span>
-            </a>
-
-
-            <a href="/evaluator"
-               class="nav-item active">
-
-                <span class="nav-icon">◇</span>
-                <span>Idea Evaluator</span>
-
-            </a>
-
-        </div>
-
-
-        <!-- SIDEBAR BOTTOM -->
-
-        <div class="sidebar-bottom">
-
-            <div class="help-card">
-
-                <div class="help-icon">
-                    ?
-                </div>
-
+            <div class="ai-help-header">
                 <div>
-                    <strong>
-                        Need help?
-                    </strong>
-
-                    <p>
-                        Ask your AI Mentor
-                    </p>
+                    <strong>✦ AI Student Mentor</strong>
+                    <span>Ask me anything about your project</span>
                 </div>
 
+                <button id="closeAiHelp"
+                        type="button"
+                        aria-label="Close AI Help">
+                    ×
+                </button>
             </div>
 
-
-            <a href="/profile"
-               class="user-mini">
-
-                <div class="user-avatar">
-                    Y
+            <div class="ai-help-messages" id="aiHelpMessages">
+                <div class="ai-message">
+                    Hi! 👋 I'm your AI Mentor.
+                    How can I help you with your project?
                 </div>
+            </div>
 
-                <div class="user-details">
+            <div class="ai-help-input">
+                <input
+                    type="text"
+                    id="aiHelpInput"
+                    placeholder="Ask your AI Mentor..."
+                    autocomplete="off"
+                >
 
-                    <strong>
-                        Student
-                    </strong>
-
-                    <span>
-                        View Profile
-                    </span>
-
-                </div>
-
-                <span class="user-arrow">
-                    ›
-                </span>
-
-            </a>
+                <button id="sendAiHelp"
+                        type="button"
+                        aria-label="Send message">
+                    ➤
+                </button>
+            </div>
 
         </div>
 
-    </aside>
+        <a href="/profile" class="user-mini">
+
+            <div class="user-avatar">Y</div>
+
+            <div class="user-details">
+                <strong>Student</strong>
+                <span>View Profile</span>
+            </div>
+
+            <span class="user-arrow">›</span>
+
+        </a>
+        <!-- LOGOUT BUTTON: ADD HERE -->
+        <a href="/logout" class="logout-btn">
+            <span>↪</span>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
 
 
-    <!-- =====================================================
+
+    <!-- =========================================================
          MAIN CONTENT
-    ====================================================== -->
+    ========================================================== -->
 
     <main class="main-content">
 
 
-        <!-- TOPBAR -->
+        <!-- =====================================================
+             TOPBAR
+        ====================================================== -->
 
         <header class="topbar">
 
-            <div class="mobile-brand">
+            <div class="topbar-spacer"></div>
 
-                <span>✦</span>
+            <div class="topbar-right">
 
-                AI Student Mentor
+                <button
+                    class="notification-btn"
+                    id="notificationBtn"
+                    type="button"
+                    aria-label="Notifications"
+                >
 
-            </div>
+                    <span class="notification-icon">
+                        ♢
+                    </span>
 
-
-            <div class="topbar-actions">
-
-                <button class="notification-btn"
-                        id="notificationBtn">
-
-                    <span>♧</span>
-
-                    <i></i>
+                    <span class="notification-dot"></span>
 
                 </button>
 
@@ -202,7 +204,7 @@
                         Y
                     </div>
 
-                    <div>
+                    <div class="top-profile-info">
 
                         <strong>
                             Student
@@ -221,6 +223,7 @@
         </header>
 
 
+
         <!-- =====================================================
              EVALUATOR PAGE
         ====================================================== -->
@@ -228,24 +231,27 @@
         <section class="evaluator-page">
 
 
-            <!-- PAGE HEADER -->
+            <!-- =================================================
+                 PAGE HEADER
+            ================================================== -->
 
             <div class="page-header">
 
-                <div>
+                <div class="page-header-content">
 
-                    <span class="eyebrow">
+                    <div class="eyebrow">
                         AI POWERED PROJECT ANALYSIS
-                    </span>
+                    </div>
 
                     <h1>
                         Project Idea Evaluator
                     </h1>
 
                     <p>
-                        Submit your project idea and get an AI-powered
-                        evaluation of its originality, difficulty,
-                        technologies, feasibility and suitability.
+                        Evaluate your project idea before development
+                        and get AI-powered guidance on originality,
+                        difficulty, feasibility, technologies and
+                        BCA suitability.
                     </p>
 
                 </div>
@@ -255,11 +261,14 @@
 
                     <span class="status-dot"></span>
 
-                    AI Evaluator Ready
+                    <span>
+                        AI Evaluator Ready
+                    </span>
 
                 </div>
 
             </div>
+
 
 
             <!-- =================================================
@@ -268,56 +277,60 @@
 
             <div class="project-banner">
 
-                <div class="project-icon">
-                    ◇
-                </div>
+                <div class="banner-main">
 
+                    <div class="banner-icon">
+                        ✧
+                    </div>
 
-                <div class="project-details">
+                    <div class="banner-content">
 
-                    <span>
-                        AI PROJECT IDEA EVALUATOR
-                    </span>
+                        <h2>
+                            Evaluate Before You Develop
+                        </h2>
 
-                    <h2>
-                        Evaluate Before You Develop
-                    </h2>
+                        <p>
+                            Share your project idea and let AI
+                            analyse its potential before you
+                            start implementation.
+                        </p>
 
-                    <p>
-                        Analyze your project idea, understand its
-                        complexity and receive suggestions for
-                        improving the proposed system.
-                    </p>
-
-                </div>
-
-
-                <div class="evaluation-stat">
-
-                    <strong id="evaluationCount">
-                        0
-                    </strong>
-
-                    <span>
-                        Ideas Evaluated
-                    </span>
+                    </div>
 
                 </div>
 
 
-                <div class="evaluation-stat">
+                <div class="banner-stats">
 
-                    <strong>
-                        AI
-                    </strong>
+                    <div class="banner-stat">
 
-                    <span>
-                        Powered Analysis
-                    </span>
+                        <strong id="evaluationCount">
+                            0
+                        </strong>
+
+                        <span>
+                            Ideas Evaluated
+                        </span>
+
+                    </div>
+
+
+                    <div class="banner-stat">
+
+                        <strong>
+                            AI
+                        </strong>
+
+                        <span>
+                            Powered Analysis
+                        </span>
+
+                    </div>
 
                 </div>
 
             </div>
+
 
 
             <!-- =================================================
@@ -327,221 +340,253 @@
             <div class="evaluation-grid">
 
 
-                <!-- LEFT : IDEA INPUT -->
+                <!-- =============================================
+                     IDEA INPUT CARD
+                ============================================== -->
 
-                <section class="idea-card">
+                <div class="idea-card evaluator-card">
 
                     <div class="card-header">
 
                         <div>
 
-                            <span>
-                                SUBMIT PROJECT IDEA
+                            <span class="card-eyebrow">
+                                PROJECT IDEA
                             </span>
 
-                            <h3>
-                                Project Idea Details
-                            </h3>
+                            <h2>
+                                Tell Us Your Idea
+                            </h2>
 
                         </div>
 
-                        <div class="step-badge">
-                            STEP 1
-                        </div>
-
-                    </div>
-
-
-                    <!-- PROJECT TITLE -->
-
-                    <div class="form-group">
-
-                        <label for="projectTitle">
-                            Project Title
-                        </label>
-
-                        <input
-                            type="text"
-                            id="projectTitle"
-                            placeholder="Enter your project title...">
-
-                    </div>
-
-
-                    <!-- PROJECT CATEGORY -->
-
-                    <div class="form-group">
-
-                        <label for="projectCategory">
-                            Project Category
-                        </label>
-
-                        <select id="projectCategory">
-
-                            <option value="web">
-                                Web Application
-                            </option>
-
-                            <option value="ai">
-                                Artificial Intelligence
-                            </option>
-
-                            <option value="machine-learning">
-                                Machine Learning
-                            </option>
-
-                            <option value="database">
-                                Database Application
-                            </option>
-
-                            <option value="education">
-                                Education Technology
-                            </option>
-
-                            <option value="other">
-                                Other
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- PROJECT IDEA -->
-
-                    <div class="form-group">
-
-                        <label for="ideaInput">
-                            Describe Your Project Idea
-                        </label>
-
-                        <textarea
-                            id="ideaInput"
-                            placeholder="Describe what your project does, the problem it solves, its main features and how you plan to implement it..."></textarea>
-
-
-                        <div class="textarea-footer">
-
-                            <span id="characterCount">
-                                0 characters
-                            </span>
-
-                            <span>
-                                Be specific for a better evaluation
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- TECHNOLOGY KNOWLEDGE -->
-
-                    <div class="options-row">
-
-                        <div class="form-group small-group">
-
-                            <label for="skillLevel">
-                                Your Skill Level
-                            </label>
-
-                            <select id="skillLevel">
-
-                                <option value="beginner">
-                                    Beginner
-                                </option>
-
-                                <option value="intermediate"
-                                        selected>
-                                    Intermediate
-                                </option>
-
-                                <option value="advanced">
-                                    Advanced
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group small-group">
-
-                            <label for="projectDuration">
-                                Expected Duration
-                            </label>
-
-                            <select id="projectDuration">
-
-                                <option value="1-2">
-                                    1–2 Months
-                                </option>
-
-                                <option value="3-4"
-                                        selected>
-                                    3–4 Months
-                                </option>
-
-                                <option value="5-6">
-                                    5–6 Months
-                                </option>
-
-                                <option value="6+">
-                                    6+ Months
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- EVALUATE BUTTON -->
-
-                    <button class="evaluate-btn"
-                            id="evaluateBtn">
-
-                        <span class="evaluate-icon">
+                        <div class="card-header-icon">
                             ✦
-                        </span>
+                        </div>
 
-                        Evaluate Project Idea
-
-                        <span class="arrow">
-                            →
-                        </span>
-
-                    </button>
+                    </div>
 
 
-                    <p class="idea-note">
-
-                        AI-generated evaluation is intended as
-                        project planning guidance and should be
-                        reviewed before implementation.
-
-                    </p>
-
-                </section>
+                    <div class="form-content">
 
 
-                <!-- RIGHT : RESULT -->
+                        <!-- Project Title -->
 
-                <section class="result-card">
+                        <div class="form-group">
+
+                            <label for="projectTitle">
+                                Project Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="projectTitle"
+                                placeholder="Enter your project title"
+                                autocomplete="off"
+                            >
+
+                        </div>
 
 
-                    <div class="result-header">
+
+                        <!-- Category -->
+
+                        <div class="form-group">
+
+                            <label for="projectCategory">
+                                Project Category
+                            </label>
+
+                            <select id="projectCategory">
+
+                                <option value="">
+                                    Select project category
+                                </option>
+
+                                <option value="web">
+                                    Web Application
+                                </option>
+
+                                <option value="ai">
+                                    Artificial Intelligence
+                                </option>
+
+                                <option value="machine-learning">
+                                    Machine Learning
+                                </option>
+
+                                <option value="database">
+                                    Database System
+                                </option>
+
+                                <option value="education">
+                                    Education Technology
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- Project Idea -->
+
+                        <div class="form-group">
+
+                            <div class="label-row">
+
+                                <label for="ideaInput">
+                                    Describe Your Project Idea
+                                </label>
+
+                                <span id="characterCount">
+                                    0 / 2000
+                                </span>
+
+                            </div>
+
+                            <textarea
+                                id="ideaInput"
+                                maxlength="2000"
+                                placeholder="Describe what your project does, who it is for, the problem it solves and the main features you have in mind..."
+                            ></textarea>
+
+                        </div>
+
+
+
+                        <!-- Options -->
+
+                        <div class="options-row">
+
+
+                            <div class="form-group">
+
+                                <label for="skillLevel">
+                                    Your Skill Level
+                                </label>
+
+                                <select id="skillLevel">
+
+                                    <option value="beginner">
+                                        Beginner
+                                    </option>
+
+                                    <option
+                                        value="intermediate"
+                                        selected
+                                    >
+                                        Intermediate
+                                    </option>
+
+                                    <option value="advanced">
+                                        Advanced
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="projectDuration">
+                                    Expected Duration
+                                </label>
+
+                                <select id="projectDuration">
+
+                                    <option value="1-2">
+                                        1–2 Months
+                                    </option>
+
+                                    <option
+                                        value="3-4"
+                                        selected
+                                    >
+                                        3–4 Months
+                                    </option>
+
+                                    <option value="5-6">
+                                        5–6 Months
+                                    </option>
+
+                                    <option value="6+">
+                                        6+ Months
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Evaluate Button -->
+
+                        <button
+                            type="button"
+                            class="evaluate-btn"
+                            id="evaluateBtn"
+                            onclick="window.evaluateProjectFromButton()"
+                        >
+
+                            <span class="btn-icon">
+                                ✧
+                            </span>
+
+                            <span class="btn-text">
+                                Evaluate Project Idea
+                            </span>
+
+                            <span class="btn-arrow">
+                                →
+                            </span>
+
+                        </button>
+
+
+                        <p class="form-note">
+
+                            <span>
+                                ✦
+                            </span>
+
+                            AI evaluates your idea based on the
+                            information you provide. This is a
+                            conceptual analysis, not a plagiarism check.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     RESULT CARD
+                ============================================== -->
+
+                <div class="result-card evaluator-card">
+
+                    <div class="card-header">
 
                         <div>
 
-                            <span>
-                                AI EVALUATION
+                            <span class="card-eyebrow">
+                                AI ANALYSIS
                             </span>
 
-                            <h3>
-                                Project Analysis
-                            </h3>
+                            <h2>
+                                Evaluation Result
+                            </h2>
 
                         </div>
 
@@ -549,20 +594,21 @@
                         <div class="result-actions">
 
                             <button
+                                type="button"
                                 id="copyResultBtn"
-                                title="Copy Evaluation">
-
+                                class="result-action"
+                                title="Copy result"
+                            >
                                 ⧉
-
                             </button>
 
-
                             <button
+                                type="button"
                                 id="clearResultBtn"
-                                title="Clear">
-
+                                class="result-action"
+                                title="Clear result"
+                            >
                                 ×
-
                             </button>
 
                         </div>
@@ -570,23 +616,28 @@
                     </div>
 
 
-                    <!-- RESULT AREA -->
 
-                    <div class="result-preview"
-                         id="resultPreview">
+                    <!-- Result Preview -->
+
+                    <div
+                        class="result-preview"
+                        id="resultPreview"
+                    >
 
 
-                        <!-- EMPTY STATE -->
+                        <!-- Empty State -->
 
-                        <div class="empty-state"
-                             id="emptyState">
+                        <div
+                            class="empty-state"
+                            id="emptyState"
+                        >
 
                             <div class="empty-icon">
-                                ◇
+                                ✧
                             </div>
 
                             <h3>
-                                Your project evaluation will appear here
+                                Your Evaluation Will Appear Here
                             </h3>
 
                             <p>
@@ -594,36 +645,63 @@
                                 <strong>
                                     Evaluate Project Idea
                                 </strong>
-                                to receive an AI-powered analysis.
+                                to receive AI-powered analysis.
                             </p>
+
+                            <div class="empty-points">
+
+                                <span>
+                                    ✓ Originality
+                                </span>
+
+                                <span>
+                                    ✓ Difficulty
+                                </span>
+
+                                <span>
+                                    ✓ Feasibility
+                                </span>
+
+                                <span>
+                                    ✓ BCA Suitability
+                                </span>
+
+                            </div>
 
                         </div>
 
 
-                        <!-- GENERATED RESULT -->
 
-                        <article class="generated-result"
-                                 id="generatedResult">
+                        <!-- Generated Result -->
 
-                            <div class="result-label">
-                                AI PROJECT ANALYSIS
+                        <div
+                            class="generated-result"
+                            id="generatedResult"
+                            hidden
+                        >
+
+                            <div class="result-title-section">
+
+                                <span class="result-label">
+                                    PROJECT EVALUATION
+                                </span>
+
+                                <h3 id="resultTitle">
+                                    Project Evaluation
+                                </h3>
+
                             </div>
 
 
-                            <h2 id="resultTitle">
-                                Project Evaluation
-                            </h2>
 
-
-                            <!-- SCORE GRID -->
+                            <!-- Score Grid -->
 
                             <div class="score-grid">
 
+                                <div class="score-card">
 
-                                <div class="score-box">
-
-                                    <span>
-                                        ORIGINALITY
+                                    <span class="score-label">
+                                        Originality
                                     </span>
 
                                     <strong id="originalityScore">
@@ -633,10 +711,10 @@
                                 </div>
 
 
-                                <div class="score-box">
+                                <div class="score-card">
 
-                                    <span>
-                                        DIFFICULTY
+                                    <span class="score-label">
+                                        Difficulty
                                     </span>
 
                                     <strong id="difficultyScore">
@@ -646,10 +724,10 @@
                                 </div>
 
 
-                                <div class="score-box">
+                                <div class="score-card">
 
-                                    <span>
-                                        AI FEASIBILITY
+                                    <span class="score-label">
+                                        AI Feasibility
                                     </span>
 
                                     <strong id="feasibilityScore">
@@ -659,10 +737,10 @@
                                 </div>
 
 
-                                <div class="score-box">
+                                <div class="score-card">
 
-                                    <span>
-                                        BCA SUITABILITY
+                                    <span class="score-label">
+                                        BCA Suitability
                                     </span>
 
                                     <strong id="bcaScore">
@@ -674,199 +752,226 @@
                             </div>
 
 
-                            <!-- ORIGINALITY -->
 
-                            <div class="analysis-section">
-
-                                <div class="analysis-heading">
-                                    <span class="analysis-icon purple">
-                                        ◈
-                                    </span>
-
-                                    <h3>
-                                        Originality
-                                    </h3>
-                                </div>
-
-                                <p id="originalityText"></p>
-
-                            </div>
-
-
-                            <!-- DIFFICULTY -->
-
-                            <div class="analysis-section">
-
-                                <div class="analysis-heading">
-                                    <span class="analysis-icon blue">
-                                        ◒
-                                    </span>
-
-                                    <h3>
-                                        Difficulty & Complexity
-                                    </h3>
-                                </div>
-
-                                <p id="difficultyText"></p>
-
-                            </div>
-
-
-                            <!-- TECHNOLOGIES -->
+                            <!-- Originality -->
 
                             <div class="analysis-section">
 
                                 <div class="analysis-heading">
 
-                                    <span class="analysis-icon orange">
-                                        ⚙
-                                    </span>
-
-                                    <h3>
-                                        Required Technologies
-                                    </h3>
-
-                                </div>
-
-                                <div id="technologyList"
-                                     class="technology-list">
-                                </div>
-
-                            </div>
-
-
-                            <!-- AI FEASIBILITY -->
-
-                            <div class="analysis-section">
-
-                                <div class="analysis-heading">
-
-                                    <span class="analysis-icon green">
+                                    <span class="analysis-icon">
                                         ✦
                                     </span>
 
-                                    <h3>
-                                        AI Feasibility
-                                    </h3>
+                                    <h4>
+                                        Originality Analysis
+                                    </h4>
 
                                 </div>
 
-                                <p id="feasibilityText"></p>
+                                <p id="originalityText">
+                                    —
+                                </p>
 
                             </div>
 
 
-                            <!-- BCA SUITABILITY -->
+
+                            <!-- Difficulty -->
 
                             <div class="analysis-section">
 
                                 <div class="analysis-heading">
 
-                                    <span class="analysis-icon violet">
+                                    <span class="analysis-icon">
+                                        ◈
+                                    </span>
+
+                                    <h4>
+                                        Difficulty Analysis
+                                    </h4>
+
+                                </div>
+
+                                <p id="difficultyText">
+                                    —
+                                </p>
+
+                            </div>
+
+
+
+                            <!-- Feasibility -->
+
+                            <div class="analysis-section">
+
+                                <div class="analysis-heading">
+
+                                    <span class="analysis-icon">
                                         ✓
                                     </span>
 
-                                    <h3>
-                                        BCA Project Suitability
-                                    </h3>
+                                    <h4>
+                                        Feasibility Analysis
+                                    </h4>
 
                                 </div>
 
-                                <p id="bcaText"></p>
+                                <p id="feasibilityText">
+                                    —
+                                </p>
 
                             </div>
 
 
-                            <!-- SUGGESTED MODULES -->
+
+                            <!-- BCA Suitability -->
 
                             <div class="analysis-section">
 
                                 <div class="analysis-heading">
 
-                                    <span class="analysis-icon cyan">
-                                        ▦
+                                    <span class="analysis-icon">
+                                        ◉
                                     </span>
 
-                                    <h3>
-                                        Suggested Project Modules
-                                    </h3>
+                                    <h4>
+                                        BCA Suitability
+                                    </h4>
 
                                 </div>
 
-                                <div id="moduleList"
-                                     class="module-list">
-                                </div>
+                                <p id="bcaText">
+                                    —
+                                </p>
 
                             </div>
 
 
-                            <!-- IMPROVEMENTS -->
+
+                            <!-- Technologies -->
 
                             <div class="analysis-section">
 
                                 <div class="analysis-heading">
 
-                                    <span class="analysis-icon pink">
-                                        ↗
+                                    <span class="analysis-icon">
+                                        ⌘
                                     </span>
 
-                                    <h3>
-                                        Recommended Improvements
-                                    </h3>
+                                    <h4>
+                                        Recommended Technologies
+                                    </h4>
 
                                 </div>
 
-                                <div id="improvementList"
-                                     class="improvement-list">
-                                </div>
+                                <div
+                                    class="technology-list"
+                                    id="technologyList"
+                                ></div>
 
                             </div>
 
-                        </article>
+
+
+                            <!-- Modules -->
+
+                            <div class="analysis-section">
+
+                                <div class="analysis-heading">
+
+                                    <span class="analysis-icon">
+                                        ▤
+                                    </span>
+
+                                    <h4>
+                                        Suggested Modules
+                                    </h4>
+
+                                </div>
+
+                                <ul
+                                    class="module-list"
+                                    id="moduleList"
+                                ></ul>
+
+                            </div>
+
+
+
+                            <!-- Improvements -->
+
+                            <div class="analysis-section">
+
+                                <div class="analysis-heading">
+
+                                    <span class="analysis-icon">
+                                        ↑
+                                    </span>
+
+                                    <h4>
+                                        Suggested Improvements
+                                    </h4>
+
+                                </div>
+
+                                <ul
+                                    class="improvement-list"
+                                    id="improvementList"
+                                ></ul>
+
+                            </div>
+
+
+
+                            <!-- Footer -->
+
+                            <div class="result-footer">
+
+                                <span>
+                                    AI-generated project analysis
+                                </span>
+
+                                <span id="resultWordCount">
+                                    0 words
+                                </span>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
-
-                    <div class="result-footer">
-
-                        <span id="resultWordCount">
-                            0 words
-                        </span>
-
-                        <span>
-                            AI Generated Evaluation
-                        </span>
-
-                    </div>
-
-                </section>
+                </div>
 
             </div>
+
 
 
             <!-- =================================================
                  EVALUATION CRITERIA
             ================================================== -->
 
-            <div class="criteria-section">
+            <section class="criteria-section">
 
                 <div class="section-heading">
 
                     <div>
 
-                        <span>
-                            EVALUATION CRITERIA
+                        <span class="section-eyebrow">
+                            WHAT WE ANALYSE
                         </span>
 
                         <h2>
-                            What AI Evaluates
+                            Evaluation Criteria
                         </h2>
 
                     </div>
 
                     <p>
-                        Your project idea is analyzed across
-                        important academic and technical factors.
+                        Your idea is reviewed from multiple
+                        perspectives to help you make better
+                        project decisions.
                     </p>
 
                 </div>
@@ -875,238 +980,277 @@
                 <div class="criteria-grid">
 
 
-                    <button class="criteria-card"
-                            data-focus="originality">
+                    <button
+                        type="button"
+                        class="criteria-card"
+                        data-focus="originality"
+                    >
 
-                        <div class="criteria-icon purple">
-                            ◈
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Originality
-                            </strong>
-
-                            <p>
-                                Analyze how unique and innovative
-                                the proposed idea is.
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <button class="criteria-card"
-                            data-focus="difficulty">
-
-                        <div class="criteria-icon blue">
-                            ◒
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Difficulty
-                            </strong>
-
-                            <p>
-                                Estimate the difficulty and
-                                development complexity.
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <button class="criteria-card"
-                            data-focus="technology">
-
-                        <div class="criteria-icon orange">
-                            ⚙
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Technologies
-                            </strong>
-
-                            <p>
-                                Identify suitable technologies
-                                and frameworks.
-                            </p>
-
-                        </div>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                    <button class="criteria-card"
-                            data-focus="ai">
-
-                        <div class="criteria-icon green">
+                        <div class="criteria-icon">
                             ✦
                         </div>
 
                         <div>
 
-                            <strong>
+                            <h3>
+                                Originality
+                            </h3>
+
+                            <p>
+                                Understand what makes your idea
+                                different and identify opportunities
+                                to make it more unique.
+                            </p>
+
+                        </div>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="criteria-card"
+                        data-focus="difficulty"
+                    >
+
+                        <div class="criteria-icon">
+                            ◈
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Difficulty
+                            </h3>
+
+                            <p>
+                                Get an estimate of the technical
+                                complexity based on your skill level
+                                and project scope.
+                            </p>
+
+                        </div>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="criteria-card"
+                        data-focus="technology"
+                    >
+
+                        <div class="criteria-icon">
+                            ⌘
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Technology
+                            </h3>
+
+                            <p>
+                                Discover suitable technologies and
+                                tools that can support your project.
+                            </p>
+
+                        </div>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="criteria-card"
+                        data-focus="ai"
+                    >
+
+                        <div class="criteria-icon">
+                            ✧
+                        </div>
+
+                        <div>
+
+                            <h3>
                                 AI Feasibility
-                            </strong>
+                            </h3>
 
                             <p>
-                                Determine whether AI can be
-                                practically integrated.
+                                Understand whether AI can realistically
+                                contribute to your proposed solution.
                             </p>
 
                         </div>
 
-                        <span>
-                            →
-                        </span>
-
                     </button>
 
 
-                    <button class="criteria-card"
-                            data-focus="bca">
 
-                        <div class="criteria-icon violet">
-                            ✓
+                    <button
+                        type="button"
+                        class="criteria-card"
+                        data-focus="bca"
+                    >
+
+                        <div class="criteria-icon">
+                            ◉
                         </div>
 
                         <div>
 
-                            <strong>
+                            <h3>
                                 BCA Suitability
-                            </strong>
+                            </h3>
 
                             <p>
-                                Check whether the idea is suitable
-                                for a BCA academic project.
+                                Check whether the scope is suitable
+                                for a BCA-level academic project.
                             </p>
 
                         </div>
-
-                        <span>
-                            →
-                        </span>
 
                     </button>
 
 
-                    <button class="criteria-card"
-                            data-focus="modules">
 
-                        <div class="criteria-icon cyan">
-                            ▦
+                    <button
+                        type="button"
+                        class="criteria-card"
+                        data-focus="modules"
+                    >
+
+                        <div class="criteria-icon">
+                            ▤
                         </div>
 
                         <div>
 
-                            <strong>
+                            <h3>
                                 Project Modules
-                            </strong>
+                            </h3>
 
                             <p>
-                                Suggest appropriate modules for
-                                developing the system.
+                                Get suggestions for useful modules
+                                that can turn your idea into a
+                                structured project.
                             </p>
 
                         </div>
-
-                        <span>
-                            →
-                        </span>
 
                     </button>
 
                 </div>
 
-            </div>
+            </section>
+
 
 
             <!-- =================================================
-                 EVALUATOR TIP
+                 BOTTOM INFORMATION CARDS
             ================================================== -->
 
             <div class="bottom-grid">
 
 
-                <div class="evaluation-flow-card">
+                <!-- Workflow -->
 
-                    <div class="flow-icon">
-                        ✦
+                <div class="workflow-card">
+
+                    <div class="section-card-header">
+
+                        <div class="section-card-icon">
+                            ⇩
+                        </div>
+
+                        <div>
+
+                            <span>
+                                SIMPLE WORKFLOW
+                            </span>
+
+                            <h2>
+                                How Evaluation Works
+                            </h2>
+
+                        </div>
+
                     </div>
 
-                    <span>
-                        EVALUATION WORKFLOW
-                    </span>
 
-                    <h3>
-                        Idea → Analysis → Improvement
-                    </h3>
+                    <div class="workflow-steps">
 
-                    <p>
-                        Submit your project idea, allow the AI
-                        system to analyze its important factors,
-                        and use the recommendations to refine
-                        your project before development.
-                    </p>
+                        <div class="workflow-step">
 
+                            <div class="step-number">
+                                01
+                            </div>
 
-                    <div class="flow-steps">
+                            <div>
 
-                        <div class="flow-step">
+                                <strong>
+                                    Describe Your Idea
+                                </strong>
 
-                            <span>1</span>
+                                <p>
+                                    Provide the project title,
+                                    category and idea details.
+                                </p>
 
-                            <strong>
-                                Submit Idea
-                            </strong>
+                            </div>
 
                         </div>
 
 
-                        <div class="flow-line"></div>
+                        <div class="workflow-line"></div>
 
 
-                        <div class="flow-step">
+                        <div class="workflow-step">
 
-                            <span>2</span>
+                            <div class="step-number">
+                                02
+                            </div>
 
-                            <strong>
-                                AI Analysis
-                            </strong>
+                            <div>
+
+                                <strong>
+                                    AI Analyses Your Idea
+                                </strong>
+
+                                <p>
+                                    Gemini evaluates the project
+                                    based on the information provided.
+                                </p>
+
+                            </div>
 
                         </div>
 
 
-                        <div class="flow-line"></div>
+                        <div class="workflow-line"></div>
 
 
-                        <div class="flow-step">
+                        <div class="workflow-step">
 
-                            <span>3</span>
+                            <div class="step-number">
+                                03
+                            </div>
 
-                            <strong>
-                                Improve Idea
-                            </strong>
+                            <div>
+
+                                <strong>
+                                    Review the Result
+                                </strong>
+
+                                <p>
+                                    Use the analysis to improve your
+                                    project scope and planning.
+                                </p>
+
+                            </div>
 
                         </div>
 
@@ -1115,30 +1259,38 @@
                 </div>
 
 
-                <div class="ai-tip-card">
+
+                <!-- AI Tip -->
+
+                <div class="tip-card">
 
                     <div class="tip-icon">
-                        ◇
+                        ✦
                     </div>
 
-                    <span>
-                        AI EVALUATOR TIP
+                    <span class="tip-label">
+                        AI PROJECT TIP
                     </span>
 
-                    <h3>
-                        A good project solves a clear problem.
-                    </h3>
+                    <h2>
+                        Start With the Problem
+                    </h2>
 
                     <p>
-                        Describe the problem, target users,
-                        main features and expected outcome clearly.
-                        A detailed project description helps produce
-                        a more useful evaluation.
+                        A strong project begins with a clear
+                        problem. Explain who faces the problem,
+                        why it matters and how your solution
+                        can help.
                     </p>
 
-                    <button id="sampleIdeaButton">
 
-                        Try Sample Idea
+                    <button
+                        type="button"
+                        class="sample-btn"
+                        id="sampleIdeaButton"
+                    >
+
+                        Try a Sample Idea
 
                         <span>
                             →
@@ -1150,33 +1302,67 @@
 
             </div>
 
-
         </section>
 
     </main>
 
-</div>
 
 
-<!-- =========================================================
-     NOTIFICATION
-========================================================== -->
+    <!-- =========================================================
+         NOTIFICATION POPUP
+    ========================================================== -->
 
-<div class="notification-popup"
-     id="notificationPopup">
+    <div
+        class="notification-popup"
+        id="notificationPopup"
+        aria-live="polite"
+    >
 
-    <strong>
-        Notifications
-    </strong>
+        <div class="notification-popup-icon">
+            ✦
+        </div>
 
-    <p>
-        Your AI Project Idea Evaluator is ready.
-    </p>
+        <div class="notification-popup-content">
 
-</div>
+            <strong id="notificationTitle">
+                Notification
+            </strong>
+
+            <p id="notificationMessage">
+                —
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="notification-close"
+            id="notificationClose"
+            aria-label="Close notification"
+        >
+            ×
+        </button>
+
+    </div>
 
 
-<script src="{{ url_for('static', filename='js/evaluator.js') }}"></script>
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/evaluator.js') }}?v=3">
+    </script>
+
+    <script
+        src="{{ url_for('static', filename='js/ai_help.js') }}">
+    </script>
+
+    <script
+        src="{{ url_for('static', filename='js/sidebar.js') }}">
+    </script>
 
 </body>
+
 </html>

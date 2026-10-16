@@ -2720,3 +2720,132 @@ body {
         font-size: 9px;
     }
 }
+/* LOGOUT BUTTON */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    margin-top: 8px;
+    border-radius: 10px;
+    color: #f87171;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* =========================================================
+   PROGRESS TRACKER PROJECT SELECTOR
+========================================================= */
+
+.progress-project-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 16px;
+    width: min(100%, 380px);
+}
+
+.progress-project-selector label {
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.progress-project-selector select {
+    width: 100%;
+    min-width: 0;
+    padding: 11px 38px 11px 13px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 10px;
+    background-color: #111d3d;
+    color: #f8fafc;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.progress-project-selector select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.progress-project-selector select option {
+    background-color: #111d3d;
+    color: #f8fafc;
+}
+
+@media (max-width: 768px) {
+    .progress-project-selector {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .project-banner {
+        flex-wrap: wrap;
+    }
+}
+/* PROJECT DROPDOWN — MATCH DOCUMENTATION ASSISTANT */
+
+.progress-project-selector label {
+    font-size: 12px;
+}
+
+.progress-project-selector select {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.progress-project-selector select option {
+    font-size: 13px;
+}
+
+/* PROJECT DROPDOWN — MATCH VIVA CSS FONT SIZES */
+
+/* Select Project label */
+.progress-project-selector label,
+.documentation-project-selector label,
+.mentor-project-selector label {
+    font-size: 12px !important;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+/* Selected project text */
+.progress-project-selector select,
+.documentation-project-selector select,
+.mentor-project-selector select {
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+/* Dropdown options */
+.progress-project-selector select option,
+.documentation-project-selector select option,
+.mentor-project-selector select option {
+    font-size: 13px !important;
+}
+
+/* Match Viva's mobile font size */
+@media (max-width: 600px) {
+    .progress-project-selector select,
+    .documentation-project-selector select,
+    .mentor-project-selector select,
+    .progress-project-selector select option,
+    .documentation-project-selector select option,
+    .mentor-project-selector select option {
+        font-size: 12px !important;
+    }
+}

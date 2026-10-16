@@ -2602,3 +2602,195 @@ body {
         font-size: 18px;
     }
 }
+/* LOGOUT BUTTON */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    margin-top: 8px;
+    border-radius: 10px;
+    color: #f87171;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(248, 113, 113, 0.1);
+}
+
+
+/* Viva project selector */
+.viva-project-selector {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    max-width: 340px;
+}
+
+.viva-project-selector label {
+    color: inherit;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.viva-project-selector select {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    border-radius: 9px;
+    background: #ffffff;
+    color: #172554;
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.viva-project-selector select:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+}
+
+
+/* ==========================================
+   VIVA ASSISTANT — PROJECT DROPDOWN
+   ========================================== */
+
+.viva-project-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 360px;
+    margin-top: 18px;
+}
+
+.viva-project-selector label {
+    color: #c7d2fe;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.viva-project-selector select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 42px 12px 15px;
+
+    color: #f1f5f9;
+    background-color: #111c3d;
+
+    border: 1px solid rgba(129, 140, 248, 0.45);
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    outline: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a5b4fc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.viva-project-selector select:hover {
+    background-color: #17264c;
+    border-color: #818cf8;
+}
+
+.viva-project-selector select:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.18);
+}
+
+.viva-project-selector select option {
+    color: #f1f5f9;
+    background-color: #111c3d;
+    padding: 10px;
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+    .viva-project-selector {
+        max-width: 100%;
+    }
+
+    .viva-project-selector select {
+        font-size: 12px;
+    }
+}
+
+/* PROJECT DROPDOWN — MATCH VIVA CSS FONT SIZES */
+
+/* Select Project label */
+.progress-project-selector label,
+.documentation-project-selector label,
+.mentor-project-selector label {
+    font-size: 12px !important;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+/* Selected project text */
+.progress-project-selector select,
+.documentation-project-selector select,
+.mentor-project-selector select {
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+/* Dropdown options */
+.progress-project-selector select option,
+.documentation-project-selector select option,
+.mentor-project-selector select option {
+    font-size: 13px !important;
+}
+
+/* Match Viva's mobile font size */
+@media (max-width: 600px) {
+    .progress-project-selector select,
+    .documentation-project-selector select,
+    .mentor-project-selector select,
+    .progress-project-selector select option,
+    .documentation-project-selector select option,
+    .mentor-project-selector select option {
+        font-size: 12px !important;
+    }
+}
+
+/* Viva Revision Checklist - clickable items */
+.checklist-card .check-item {
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    user-select: none;
+}
+
+.checklist-card .check-item .check,
+.checklist-card .check-item strong,
+.checklist-card .check-item p {
+    pointer-events: none;
+}
+
+.checklist-card .check-item:focus-visible {
+    outline: 2px solid #7c9cff;
+    outline-offset: 3px;
+    border-radius: 8px;
+}

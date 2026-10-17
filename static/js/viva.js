@@ -71,6 +71,9 @@ Flask handles backend routes and API requests. MySQL stores application data. Ge
     const projectDescription =
         document.getElementById("vivaProjectDescription");
 
+    const questionCount =
+        document.getElementById("questionCount");
+
     const generateBtn =
         document.getElementById("generateBtn");
 
@@ -697,14 +700,12 @@ Flask handles backend routes and API requests. MySQL stores application data. Ge
             ).join("");
         }
 
-        updateWordCount();
+       // Update the number of successfully generated questions.
+if (questionCount) {
+    questionCount.textContent = questions.length;
+}
 
-        if (documentPreview) {
-            documentPreview.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-        }
+updateWordCount();
     }
 
 

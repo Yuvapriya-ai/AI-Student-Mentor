@@ -1,294 +1,948 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Student Mentor | AI Project Mentor</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mentor.css') }}">
+    <title>AI Student Mentor | Project Mentor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/mentor.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/ai_help.css') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_help.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
 </head>
+
 <body>
 
 <div class="app-layout">
 
+    <!-- =====================================================
+         SIDEBAR — SAME STRUCTURE AS ROADMAP.HTML
+    ====================================================== -->
+
     <aside class="sidebar">
+
         <div class="brand">
+
             <div class="brand-icon">✦</div>
-            <div class="brand-text"><h2>AI Student</h2><span>MENTOR</span></div>
+
+            <div class="brand-text">
+                <h2>AI Student</h2>
+                <span>MENTOR</span>
+            </div>
+
         </div>
 
         <div class="nav-section">
+
             <p class="nav-title">MAIN MENU</p>
-            <a href="/" class="nav-item"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
-            <a href="/profile" class="nav-item"><span class="nav-icon">♙</span><span>Student Profile</span></a>
-            <a href="/roadmap" class="nav-item"><span class="nav-icon">◈</span><span>Learning Roadmap</span></a>
-            <a href="/mentor" class="nav-item active"><span class="nav-icon">✦</span><span>AI Project Mentor</span></a>
-            <a href="/documentation" class="nav-item"><span class="nav-icon">▤</span><span>Documentation</span></a>
-            <a href="/viva" class="nav-item"><span class="nav-icon">◉</span><span>Viva Assistant</span></a>
-            <a href="/study_assist" class="nav-item"><span class="nav-icon">✎</span><span>Study Assistant</span></a>
-            <a href="/progress" class="nav-item"><span class="nav-icon">◒</span><span>Progress Tracker</span></a>
-            <a href="/evaluator" class="nav-item"><span class="nav-icon">◇</span><span>Idea Evaluator</span></a>
+
+            <a href="/" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/profile" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Student Profile</span>
+            </a>
+
+            <a href="/roadmap" class="nav-item">
+                <span class="nav-icon">◈</span>
+                <span>Learning Roadmap</span>
+            </a>
+
+            <a href="/mentor" class="nav-item active">
+                <span class="nav-icon">✦</span>
+                <span>AI Project Mentor</span>
+            </a>
+
+            <a href="/documentation" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Documentation</span>
+            </a>
+
+            <a href="/viva" class="nav-item">
+                <span class="nav-icon">◉</span>
+                <span>Viva Assistant</span>
+            </a>
+
+            <a href="/study_assist" class="nav-item">
+                <span class="nav-icon">✎</span>
+                <span>Study Assistant</span>
+            </a>
+
+            <a href="/progress" class="nav-item">
+                <span class="nav-icon">◒</span>
+                <span>Progress Tracker</span>
+            </a>
+
+            <a href="/evaluator" class="nav-item">
+                <span class="nav-icon">◇</span>
+                <span>Idea Evaluator</span>
+            </a>
+
         </div>
 
         <div class="sidebar-bottom">
+
+            <!-- GLOBAL AI HELP -->
+
             <div class="help-card">
+
                 <div class="help-icon">?</div>
-                <div><strong>Need help?</strong><p>Ask your AI Mentor</p></div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <p>Ask your AI Mentor</p>
+                </div>
+
             </div>
 
-            <div class="ai-help-chat" id="aiHelpChat">
+            <!-- GLOBAL AI CHATBOT — SAME AS ROADMAP.HTML -->
+
+            <div class="ai-help-chat"
+                 id="aiHelpChat">
+
                 <div class="ai-help-header">
-                    <div><strong>✦ AI Student Mentor</strong><span>Ask me anything about your project</span></div>
-                    <button id="closeAiHelp" type="button" aria-label="Close AI Help">×</button>
+
+                    <div>
+                        <strong>✦ AI Student Mentor</strong>
+                        <span>Ask me anything about your project</span>
+                    </div>
+
+                    <button id="closeAiHelp"
+                            type="button"
+                            aria-label="Close AI Help">
+                        ×
+                    </button>
+
                 </div>
-                <div class="ai-help-messages" id="aiHelpMessages">
-                    <div class="ai-message">Hi! 👋 I'm your AI Mentor. How can I help you with your project?</div>
+
+                <div class="ai-help-messages"
+                     id="aiHelpMessages">
+
+                    <div class="ai-message">
+                        Hi! 👋 I'm your AI Mentor.
+                        How can I help you with your project?
+                    </div>
+
                 </div>
+
                 <div class="ai-help-input">
-                    <input type="text" id="aiHelpInput" placeholder="Ask your AI Mentor..." autocomplete="off">
-                    <button id="sendAiHelp" type="button" aria-label="Send message">➤</button>
+
+                    <input
+                        type="text"
+                        id="aiHelpInput"
+                        placeholder="Ask your AI Mentor..."
+                        autocomplete="off"
+                    >
+
+                    <button id="sendAiHelp"
+                            type="button"
+                            aria-label="Send message">
+                        ➤
+                    </button>
+
                 </div>
+
             </div>
+
+            <!-- STUDENT PROFILE — SAME AS ROADMAP.HTML -->
 
             <a href="/profile" class="user-mini">
-                <div class="user-avatar">Y</div>
-                <div class="user-details"><strong>Student</strong><span>View Profile</span></div>
+
+                <div class="user-avatar">
+                    Y
+                </div>
+
+                <div class="user-details">
+                    <strong>Student</strong>
+                    <span>View Profile</span>
+                </div>
+
                 <span class="user-arrow">›</span>
+
             </a>
 
-            <a href="/logout" class="logout-btn"><span>↪</span><span>Logout</span></a>
+            <!-- LOGOUT — SAME AS ROADMAP.HTML -->
+
+            <a href="/logout" class="logout-btn">
+                <span>↪</span>
+                <span>Logout</span>
+            </a>
+
         </div>
+
     </aside>
 
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
     <main class="main-content">
+
+        <!-- TOPBAR — SAME STRUCTURE AS ROADMAP.HTML -->
+
         <header class="topbar">
-            <div class="mobile-brand"><span>✦</span> AI Student Mentor</div>
-            <div class="topbar-actions">
-                <button class="notification-btn" id="notificationBtn"><span>♧</span><i></i></button>
-                <div class="top-profile">
-                    <div class="top-avatar">Y</div>
-                    <div><strong>Student</strong><span>BCA Student</span></div>
-                </div>
+
+            <div class="mobile-brand">
+                <span>✦</span>
+                AI Student Mentor
             </div>
+
+            <div class="topbar-actions">
+
+                <button class="notification-btn"
+                        id="notificationBtn"
+                        type="button"
+                        aria-label="Notifications">
+
+                    <span>♧</span>
+                    <i></i>
+
+                </button>
+
+                <div class="top-profile">
+
+                    <div class="top-avatar">
+                        Y
+                    </div>
+
+                    <div>
+                        <strong>Student</strong>
+                        <span>BCA Student</span>
+                    </div>
+
+                </div>
+
+            </div>
+
         </header>
 
+        <!-- =====================================================
+             AI PROJECT MENTOR PAGE
+        ====================================================== -->
+
         <section class="mentor-page">
+
+            <!-- PAGE HEADER -->
+
             <div class="page-header">
+
                 <div>
-                    <span class="eyebrow">YOUR AI PROJECT COMPANION</span>
+                    <span class="eyebrow">
+                        YOUR AI PROJECT COMPANION
+                    </span>
+
                     <h1>AI Project Mentor</h1>
-                    <p>Get guidance, ideas and technical support while building your project.</p>
+
+                    <p>
+                        Plan, design and develop your academic project
+                        with personalized AI guidance.
+                    </p>
                 </div>
-                <div class="mentor-status"><span class="status-dot"></span> AI Mentor Online</div>
+
+                <button type="button"
+                        class="ai-roadmap-btn"
+                        id="generateBlueprintBtn">
+
+                    <span>✦</span>
+                    Generate Project Blueprint
+
+                </button>
+
             </div>
 
-            <div class="project-overview">
-                <div class="project-icon">✦</div>
-                <div class="project-info">
-                    <span>MY PROJECT IDEAS</span>
-                    <h2 id="selectedProjectTitle">Loading saved ideas...</h2>
-                    <p id="selectedProjectDescription">Choose a saved project idea to give your AI Mentor the right context.</p>
+            <!-- PROJECT OVERVIEW -->
 
-                    <div class="project-combobox-wrapper" id="projectCombobox">
-                        <div class="combobox-input-container">
-                            <input type="text" id="projectSearchInput" class="combobox-input"
-                                   placeholder="Search or select a project idea..."
-                                   autocomplete="off" aria-label="Search project idea">
-                            <span class="combobox-arrow">▼</span>
-                        </div>
-                        <ul id="projectDropdownList" class="combobox-options hidden"></ul>
-                    </div>
+            <section class="project-overview">
 
-                    <select id="projectIdeaSelect" style="display:none" aria-label="Select project idea">
-                        <option value="">Loading saved ideas...</option>
-                    </select>
-                    <small id="projectIdeaStatus" role="status">Loading your saved project ideas...</small>
-                </div>
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">
+                            YOUR PROJECT WORKSPACE
+                        </span>
 
-                <div class="project-progress">
-                    <div class="progress-top"><span>Project Progress</span><strong>62%</strong></div>
-                    <div class="progress-track"><div class="progress-bar"></div></div>
-                    <small>5 of 8 major modules planned</small>
-                </div>
-            </div>
+                        <h2>Build your project blueprint</h2>
 
-            <div class="mentor-grid">
-                <div class="chat-card">
-                    <div class="chat-header">
-                        <div class="chat-title">
-                            <div class="chat-ai-icon">✦</div>
-                            <div><h3>Project Mentor</h3><span>Ask anything about your project</span></div>
-                        </div>
-                        <button class="clear-chat" id="clearChatBtn">Clear</button>
-                    </div>
-
-                    <div class="chat-body" id="chatBody">
-                        <div class="message ai-message">
-                            <div class="message-avatar">✦</div>
-                            <div class="message-content">
-                                <span class="message-name">AI Mentor</span>
-                                <div class="message-bubble">
-                                    Hello! I'm your AI Project Mentor. I can help you with project ideas,
-                                    architecture, technologies, implementation and debugging.
-                                    <br><br>What would you like to work on today?
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="quick-questions">
-                            <span>Try asking</span>
-                            <button data-question="How should I structure my project?">Project structure</button>
-                            <button data-question="Which technologies should I use?">Technologies</button>
-                            <button data-question="How can I improve my project?">Improve project</button>
-                            <button data-question="Give me project implementation steps">Implementation steps</button>
-                        </div>
-                    </div>
-
-                    <div class="chat-input-area">
-                        <div class="chat-input-wrapper">
-                            <textarea id="chatInput" rows="1" placeholder="Ask your AI Mentor anything..."></textarea>
-                            <button id="sendBtn" class="send-btn">➤</button>
-                        </div>
-                        <p class="input-note">AI Mentor can make mistakes. Verify important technical information.</p>
+                        <p>
+                            Enter your academic requirements.
+                            Gemini will use these details to create
+                            relevant project guidance.
+                        </p>
                     </div>
                 </div>
 
-                <div class="mentor-side">
-                    <div class="tools-card">
-                        <div class="card-heading">
-                            <div><span>PROJECT TOOLS</span><h3>What do you need?</h3></div>
-                        </div>
+                <div class="selected-project-card">
 
-                        <button class="tool-item" data-tool="idea">
-                            <div class="tool-icon purple">✦</div>
-                            <div><strong>Project Ideas</strong><p>Generate ideas based on your interests</p></div><span>›</span>
-                        </button>
+                    <div class="selected-project-icon">✦</div>
 
-                        <button class="tool-item" data-tool="architecture">
-                            <div class="tool-icon blue">◈</div>
-                            <div><strong>System Architecture</strong><p>Plan your project structure</p></div><span>›</span>
-                        </button>
+                    <div class="selected-project-info">
 
-                        <button class="tool-item" data-tool="technology">
-                            <div class="tool-icon orange">⚙</div>
-                            <div><strong>Technology Selection</strong><p>Choose suitable technologies</p></div><span>›</span>
-                        </button>
+                        <span class="project-label">
+                            PROJECT DETAILS
+                        </span>
 
-                        <button class="tool-item" data-tool="debug">
-                            <div class="tool-icon green">✓</div>
-                            <div><strong>Debug My Project</strong><p>Find and solve project problems</p></div><span>›</span>
-                        </button>
+                        <h3 id="selectedProjectTitle">
+                            Plan a new academic project
+                        </h3>
+
+                        <p id="selectedProjectDescription">
+                            Enter a project idea or ask Gemini to
+                            recommend ideas based on your course,
+                            skills and interests.
+                        </p>
+
+                        <small id="projectIdeaStatus"
+                               aria-live="polite">
+                            Ready to plan your project.
+                        </small>
+
                     </div>
 
-                    <div class="modules-card">
-                        <div class="card-heading">
-                            <div><span>PROJECT MODULES</span><h3>Your Modules</h3></div>
-                            <span class="module-count">5 / 8</span>
-                        </div>
+                    <div class="project-selector mentor-project-form">
 
-                        <div class="module-mini completed"><div class="mini-number">✓</div><div><strong>Student Profile</strong><span>Completed</span></div></div>
-                        <div class="module-mini completed"><div class="mini-number">✓</div><div><strong>Learning Roadmap</strong><span>Completed</span></div></div>
-                        <div class="module-mini current"><div class="mini-number">3</div><div><strong>AI Project Mentor</strong><span>In Progress</span></div></div>
-                        <div class="module-mini"><div class="mini-number">4</div><div><strong>Documentation Assistant</strong><span>Upcoming</span></div></div>
-                        <div class="module-mini"><div class="mini-number">5</div><div><strong>Project Viva Assistant</strong><span>Upcoming</span></div></div>
+                        <label for="projectSearchInput">
+                            Project title or idea
+                        </label>
 
-                        <button class="view-roadmap" id="viewRoadmapBtn">View Learning Roadmap <span>→</span></button>
-                    </div>
-                </div>
-            </div>
+                        <input
+                            type="text"
+                            id="projectSearchInput"
+                            placeholder="e.g. AI Student Support System"
+                            autocomplete="off"
+                            aria-label="Enter project title or idea"
+                            aria-controls="projectDropdownList"
+                            aria-expanded="false"
+                        >
 
-            <div class="suggestion-bar">
-                <div class="suggestion-icon">✦</div>
-                <div><span>AI SUGGESTION</span><p>Start by asking your mentor to review your current project architecture.</p></div>
-                <button id="suggestionBtn">Ask Mentor</button>
-            </div>
-        </section>
-    </main>
+                        <ul id="projectDropdownList"
+                            class="combobox-list hidden"
+                            role="listbox">
+                        </ul>
+
+                        <select id="projectIdeaSelect"
+                                aria-label="Select a saved project"
+                                hidden>
+                            <option value="">
+                                Choose a project idea
+                            </option>
+                        </select>
+
+                        <label for="mentorProjectDescription">
+                            Project description / problem statement
+                        </label>
+
+                        <textarea
+                            id="mentorProjectDescription"
+                            rows="3"
+                            placeholder="Describe the problem, intended users, or what you want the project to do. Leave blank when asking for ideas."
+                        ></textarea>
+
+                      
+<div class="mentor-input-row">
+
+    <div>
+        <label for="mentorDifficulty">
+            Project difficulty
+        </label>
+
+        <select id="mentorDifficulty">
+            <option value="Beginner">
+                Beginner
+            </option>
+
+            <option value="Intermediate" selected>
+                Intermediate
+            </option>
+
+            <option value="Advanced">
+                Advanced
+            </option>
+        </select>
+    </div>
+
 </div>
 
-<!-- FIRST-TIME MENTOR ONBOARDING -->
-{% if show_mentor_onboarding %}
-<div id="mentorOnboardingOverlay" class="mentor-onboarding-overlay"
-     role="dialog" aria-modal="true" aria-labelledby="mentorOnboardingTitle">
+                        
+                        <div class="mentor-input-row">
+
+                            <div>
+                                <label for="mentorDeadline">
+                                    Target completion date (optional)
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="mentorDeadline"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="mentorWeeks">
+                                    Available development time
+                                </label>
+
+                                <select id="mentorWeeks">
+                                    <option value="2">2 weeks</option>
+                                    <option value="4" selected>4 weeks</option>
+                                    <option value="6">6 weeks</option>
+                                    <option value="8">8 weeks</option>
+                                    <option value="12">12 weeks</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- GEMINI PROJECT TOOLS -->
+
+            <section class="project-tools-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            GEMINI-POWERED PROJECT PLANNING
+                        </span>
+
+                        <h2>
+                            What would you like Gemini to create?
+                        </h2>
+
+                        <p>
+                            Choose a tool to generate a focused result,
+                            or generate a complete project blueprint.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="tools-grid">
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="idea">
+
+                        <span class="tool-icon">✧</span>
+
+                        <span class="tool-content">
+                            <strong>1. Academic Project Ideas</strong>
+                            <small>
+                                Recommend suitable ideas based on
+                                course, skills, interests and difficulty.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="objectives">
+
+                        <span class="tool-icon">◎</span>
+
+                        <span class="tool-content">
+                            <strong>2. Objectives &amp; Features</strong>
+                            <small>
+                                Generate the project aim, objectives,
+                                scope, core features and outcomes.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="technology">
+
+                        <span class="tool-icon">⌘</span>
+
+                        <span class="tool-content">
+                            <strong>3. Technologies &amp; Frameworks</strong>
+                            <small>
+                                Recommend a suitable frontend, backend,
+                                database, libraries and frameworks.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="structure">
+
+                        <span class="tool-icon">▤</span>
+
+                        <span class="tool-content">
+                            <strong>4. Project Folder Structure</strong>
+                            <small>
+                                Generate a project-specific folder tree
+                                and explain key files.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="database">
+
+                        <span class="tool-icon">▦</span>
+
+                        <span class="tool-content">
+                            <strong>5. Database Requirements</strong>
+                            <small>
+                                Suggest tables, fields, primary keys,
+                                foreign keys and relationships.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="modules">
+
+                        <span class="tool-icon">▧</span>
+
+                        <span class="tool-content">
+                            <strong>6. Project Modules</strong>
+                            <small>
+                                Identify the main modules, their
+                                responsibilities and connections.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="development">
+
+                        <span class="tool-icon">⚙</span>
+
+                        <span class="tool-content">
+                            <strong>7. Step-by-Step Development</strong>
+                            <small>
+                                Get an ordered implementation plan
+                                from setup through testing.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                    <button type="button"
+                            class="tool-item"
+                            data-tool="timeline">
+
+                        <span class="tool-icon">◷</span>
+
+                        <span class="tool-content">
+                            <strong>8. Weekly Development Timeline</strong>
+                            <small>
+                                Create a week-by-week schedule with
+                                tasks, milestones and deliverables.
+                            </small>
+                        </span>
+
+                        <span class="tool-arrow">→</span>
+
+                    </button>
+
+                </div>
+
+                <div class="mentor-blueprint-actions">
+
+                    <button type="button"
+                            id="blueprintActionBtn"
+                            class="suggestion-btn">
+                        ✦ Generate Complete Project Blueprint
+                    </button>
+
+                    <p>
+                        Gemini will generate all eight sections using
+                        the project details above.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- AI-GENERATED RESULTS / PROJECT CHAT -->
+
+            <section class="mentor-chat-section"
+                     id="mentorResultsSection">
+
+                <div class="section-heading chat-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            YOUR AI-GENERATED PLAN
+                        </span>
+
+                        <h2 id="mentorResultsTitle">
+                            Project Blueprint
+                        </h2>
+
+                        <p id="mentorResultsDescription">
+                            Your selected tool's result or complete
+                            project plan will appear here.
+                        </p>
+                    </div>
+
+                    <button type="button"
+                            class="clear-chat-btn"
+                            id="clearChatBtn">
+                        Clear Results
+                    </button>
+
+                </div>
+
+                <div class="chat-card">
+
+                    <div class="chat-body"
+                         id="chatBody"
+                         aria-live="polite"
+                         aria-label="AI Project Mentor results">
+
+                        <div class="message ai-message">
+
+                            <div class="message-avatar">✦</div>
+
+                            <div class="message-content">
+
+                                <span class="message-name">
+                                    Gemini Project Mentor
+                                </span>
+
+                                <div class="message-bubble">
+                                    Welcome! Enter your project details
+                                    above, then choose one of the eight
+                                    planning tools or generate a complete
+                                    project blueprint.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chat-composer">
+
+                        <textarea
+                            id="chatInput"
+                            rows="2"
+                            placeholder="Add a specific requirement or ask Gemini to refine your project plan..."
+                            aria-label="Additional project requirements"
+                        ></textarea>
+
+                        <button type="button"
+                                id="sendBtn"
+                                class="send-btn">
+
+                            <span>Refine</span>
+                            <span>➤</span>
+
+                        </button>
+
+                    </div>
+
+                    <p class="chat-note">
+                        Review AI-generated recommendations before
+                        implementation. Verify package versions,
+                        database designs and code in your environment.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- NEXT STEP -->
+
+            <section class="suggestion-section">
+
+                <div class="suggestion-card">
+
+                    <div>
+                        <span class="eyebrow">
+                            BUILD WITH A CLEAR PLAN
+                        </span>
+
+                        <h3>
+                            Turn your idea into an achievable project
+                        </h3>
+
+                        <p>
+                            Start with a suitable idea, define the
+                            requirements, choose your stack and follow
+                            the development steps and weekly timeline.
+                        </p>
+                    </div>
+
+                    <button type="button"
+                            id="suggestionBtn"
+                            class="suggestion-btn">
+                        Generate Development Plan →
+                    </button>
+
+                </div>
+
+                <button type="button"
+                        id="viewRoadmapBtn"
+                        class="roadmap-link">
+                    View Learning Roadmap →
+                </button>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- =====================================================
+     PROJECT TOOL MODAL
+====================================================== -->
+
+<div class="tool-modal-overlay"
+     id="toolModal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="modalTitle">
+
+    <div class="tool-modal">
+
+        <button type="button"
+                class="modal-close"
+                id="closeToolModal"
+                aria-label="Close tool">
+            &times;
+        </button>
+
+        <div class="modal-icon">✦</div>
+
+        <h2 id="modalTitle">AI Project Tool</h2>
+
+        <p id="modalDescription">
+            Tell your AI Mentor what you need help with.
+        </p>
+
+        <label for="modalInput">
+            Additional details
+        </label>
+
+        <textarea
+            id="modalInput"
+            rows="4"
+            placeholder="Enter your requirements here..."
+        ></textarea>
+
+        <p class="modal-note">
+            Project Ideas can be generated without extra input.
+            Additional details are optional for other tools.
+        </p>
+
+        <button type="button"
+                id="modalActionBtn"
+                class="modal-action-btn">
+            Ask AI Mentor
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     FIRST-TIME PROJECT ONBOARDING
+====================================================== -->
+
+<div class="mentor-onboarding-overlay"
+     id="mentorOnboardingOverlay"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="mentorOnboardingTitle">
 
     <div class="mentor-onboarding-card">
+
         <div class="mentor-onboarding-heading">
-            <span class="eyebrow">WELCOME TO YOUR AI PROJECT MENTOR</span>
-            <h2 id="mentorOnboardingTitle">What would you like help with?</h2>
-            <p>Choose how you want to begin. You can change your project context later.</p>
+
+            <span class="eyebrow">
+                WELCOME TO YOUR PROJECT WORKSPACE
+            </span>
+
+            <h2 id="mentorOnboardingTitle">
+                What would you like to work on?
+            </h2>
+
+            <p>
+                Choose a saved project, try a sample, enter your own
+                project details or ask general programming questions.
+            </p>
+
         </div>
 
         <div class="mentor-onboarding-options">
-            <button type="button" class="mentor-onboarding-option" data-onboarding-choice="saved">
+
+            <button type="button"
+                    class="mentor-onboarding-option"
+                    data-onboarding-choice="saved">
+
                 <span class="onboarding-option-icon">▤</span>
-                <span><strong>My Saved Ideas</strong><small>Continue with a project idea you have saved.</small></span>
+
+                <span>
+                    <strong>Use a Saved Project</strong>
+                    <small>
+                        Continue working on a project saved through
+                        the Idea Evaluator.
+                    </small>
+                </span>
+
                 <span class="onboarding-option-arrow">›</span>
+
             </button>
 
-            <button type="button" class="mentor-onboarding-option" data-onboarding-choice="sample">
-                <span class="onboarding-option-icon">▦</span>
-                <span><strong>Try a Sample Project</strong><small>Explore guidance using Library Management System.</small></span>
-                <span class="onboarding-option-arrow">›</span>
-            </button>
+            <button type="button"
+                    class="mentor-onboarding-option"
+                    data-onboarding-choice="sample">
 
-            <button type="button" class="mentor-onboarding-option" data-onboarding-choice="manual">
-                <span class="onboarding-option-icon">✎</span>
-                <span><strong>My Own Project</strong><small>Enter your project details for this chat only.</small></span>
-                <span class="onboarding-option-arrow">›</span>
-            </button>
-
-            <button type="button" class="mentor-onboarding-option" data-onboarding-choice="general">
                 <span class="onboarding-option-icon">✦</span>
-                <span><strong>General Questions</strong><small>Ask programming or project questions without selecting a project.</small></span>
+
+                <span>
+                    <strong>Try a Sample Project</strong>
+                    <small>
+                        Explore project planning using a Library
+                        Management System example.
+                    </small>
+                </span>
+
                 <span class="onboarding-option-arrow">›</span>
+
             </button>
+
+            <button type="button"
+                    class="mentor-onboarding-option"
+                    data-onboarding-choice="manual">
+
+                <span class="onboarding-option-icon">✎</span>
+
+                <span>
+                    <strong>Enter My Own Project</strong>
+                    <small>
+                        Provide a project title and description
+                        for this mentoring session.
+                    </small>
+                </span>
+
+                <span class="onboarding-option-arrow">›</span>
+
+            </button>
+
+            <button type="button"
+                    class="mentor-onboarding-option"
+                    data-onboarding-choice="general">
+
+                <span class="onboarding-option-icon">⌘</span>
+
+                <span>
+                    <strong>Ask General Questions</strong>
+                    <small>
+                        Get help with programming, databases,
+                        AI or project development.
+                    </small>
+                </span>
+
+                <span class="onboarding-option-arrow">›</span>
+
+            </button>
+
         </div>
 
-        <div id="mentorManualProjectFields" class="mentor-manual-project-fields" hidden>
-            <label for="mentorOnboardingProjectTitle">Project title</label>
-            <input type="text" id="mentorOnboardingProjectTitle" maxlength="200"
-                   placeholder="Enter your project title">
+        <div class="mentor-manual-project-fields"
+             id="mentorManualProjectFields"
+             hidden>
 
-            <label for="mentorOnboardingProjectDescription">Project description</label>
-            <textarea id="mentorOnboardingProjectDescription" rows="4" maxlength="10000"
-                      placeholder="Briefly describe what your project does"></textarea>
+            <label for="mentorOnboardingProjectTitle">
+                Project Title
+            </label>
 
-            <p class="mentor-onboarding-note">These details are temporary and will not be saved as a project idea.</p>
-            <button type="button" id="mentorStartOwnProject" class="mentor-onboarding-continue">
+            <input
+                type="text"
+                id="mentorOnboardingProjectTitle"
+                maxlength="200"
+                placeholder="Enter your project title"
+            >
+
+            <label for="mentorOnboardingProjectDescription">
+                Project Description
+            </label>
+
+            <textarea
+                id="mentorOnboardingProjectDescription"
+                maxlength="10000"
+                placeholder="Describe the purpose and main features of your project"
+            ></textarea>
+
+            <p class="mentor-onboarding-note">
+                These details are used for your current mentoring
+                session and are not saved as a new project idea here.
+            </p>
+
+            <button type="button"
+                    class="mentor-onboarding-continue"
+                    id="mentorStartOwnProject">
                 Start Mentoring
             </button>
+
         </div>
 
-        <p id="mentorOnboardingStatus" class="mentor-onboarding-status" role="status"></p>
+        <p class="mentor-onboarding-status"
+           id="mentorOnboardingStatus"
+           aria-live="polite"></p>
+
     </div>
-</div>
-{% endif %}
 
-<!-- TOOL MODAL -->
-<div class="modal-overlay" id="toolModal">
-    <div class="tool-modal">
-        <button class="close-modal" id="closeToolModal">×</button>
-        <div class="modal-icon">✦</div>
-        <span class="modal-label">AI PROJECT MENTOR</span>
-        <h2 id="modalTitle">Project Ideas</h2>
-        <p id="modalDescription">Tell me about your interests and I will help you explore suitable project ideas.</p>
-        <textarea id="modalInput" placeholder="Describe what you need help with..."></textarea>
-        <button class="modal-action" id="modalActionBtn">Ask AI Mentor</button>
-    </div>
 </div>
 
-<!-- NOTIFICATION -->
-<div class="notification-popup" id="notificationPopup">
-    <strong>Notifications</strong>
-    <p>Your AI Mentor has a new project suggestion for you.</p>
-</div>
+<!-- =====================================================
+     JAVASCRIPT — KEEP EXISTING CONNECTIONS
+====================================================== -->
 
-<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ai_help.js') }}"></script>
 <script src="{{ url_for('static', filename='js/mentor.js') }}"></script>
 
 </body>
